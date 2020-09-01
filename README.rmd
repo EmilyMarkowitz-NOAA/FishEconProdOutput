@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = FALSE, error = FALSE, message = FALSE, warning = FA
 
 >*The views expressed are those of the author and should not be attributed to the NOAA, ECS or ERS
 
-**GitHub:** [https://github.com/emilyhmarkowitz/FisheriesEconomicProductivityIndex](https://github.com/emilyhmarkowitz/FishEconProdOutput)  
+**GitHub:** [https://github.com/emilyhmarkowitz/FishEconProdOutput](https://github.com/emilyhmarkowitz/FishEconProdOutput)  
 
 # NOAA README
 
@@ -31,7 +31,9 @@ knitr::opts_chunk$set(echo = FALSE, error = FALSE, message = FALSE, warning = FA
 # Download this package
 
 ```{r, echo=TRUE, eval=FALSE}
+library(devtools)
 install_github("emilyhmarkowitz/FishEconProdOutput")
+library(FishEconProdOutput)
 ```
 
 ```{r}

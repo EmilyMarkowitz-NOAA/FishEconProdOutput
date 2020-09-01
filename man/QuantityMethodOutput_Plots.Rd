@@ -10,7 +10,8 @@ QuantityMethodOutput_Plots(
   baseyr,
   title0 = "",
   NumberOfSpecies,
-  figures.list = list()
+  figures.list = list(),
+  NameBaseTotal
 )
 }
 \arguments{
@@ -23,6 +24,8 @@ QuantityMethodOutput_Plots(
 \item{NumberOfSpecies}{A character string of the 'number of species.' Not a great name, but if you have 103, 3, 8888 species, your 'NumberOfSpecies' is "000", "0", and "0000", respectively.}
 
 \item{figures.list}{A list where these popular figures are stored. If using this function in the QuantityMethodOutput it will be inherited. Default list().}
+
+\item{NameBaseTotal}{The base name of the total columns.}
 
 \item{title}{Title of plot.}
 }

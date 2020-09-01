@@ -1282,7 +1282,7 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
       temp <- temp[, !duplicated(colnames(temp))]
 
 
-      figures.list<-PriceMethodOutput_Plots(temp, temp.orig, baseyr, title0, NumberOfSpecies, figures.list)
+      figures.list<-PriceMethodOutput_Plots(temp, temp.orig, baseyr, title0, NumberOfSpecies, figures.list, NameBaseTotal)
 
 
       ###OVERVIEW
@@ -1348,10 +1348,11 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
 #' @param title Title of plot.
 #' @param NumberOfSpecies A character string of the 'number of species.' Not a great name, but if you have 103, 3, 8888 species, your 'NumberOfSpecies' is "000", "0", and "0000", respectively.
 #' @param figures.list A list where these popular figures are stored. If using this function in the PriceMethodOutput it will be inherited. Default list().
+#' @param NameBaseTotal The base name of the total columns.
 #' @export
 #' @examples
 #' PriceMethodOutput_Plots()
-PriceMethodOutput_Plots<-function(temp, temp.orig, baseyr, title0 = "", NumberOfSpecies, figures.list = list()) {
+PriceMethodOutput_Plots<-function(temp, temp.orig, baseyr, title0 = "", NumberOfSpecies, figures.list = list(), NameBaseTotal) {
 
     place<-title0
 
@@ -2574,7 +2575,7 @@ QuantityMethodOutput<-#ImplicitQuantityOutput.q<-
 
     ##################Graphing
 
-    figures.list<-QuantityMethodOutput_Plots(temp, temp.orig, baseyr, title0, NumberOfSpecies, figures.list)
+    figures.list<-QuantityMethodOutput_Plots(temp, temp.orig, baseyr, title0, NumberOfSpecies, figures.list, NameBaseTotal)
 
 
     ###OVERVIEW
@@ -2669,10 +2670,11 @@ QuantityMethodOutput<-#ImplicitQuantityOutput.q<-
 #' @param title Title of plot.
 #' @param NumberOfSpecies A character string of the 'number of species.' Not a great name, but if you have 103, 3, 8888 species, your 'NumberOfSpecies' is "000", "0", and "0000", respectively.
 #' @param figures.list A list where these popular figures are stored. If using this function in the QuantityMethodOutput it will be inherited. Default list().
+#' @param NameBaseTotal The base name of the total columns.
 #' @export
 #' @examples
 #' QuantityMethodOutput_Plots()
-QuantityMethodOutput_Plots<-function(temp, temp.orig, baseyr, title0 = "", NumberOfSpecies, figures.list = list()) {
+QuantityMethodOutput_Plots<-function(temp, temp.orig, baseyr, title0 = "", NumberOfSpecies, figures.list = list(), NameBaseTotal) {
 
   place<-title0
 

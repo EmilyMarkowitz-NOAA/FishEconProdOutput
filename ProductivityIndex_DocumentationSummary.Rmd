@@ -121,6 +121,9 @@ includeTF<-function(typical, showresults = TRUE) {
   return(ifelse(showresults == TRUE, typical, FALSE))
 }
 
+state.codes <- statereg <- read.csv(paste0(dir.data, '/statereg.csv'), stringsAsFactors = FALSE)
+
+
 ```
 
 

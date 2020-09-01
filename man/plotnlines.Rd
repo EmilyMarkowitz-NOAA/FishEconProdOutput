@@ -4,14 +4,14 @@
 \alias{plotnlines}
 \title{Plot n lines in ggplot}
 \usage{
-plotnlines(dat, titleyaxis, title)
+plotnlines(dat, titleyaxis, title0)
 }
 \arguments{
 \item{dat}{Default data.}
 
 \item{titleyaxis}{y-axis title.}
 
-\item{title}{Title of plot.}
+\item{title0}{Title of plot.}
 }
 \description{
 This funciton plots n lines in a ggplot.

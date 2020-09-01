@@ -3263,11 +3263,11 @@ xunits<-function(val, combine=T) {
 #' This funciton plots n lines in a ggplot.
 #' @param dat Default data.
 #' @param titleyaxis y-axis title.
-#' @param title Title of plot.
+#' @param title0 Title of plot.
 #' @export
 #' @examples xunits(1234567890); "1.2 billion"
 #' plotnlines()
-plotnlines<-function(dat, titleyaxis, title){
+plotnlines<-function(dat, titleyaxis, title0){
 
   NOAALightBlue<-"#C9E1E6"
   NOAADarkBlue<-"#0098A6"
@@ -3318,7 +3318,7 @@ plotnlines<-function(dat, titleyaxis, title){
     scale_x_discrete(labels= xnames) +
     # scale_y_discrete(labels= ynames) +
     guides(fill=FALSE) +
-    ggtitle(paste0(title))
+    ggtitle(paste0(title0))
 
   return(g)
 }

@@ -10,7 +10,7 @@ PriceMethodOutput_Plots(
   baseyr,
   title0 = "",
   NumberOfSpecies,
-  figures.list = ls()
+  figures.list = list()
 )
 }
 \arguments{
@@ -22,7 +22,7 @@ PriceMethodOutput_Plots(
 
 \item{NumberOfSpecies}{A character string of the 'number of species.' Not a great name, but if you have 103, 3, 8888 species, your 'NumberOfSpecies' is "000", "0", and "0000", respectively.}
 
-\item{figures.list}{A list where these popular figures are stored. If using this function in the PriceMethodOutput it will be inherited. If using outside of that function, put ls().}
+\item{figures.list}{A list where these popular figures are stored. If using this function in the PriceMethodOutput it will be inherited. Default list().}
 
 \item{title}{Title of plot.}
 }

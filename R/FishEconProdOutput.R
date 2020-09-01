@@ -1282,7 +1282,7 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
       temp <- temp[, !duplicated(colnames(temp))]
 
 
-      figures.list<-PriceMethodOutput_Plots(temp, temp.orig, baseyr, title, NumberOfSpecies, figures.list)
+      figures.list<-PriceMethodOutput_Plots(temp, temp.orig, baseyr, title0, NumberOfSpecies, figures.list)
 
 
       ###OVERVIEW
@@ -1347,11 +1347,11 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
 #' @param baseyr Numeric year (YYYY). The base year you are assessing the anaylsis with. Typically this is the earliest year in the data set, but it can be any year you choose.
 #' @param title Title of plot.
 #' @param NumberOfSpecies A character string of the 'number of species.' Not a great name, but if you have 103, 3, 8888 species, your 'NumberOfSpecies' is "000", "0", and "0000", respectively.
-#' @param figures.list A list where these popular figures are stored. If using this function in the PriceMethodOutput it will be inherited. If using outside of that function, put ls().
+#' @param figures.list A list where these popular figures are stored. If using this function in the PriceMethodOutput it will be inherited. Default list().
 #' @export
 #' @examples
 #' PriceMethodOutput_Plots()
-PriceMethodOutput_Plots<-function(temp, temp.orig, baseyr, title0 = "", NumberOfSpecies, figures.list = ls()) {
+PriceMethodOutput_Plots<-function(temp, temp.orig, baseyr, title0 = "", NumberOfSpecies, figures.list = list()) {
 
     place<-title0
 
@@ -1801,7 +1801,7 @@ PriceMethodOutput_Plots<-function(temp, temp.orig, baseyr, title0 = "", NumberOf
   figures.list[[length(figures.list)+1]]<-g
   names(figures.list)[length(figures.list)]<-paste0(title0, title00)
 
-  return(figure.list)
+  return(figures.list)
 }
 
 
@@ -2668,11 +2668,11 @@ QuantityMethodOutput<-#ImplicitQuantityOutput.q<-
 #' @param baseyr Numeric year (YYYY). The base year you are assessing the anaylsis with. Typically this is the earliest year in the data set, but it can be any year you choose.
 #' @param title Title of plot.
 #' @param NumberOfSpecies A character string of the 'number of species.' Not a great name, but if you have 103, 3, 8888 species, your 'NumberOfSpecies' is "000", "0", and "0000", respectively.
-#' @param figures.list A list where these popular figures are stored. If using this function in the QuantityMethodOutput it will be inherited. If using outside of that function, put ls().
+#' @param figures.list A list where these popular figures are stored. If using this function in the QuantityMethodOutput it will be inherited. Default list().
 #' @export
 #' @examples
 #' QuantityMethodOutput_Plots()
-QuantityMethodOutput_Plots<-function(temp, temp.orig, baseyr, title0 = "", NumberOfSpecies, figures.list = ls()) {
+QuantityMethodOutput_Plots<-function(temp, temp.orig, baseyr, title0 = "", NumberOfSpecies, figures.list = list()) {
 
   place<-title0
 

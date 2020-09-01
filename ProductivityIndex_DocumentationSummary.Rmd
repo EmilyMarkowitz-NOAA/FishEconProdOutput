@@ -2916,7 +2916,7 @@ baseyr<-baseyr
  
 #### C. Run the function
 ```{r, echo = echoTF(TRUE, code), warning = FALSE}
-temp00<-PriceMethodOutput(orgional.data, baseyr, pctmiss)
+temp00<-PriceMethodOutput(temp = orgional.data, baseyr, pctmiss)
 temp<-temp00[[1]]
 warnings.list0<-temp00[[2]]
 figures.list0<-temp00[[3]]
@@ -2924,8 +2924,6 @@ figures.list0<-temp00[[3]]
 
 #### D. Obtain the implicit quantity estimates
 ```{r, echo = echoTF(FALSE, code), warning = FALSE}
-# write.csv(x = temp, file = paste0(dir.docu, "Example_Output_p.csv"))
-
 temp0<-temp[, grepl(pattern = "0Total", x = names(temp))]
 
 temp0 %>%

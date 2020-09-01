@@ -1590,7 +1590,7 @@ PriceMethodOutput_Plots<-function(temp, temp.orig, baseyr, title0 = "", NumberOf
                                                      split = paste0("_", NumberOfSpecies)), function(x) x[2])))
 
 
-  g<-plotnlines(dat = temp0, title00, place)
+  g<-plotnlines(temp0, title00, place)
 
   figures.list[[length(figures.list)+1]]<-g
   names(figures.list)[length(figures.list)]<-paste0(title0, title00)

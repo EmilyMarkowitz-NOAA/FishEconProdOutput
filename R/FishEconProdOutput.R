@@ -207,7 +207,7 @@ PriceIndex <- function(dat, BaseColName, baseyr, var = "PC") {
   }
 
   tempPI_yr1<-data.frame(tempPI_yr1)
-  rownames(tempPI_yr1)<-rownames(temp)
+  rownames(tempPI_yr1)<-rownames(dat)
 
   # Then, to change the price (calulated later) into base year dollars, we use the following equation:
   # $$PI_{t} = PI_{t}/PI_{t = baseyear}$$
@@ -709,7 +709,7 @@ PriceMethodOutput_Category<-#ImplicitQuantityOutput.speciescat.p<-
         # $$PI_{t} = PI_{t}/PI_{t = baseyear}$$
         # In this example, we'll decide that the base year is `r baseyr`, for whatever reason. Notice that the $PI_{i,t=baseyr} = 1$
 
-        tempPI<-PriceIndex(temp, BaseColName = NameBasecategory, baseyr, var = "PC")
+        tempPI<-PriceIndex(dat = temp, BaseColName = NameBasecategory, baseyr, var = "PC")
         temp[ncol(temp)+1]<-(tempPI)
         names(temp)[ncol(temp)]<-paste0("PI", NameBasecategory)
 
@@ -1054,7 +1054,7 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
       # Then, to change the price (calulated later) into base year dollars, we use the following equation:
       # $$PI_{t} = PI_{t}/PI_{t = baseyear}$$
       # In this example, we'll decide that the base year is `r baseyr`, for whatever reason. Notice that the $PI_{i,t=baseyr} = 1$
-      tempPI<-PriceIndex(temp, BaseColName = NameBaseTotal, baseyr, var = "PC")
+      tempPI<-PriceIndex(dat = temp, BaseColName = NameBaseTotal, baseyr, var = "PC")
       temp[ncol(temp)+1]<-(tempPI)
       names(temp)[ncol(temp)]<-paste0("PI", NameBaseTotal)
 
@@ -2120,7 +2120,7 @@ QuantityMethodOutput_Category<-#ImplicitQuantityOutput.speciescat.q<-
         # Then, to change the price index into base year dollars, we use the following equation:
         # $$QI_{t} = QI_{t}/QI_{t = baseyear}$$
 
-        tempQI<-PriceIndex(temp, BaseColName = NameBasecategory, baseyr, var = "QC")
+        tempQI<-PriceIndex(dat = temp, BaseColName = NameBasecategory, baseyr, var = "QC")
         temp[ncol(temp)+1]<-(tempQI)
         names(temp)[ncol(temp)]<-paste0("QI", NameBasecategory)
 
@@ -2436,7 +2436,7 @@ QuantityMethodOutput<-#ImplicitQuantityOutput.q<-
     # Then, to change the price index into base year dollars, we use the following equation:
     # $$QI_{t} = QI_{t}/QI_{t = baseyear}$$
 
-    tempQI<-PriceIndex(temp, BaseColName = NameBaseTotal, baseyr, var = "QC")
+    tempQI<-PriceIndex(dat = temp, BaseColName = NameBaseTotal, baseyr, var = "QC")
     temp[ncol(temp)+1]<-(tempQI)
     names(temp)[ncol(temp)]<-paste0("QI", NameBaseTotal)
 

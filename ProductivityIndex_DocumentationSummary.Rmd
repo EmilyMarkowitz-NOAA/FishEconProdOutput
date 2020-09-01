@@ -16,6 +16,7 @@ knitr::opts_chunk$set(echo = FALSE, error = FALSE, message = FALSE, warning = FA
 # word_document:
 #   df_print: kable
 #   toc: true
+#   toc_depth: 4
 #   reference_docx: word-styles-reference.docx
 
 
@@ -49,12 +50,8 @@ R Package is forthcomming.
 *This repository is a scientific product and is not official communication of the National Oceanic and Atmospheric Administration, or the United States Department of Commerce. All NOAA Git Hub project code is provided on an ‘as is’ basis and the user assumes responsibility for its use. Any claims against the Department of Commerce or Department of Commerce bureaus stemming from the use of this Git Hub project will be governed by all applicable Federal law. Any reference to specific commercial products, processes, or services by service mark, trademark, manufacturer, or otherwise, does not constitute or imply their endorsement, recommendation or favoring by the Department of Commerce. The Department of Commerce seal and logo, or the seal and logo of a DOC bureau, shall not be used in any manner to imply endorsement of any commercial product or activity by DOC or the United States Government.*
 
 
+
 ```{r}
-
-library(devtools)
-devtools::install_github("emilyhmarkowitz/FishEconProdOutput", dependencies = TRUE)
-library(FishEconProdOutput)
-
 dir.in<-(getwd())
 #Local Directories
 dir.data<-paste0(dir.in, "/data/")
@@ -122,8 +119,6 @@ includeTF<-function(typical, showresults = TRUE) {
 }
 
 state.codes <- statereg <- read.csv(paste0(dir.data, '/statereg.csv'), stringsAsFactors = FALSE)
-
-
 ```
 
 
@@ -162,9 +157,6 @@ The first part is the function is the output, which is composed of a 2 year aver
 
 The second part of this function represents (in a similar fashion to the first part of the equation) all the input (e.g., capital, labor, energy, materials, and services costs) that went into obtaining the output and follows a similar equation setup. Finding the data for this input side of the equation has proven to be a bit more difficult than anticipated, ...so for this exercise we are simply going to attempt to solve the output side of the equation. 
 
-
-
-
 where: 
 
  - $Y_i$ = individual outputs. This will later be referred to as $Q_i$ in the following equations. 
@@ -180,6 +172,15 @@ where:
  - $i$ = fishery category, e.g., Finfish (=1), Shellfish (=2)
 
  - $s$ = species, e.g., Salmon, Alewife, Surf Clams
+
+
+## Download Package for Output Portion of Function
+
+```{r, echo=TRUE}
+library(devtools)
+devtools::install_github("emilyhmarkowitz/FishEconProdOutput", dependencies = TRUE)
+library(FishEconProdOutput)
+```
 
 -------
 
@@ -331,8 +332,6 @@ However, with the more categories we have, the less data we have for each catego
 These plots were created using the same data, just by splitting the categories up differently. We can see that the QI is increasing in the first plot using the FEUS categories and that the second plot using the taxonomically defined species has species increasing and decreasing. 
 
 This may be a key to better seeing what is actually going on in the data.  
-
-## Ways to work your analysis
 
 ## QUANTITY METHOD
 

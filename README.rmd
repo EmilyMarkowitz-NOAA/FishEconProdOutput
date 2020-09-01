@@ -1,0 +1,191 @@
+---
+title: "Measuring Output for U.S. Commercial Fisheries — From Theory to Practice"
+author: 'Emily Markowitz^1^ (Emily.Markowitz@noaa.gov) Sun Ling Wang^2^ (Sun-Ling.Wang@noaa.gov) \n\n ^1^Contractor, ECS Federal in support of NOAA Fisheries Office of Science and Technology Economics & Social Analysis Division \n\n ^2^On detail with the NOAA Fisheries Office of Science and Technology Economics & Social Analysis Division \n\n >*The views expressed are those of the author and should not be attributed to the NOAA, ECS or ERS'
+output: md_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, error = FALSE, message = FALSE, warning = FALSE)
+```
+
+# Measuring Output for U.S. Commercial Fisheries From Theory to Practice
+
+
+**Emily Markowitz**^1^ (Emily.Markowitz AT noaa.gov)
+
+**Sun Ling Wang**^2^ (Sun-Ling.Wang AT noaa.gov)
+
+^1^Contractor, ECS Federal in support of NOAA Fisheries Office of Science and Technology Economics & Social Analysis Division; as of Sept. 28, 2020: Alaska Fisheries Science Center, National Marine Fisheries Service, National Oceanic and Atmospheric Administration, Seattle, WA 98195
+
+^2^On detail with the NOAA Fisheries Office of Science and Technology Economics & Social Analysis Division
+
+>*The views expressed are those of the author and should not be attributed to the NOAA, ECS or ERS
+
+**GitHub:** [https://github.com/emilyhmarkowitz/FisheriesEconomicProductivityIndex](https://github.com/emilyhmarkowitz/FishEconProdOutput)  
+
+# NOAA README
+
+>This repository is a scientific product and is not official communication of the National Oceanic and Atmospheric Administration, or the United States Department of Commerce. All NOAA GitHub project code is provided on an ‘as is’ basis and the user assumes responsibility for its use. Any claims against the Department of Commerce or Department of Commerce bureaus stemming from the use of this GitHub project will be governed by all applicable Federal law. Any reference to specific commercial products, processes, or services by service mark, trademark, manufacturer, or otherwise, does not constitute or imply their endorsement, recommendation or favoring by the Department of Commerce. The Department of Commerce seal and logo, or the seal and logo of a DOC bureau, shall not be used in any manner to imply endorsement of any commercial product or activity by DOC or the United States Government.
+
+
+# Download this package
+
+```{r, echo=TRUE, eval=FALSE}
+install_github("emilyhmarkowitz/FishEconProdOutput")
+```
+
+```{r}
+echoTF<-function(typical, code = TRUE) {
+  return(ifelse(code == TRUE, typical, FALSE))
+}
+
+code<-FALSE
+showresults<-FALSE
+
+dir.in<-getwd()
+#Local Directories
+dir.output<-paste0(dir.in, "/output/")
+dir.data<-paste0(dir.in, "/data/")
+
+
+#####LOAD CRAN LIBRARIES#######
+
+#Seperating species by taxonomic group
+# install.packages("remotes")
+# remotes::install_github("ropensci/taxize")
+library(taxize)
+
+# Data Managment
+library(tidyr)
+library(reshape2)
+library(tidyverse)
+library(filesstrings)
+library(data.table) # := to tag species codes
+require(plyr)  #ddply function
+library(sas7bdat)
+library(rlist)
+
+#RMarkdown
+library(rmarkdown)
+library(knitr)
+library(gridExtra)
+library(ggpubr)
+
+#Excel File Management
+library(officer)
+library(xlsx)
+library(readxl)
+
+#Visuals
+library(ggplot2)
+
+#Package Management
+library(roxygen2)
+library(devtools)
+
+#Presentations
+#remotes::install_github('yihui/xaringan')
+library(xaringan)
+options(htmltools.dir.version = FALSE)
+library(tidyverse)
+library(stargazer)
+
+
+options(java.parameters = "-Xmx1000m")
+options(scipen=10000)
+
+ln<-log #tricky, tricky, Base R! Didn't fool me this time!!!
+
+```
+
+
+# Study Purpose
+
+ - Develop alternative approaches to measure national and regional fishery outputs for productivity measurements.
+
+ - Evaluate the impacts of missing data and other issues on output estimates. 
+
+
+### Data requirements and source
+
+The Tornqvist quantity index requires data on quantity and revenue shares. We employ landings quantity (pounds) and landings value ($USD) data by year, state, and species. 
+ 
+ - Data source: [Fisheries One Stop Shop downloaded August 13 2020](https://foss.nmfs.noaa.gov/apexfoss/f?p=215:200::::::) 
+ 
+ - More information about the data: [Commericial Fisheries Landings Data](https://www.fisheries.noaa.gov/national/sustainable-fisheries/commercial-fisheries-landings)
+
+# Documentation
+
+For specifics about how the Quantitative and Price Methods are derived, please read this [Documentation](https://github.com/emilyhmarkowitz/FishEconProdOutput/blob/master/ProductivityIndex_DocumentationSummary.pdf). 
+
+# File Organization
+
+Main fuctions of interest are:
+
+ - PriceMethodOutput
+ 
+ - PriceMethodOutput.Category
+ 
+ - QuantityMethodOutput
+ 
+ - QuantityMethodOutput.Category
+
+R Package *FisheriesEconomicProductivityIndex* forthcomming. 
+
+# Theoretical Framework: Törnqvist index
+
+A Flexible Function and Superlative Quantity Index (Diewert 1976) 
+
+**Math Theory: General Total Factor Productivity ($TFP$) Equation**
+
+The general form of the $TFP$ can be measured as aggregate output ($Y$) divided by real total inputs ($X$). Rates of TFP growth are constructed using the Törnqvist index approach. The TFP growth over two time periods is defined as:
+
+$$ln(TFP_t/TFP_{t-1}) = \sum_{i=1}^n((\frac{R_{t,i} + R_{t-1,i}}{2}) * ln(\frac{Y_{t,i}}{Y_{t-1,i}}))) - \sum_{j=1}^m((\frac{W_{j,t} + W_{j,t-1}}{2}) * ln(\frac{X_{j,t}}{X_{j,t-1}})))$$
+
+Such that:
+ 
+ - Output represents $\sum_{i=1}^n((\frac{R_{it} + R_{it-1}}{2}) * ln(\frac{Y_{it}}{Y_{it-1}}))$
+
+ - Input represents $\sum_{j=1}^n((\frac{W_{jt} + W_{jt-1}}{2}) * ln(\frac{X_{jt}}{X_{jt-1}}))$
+
+where: 
+
+ - $Y_i$ = individual outputs. This will later be refered to as $Q_i$ in the following equations. 
+ 
+ - $X_j$ = individual inputs
+ 
+ - $R_i$ = output revenue shares
+ 
+ - $W_j$ = input cost shares
+ 
+ - $t$ and $t-1$ = time, where 1 is the minimum year in the dataset
+ 
+ - $i$ = fishery category, e.g., Finfish (=1), Shellfish (=2)
+
+ - $s$ = species, e.g., Salmon, Alewife, Surf Clams
+
+
+# Output Method: From Quantity to Quantity Measures
+
+###Variable Summary
+
+Variables
+
+ - $Q$ = individual quantity outputs in pounds (lbs). 
+ 
+ - $V$ = individual value outputs in dollars ($)
+ 
+ - $QE$ and $VE$ = simple sum of Quantity (Q) and Value (V)
+
+ - $R$ = output revenue shares
+ 
+ - $baseyr$ is the year to base all indicides from
+ 
+Subscript Inidicies
+ 
+ - $t$ and $t-1$ are time subscripts, where 1 is the minimum year in the dataset
+ 
+ - $i$ is category, e.g., Finfish (=1), Shellfish (=2)
+
+ - $s$ is species, e.g., Salmon, Alewife, Surf Clams
+ 

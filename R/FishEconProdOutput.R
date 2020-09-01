@@ -2575,6 +2575,55 @@ QuantityMethodOutput<-#ImplicitQuantityOutput.q<-
     ##################Graphing
 
     figures.list<-QuantityMethodOutput_Plots(temp, temp.orig, baseyr, title0, NumberOfSpecies, figures.list)
+
+
+    ###OVERVIEW
+
+
+
+
+    #Species
+    spp.output<-list()
+    spptable0<-data.frame(Analysis  = title0,
+                          Place = place,
+                          Catagory = rep_len(x = NA, length.out = length(category)),
+                          TotCount = rep_len(x = NA, length.out = length(category)),
+                          RmCount = rep_len(x = NA, length.out = length(category)),
+                          UsedCount = rep_len(x = NA, length.out = length(category)))
+    cat1<-(as.character(lapply(X = strsplit(x = as.character(names(temp)),
+                                            split = paste0("_")),
+                               function(x) x[1])))
+    cat2<-(as.character(lapply(X = strsplit(x = as.character(names(temp)),
+                                            split = paste0("_")),
+                               function(x) x[2])))
+
+    for (i in 1:length(category)) {
+      #Orgionally
+      spp.pre<-unique(cat2[grep(pattern = paste0("V", category[i]), x = cat1)], cat2[grep(pattern = paste0("Q", category[i]), x = cat1)])
+      cat.pre<-spp.pre[grep(pattern = NumberOfSpecies, x = spp.pre)]
+      cat.pre<-unique(gsub(pattern = "[0-9]", replacement = "", x = cat.pre))
+      spp.pre<-spp.pre[!grepl(pattern = NumberOfSpecies, x = spp.pre)]
+      spp.pre<-gsub(pattern = "[0-9]", replacement = "", x = spp.pre)
+      spp.pre<-sort(x = as.character(spp.pre), decreasing = F)
+
+      #In Analysis
+      spp.pst<-cat2[grep(pattern = paste0("R", category[i]), x = cat1)]
+      cat.pst<-spp.pst[grep(pattern = NumberOfSpecies, x = spp.pst)]
+      cat.pst<-gsub(pattern = "[0-9]", replacement = "", x = cat.pst)
+      spp.pst<-spp.pst[!grepl(pattern = NumberOfSpecies, x = spp.pst)]
+      spp.pst<-gsub(pattern = "[0-9]", replacement = "", x = spp.pst)
+      spp.pst<-sort(x = as.character(spp.pst), decreasing = F)
+
+      spp.output[[i]]<-list("pre" = spp.pre,
+                            "pst" = spp.pst)
+      names(spp.output)[[i]]<-cat.pst
+      spptable0$Catagory[i]<- cat.pst
+      spptable0$TotCount[i]<-length(spp.pre)
+      spptable0$UsedCount[i]<-ifelse(is.na(length(spp.pst)), 0, length(spp.pst))
+      spptable0$RmCount[i]<-spptable0$TotCount[i] - spptable0$UsedCount[i]
+    }
+
+
     # #########Number Species Inc and Dec
     #
     # temp0<-temp
@@ -3026,53 +3075,6 @@ QuantityMethodOutput_Plots<-function(temp, temp.orig, baseyr, title0 = "", Numbe
 
     figures.list[[length(figures.list)+1]]<-g
     names(figures.list)[length(figures.list)]<-paste0(title0, title00)
-
-
-    ###OVERVIEW
-
-
-
-
-    #Species
-    spp.output<-list()
-    spptable0<-data.frame(Analysis  = title0,
-                          Place = place,
-                          Catagory = rep_len(x = NA, length.out = length(category)),
-                          TotCount = rep_len(x = NA, length.out = length(category)),
-                          RmCount = rep_len(x = NA, length.out = length(category)),
-                          UsedCount = rep_len(x = NA, length.out = length(category)))
-    cat1<-(as.character(lapply(X = strsplit(x = as.character(names(temp)),
-                                            split = paste0("_")),
-                               function(x) x[1])))
-    cat2<-(as.character(lapply(X = strsplit(x = as.character(names(temp)),
-                                            split = paste0("_")),
-                               function(x) x[2])))
-
-    for (i in 1:length(category)) {
-      #Orgionally
-      spp.pre<-unique(cat2[grep(pattern = paste0("V", category[i]), x = cat1)], cat2[grep(pattern = paste0("Q", category[i]), x = cat1)])
-      cat.pre<-spp.pre[grep(pattern = NumberOfSpecies, x = spp.pre)]
-      cat.pre<-unique(gsub(pattern = "[0-9]", replacement = "", x = cat.pre))
-      spp.pre<-spp.pre[!grepl(pattern = NumberOfSpecies, x = spp.pre)]
-      spp.pre<-gsub(pattern = "[0-9]", replacement = "", x = spp.pre)
-      spp.pre<-sort(x = as.character(spp.pre), decreasing = F)
-
-      #In Analysis
-      spp.pst<-cat2[grep(pattern = paste0("R", category[i]), x = cat1)]
-      cat.pst<-spp.pst[grep(pattern = NumberOfSpecies, x = spp.pst)]
-      cat.pst<-gsub(pattern = "[0-9]", replacement = "", x = cat.pst)
-      spp.pst<-spp.pst[!grepl(pattern = NumberOfSpecies, x = spp.pst)]
-      spp.pst<-gsub(pattern = "[0-9]", replacement = "", x = spp.pst)
-      spp.pst<-sort(x = as.character(spp.pst), decreasing = F)
-
-      spp.output[[i]]<-list("pre" = spp.pre,
-                            "pst" = spp.pst)
-      names(spp.output)[[i]]<-cat.pst
-      spptable0$Catagory[i]<- cat.pst
-      spptable0$TotCount[i]<-length(spp.pre)
-      spptable0$UsedCount[i]<-ifelse(is.na(length(spp.pst)), 0, length(spp.pst))
-      spptable0$RmCount[i]<-spptable0$TotCount[i] - spptable0$UsedCount[i]
-    }
 
     return(figures.list)
 

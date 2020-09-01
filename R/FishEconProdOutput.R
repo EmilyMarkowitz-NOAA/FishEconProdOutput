@@ -2567,7 +2567,7 @@ QuantityMethodOutput<-#ImplicitQuantityOutput.q<-
 
     ##################Graphing
 
-    figures.list<-QuantityMethodOutput.Plots(temp, baseyr, title, NumberOfSpecies, figures.list)
+    figures.list<-QuantityMethodOutput_Plots(temp, baseyr, title, NumberOfSpecies, figures.list)
     # #########Number Species Inc and Dec
     #
     # temp0<-temp

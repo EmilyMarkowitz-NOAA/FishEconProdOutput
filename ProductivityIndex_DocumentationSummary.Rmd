@@ -3,11 +3,11 @@ title: ""
 author: ""
 date: ""
 output: 
-  pdf_document:
+  word_document:
+    df_print: kable
     toc: true
     toc_depth: 4
-    number_sections: true
-    df_print: kable
+    reference_docx: word-styles-reference.docx
 ---
 
 ```{r setup, include=FALSE}

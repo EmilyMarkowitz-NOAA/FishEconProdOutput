@@ -207,13 +207,13 @@ PriceIndex <- function(dat, BaseColName, baseyr, var = "PC") {
   }
 
   tempPI_yr1<-data.frame(tempPI_yr1)
-  rownames(tempPI_yr1)<-rownames(dat)
+  rownames(tempPI_yr1)<-as.character(rownames(dat))
 
   # Then, to change the price (calulated later) into base year dollars, we use the following equation:
   # $$PI_{t} = PI_{t}/PI_{t = baseyear}$$
   # In this example, we'll decide that the base year is `r baseyr`, for whatever reason. Notice that the $PI_{i,t=baseyr} = 1$
 
-  tempPI_yrb<-tempPI_yr1/tempPI_yr1[rownames(tempPI_yr1) %in% baseyr,]
+  tempPI_yrb<-tempPI_yr1/tempPI_yr1[rownames(tempPI_yr1) %in% as.character(baseyr),]
 
   tempPI<-data.frame(tempPI_yrb)
   names(tempPI)<-paste0(substr(x = var, start = 1, stop = 1), "I", BaseColName)
@@ -3079,6 +3079,11 @@ QuantityMethodOutput_Plots<-function(temp, temp.orig, baseyr, title0 = "", Numbe
     return(figures.list)
 
   }
+
+
+
+
+
 
 
 #' One method for calculating TFP

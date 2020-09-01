@@ -1282,7 +1282,7 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
       temp <- temp[, !duplicated(colnames(temp))]
 
 
-      figures.list<-PriceMethodOutput_Plots(temp, baseyr, title, NumberOfSpecies, figures.list)
+      figures.list<-PriceMethodOutput_Plots(temp, temp.orig, baseyr, title, NumberOfSpecies, figures.list)
 
 
       ###OVERVIEW
@@ -1342,7 +1342,8 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
 #' Create Price Methods Plots
 #'
 #' This function produces popular plots for the Price Method Productivity Output analysis.
-#' @param temp Default dataset.
+#' @param temp Default dataset from analysis.
+#' @param temp.orig Default origional dataset from before anlaysis.
 #' @param baseyr Numeric year (YYYY). The base year you are assessing the anaylsis with. Typically this is the earliest year in the data set, but it can be any year you choose.
 #' @param title Title of plot.
 #' @param NumberOfSpecies A character string of the 'number of species.' Not a great name, but if you have 103, 3, 8888 species, your 'NumberOfSpecies' is "000", "0", and "0000", respectively.
@@ -1350,7 +1351,7 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
 #' @export
 #' @examples
 #' PriceMethodOutput_Plots()
-PriceMethodOutput_Plots<-function(temp, baseyr, title0 = "", NumberOfSpecies, figures.list = ls()) {
+PriceMethodOutput_Plots<-function(temp, temp.orig, baseyr, title0 = "", NumberOfSpecies, figures.list = ls()) {
 
     place<-title0
 
@@ -2573,7 +2574,7 @@ QuantityMethodOutput<-#ImplicitQuantityOutput.q<-
 
     ##################Graphing
 
-    figures.list<-QuantityMethodOutput_Plots(temp, baseyr, title0, NumberOfSpecies, figures.list)
+    figures.list<-QuantityMethodOutput_Plots(temp, temp.orig, baseyr, title0, NumberOfSpecies, figures.list)
     # #########Number Species Inc and Dec
     #
     # temp0<-temp
@@ -2613,7 +2614,8 @@ QuantityMethodOutput<-#ImplicitQuantityOutput.q<-
 #' Create Quantity Methods Plots
 #'
 #' This function produces popular plots for the Quantity Method Productivity Output analysis.
-#' @param temp Default dataset.
+#' @param temp Default dataset from analysis.
+#' @param temp.orig Default origional dataset from before anlaysis.
 #' @param baseyr Numeric year (YYYY). The base year you are assessing the anaylsis with. Typically this is the earliest year in the data set, but it can be any year you choose.
 #' @param title Title of plot.
 #' @param NumberOfSpecies A character string of the 'number of species.' Not a great name, but if you have 103, 3, 8888 species, your 'NumberOfSpecies' is "000", "0", and "0000", respectively.
@@ -2621,7 +2623,7 @@ QuantityMethodOutput<-#ImplicitQuantityOutput.q<-
 #' @export
 #' @examples
 #' QuantityMethodOutput_Plots()
-QuantityMethodOutput_Plots<-function(temp, baseyr, title0 = "", NumberOfSpecies, figures.list = ls()) {
+QuantityMethodOutput_Plots<-function(temp, temp.orig, baseyr, title0 = "", NumberOfSpecies, figures.list = ls()) {
 
   place<-title0
 

@@ -85,8 +85,6 @@ Main fuctions of interest are:
 
 -   QuantityMethodOutput.Category
 
-R Package *FisheriesEconomicProductivityIndex* forthcomming.
-
 Theoretical Framework: Törnqvist index
 ======================================
 

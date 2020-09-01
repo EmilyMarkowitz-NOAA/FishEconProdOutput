@@ -49,7 +49,6 @@ dir.in<-getwd()
 dir.output<-paste0(dir.in, "/output/")
 dir.data<-paste0(dir.in, "/data/")
 
-
 #####LOAD CRAN LIBRARIES#######
 
 #Seperating species by taxonomic group
@@ -131,8 +130,6 @@ Main fuctions of interest are:
  - QuantityMethodOutput
  
  - QuantityMethodOutput.Category
-
-R Package *FisheriesEconomicProductivityIndex* forthcomming. 
 
 # Theoretical Framework: Törnqvist index
 

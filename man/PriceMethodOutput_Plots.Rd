@@ -6,6 +6,7 @@
 \usage{
 PriceMethodOutput_Plots(
   temp,
+  temp.orig,
   baseyr,
   title0 = "",
   NumberOfSpecies,
@@ -13,7 +14,9 @@ PriceMethodOutput_Plots(
 )
 }
 \arguments{
-\item{temp}{Default dataset.}
+\item{temp}{Default dataset from analysis.}
+
+\item{temp.orig}{Default origional dataset from before anlaysis.}
 
 \item{baseyr}{Numeric year (YYYY). The base year you are assessing the anaylsis with. Typically this is the earliest year in the data set, but it can be any year you choose.}
 

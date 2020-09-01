@@ -3208,8 +3208,9 @@ funct_counter<-function(counter0) {
 #' @param val Value to be evaluated.
 #' @param combine TRUE/FALSE (Default = TRUE). Asks if you want two strings (FALSE) or 1 concatenated string (TRUE).
 #' @export
-#' @examples xunits(1234567890); "1.2 billion"
-#' xunits()
+#' @examples
+#' xunits(1234567890)
+#' "1.2 billion"
 xunits<-function(val, combine=T) {
 
   val<-sum(as.numeric(val))

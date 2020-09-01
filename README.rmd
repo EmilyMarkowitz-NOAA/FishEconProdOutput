@@ -32,7 +32,7 @@ knitr::opts_chunk$set(echo = FALSE, error = FALSE, message = FALSE, warning = FA
 
 ```{r, echo=TRUE, eval=FALSE}
 library(devtools)
-install_github("emilyhmarkowitz/FishEconProdOutput")
+devtools::install_github("emilyhmarkowitz/FishEconProdOutput", dependencies = TRUE)
 library(FishEconProdOutput)
 ```
 

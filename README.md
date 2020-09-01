@@ -17,8 +17,7 @@ Technology Economics & Social Analysis Division
 > \*The views expressed are those of the author and should not be
 > attributed to the NOAA, ECS or ERS
 
-**GitHub:**
-[https://github.com/emilyhmarkowitz/FisheriesEconomicProductivityIndex](https://github.com/emilyhmarkowitz/FishEconProdOutput)
+**GitHub:** <https://github.com/emilyhmarkowitz/FishEconProdOutput>
 
 NOAA README
 ===========
@@ -41,7 +40,9 @@ NOAA README
 Download this package
 =====================
 
-    install_github("emilyhmarkowitz/FishEconProdOutput")
+    library(devtools)
+    devtools::install_github("emilyhmarkowitz/FishEconProdOutput", dependencies = TRUE)
+    library(FishEconProdOutput)
 
 Study Purpose
 =============

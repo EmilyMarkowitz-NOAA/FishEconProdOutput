@@ -15,6 +15,6 @@ xunits(val, combine = T)
 This funciton standardizes units of a value. For example, 1,000,000 would become "1 Million."
 }
 \examples{
-xunits(1234567890); "1.2 billion"
-xunits()
+xunits(1234567890)
+"1.2 billion"
 }

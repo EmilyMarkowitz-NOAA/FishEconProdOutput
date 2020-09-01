@@ -13,7 +13,7 @@ TFP_ChangeRate_Method1(temp.output, temp.input, baseyr, pctmiss)
 
 \item{baseyr}{Numeric year (YYYY). The base year you are assessing the anaylsis with. Typically this is the earliest year in the data set, but it can be any year you choose.}
 
-\item{pctmiss}{Percent missing threshold. For 60% use "0.6." Default is 1.00.}
+\item{pctmiss}{Percent missing threshold. For 60 percent use "0.6." Default is 1.00.}
 }
 \description{
 One method for calculating TFP

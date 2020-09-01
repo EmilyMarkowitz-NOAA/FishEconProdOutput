@@ -24,7 +24,7 @@ QuantityMethodOutput_Category(
 
 \item{minyr}{The minium year to assess in the dataset.}
 
-\item{pctmiss}{Percent missing threshold. For 60% use "0.6." Default is 1.00.}
+\item{pctmiss}{Percent missing threshold. For 60 percent use "0.6." Default is 1.00.}
 
 \item{warnings.list}{A list where warnings are stored. If using this function in the PriceMethodOutput, it function, it will be inherited. If using outside of that function, put ls().}
 

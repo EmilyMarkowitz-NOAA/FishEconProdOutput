@@ -327,7 +327,7 @@ lmCheck<-function(Columns, temp) {
 #' @param ii Category number.
 #' @param maxyr The maxium year to assess in the dataset.
 #' @param minyr The minium year to assess in the dataset.
-#' @param pctmiss Percent missing threshold. For 60% use "0.6." Default is 1.00.
+#' @param pctmiss Percent missing threshold. For 60 percent use "0.6." Default is 1.00.
 #' @param warnings.list A list where warnings are stored. If using this function in the PriceMethodOutput it will be inherited. If using outside of that function, put ls().
 #' @param MinimumNumberOfSpecies An integer indicating the minimum number of species the user is willing to use in an analysis. If set to 1, the analysis will run even if the category only has one species. If set to 10, the analysis will run if there is 10 , 11, or more species, but not 9 or less species. Default = 1.
 #' @export
@@ -770,12 +770,12 @@ PriceMethodOutput_Category<-#ImplicitQuantityOutput.speciescat.p<-
   }
 
 
-#' Price Methods
+#' Price Method
 #'
 #' This function calculates the Implicit Quanity Output at Fishery Level by systematically runing the Price Method Productivity Output analysis for all species of each cateorgy.
 #' @param temp Default dataset.
 #' @param baseyr Numeric year (YYYY). The base year you are assessing the anaylsis with. Typically this is the earliest year in the data set, but it can be any year you choose.
-#' @param pctmiss Percent missing threshold. For 60% use "0.6." Default is 1.00.
+#' @param pctmiss Percent missing threshold. For 60 percent use "0.6." Default is 1.00.
 #' @param title0 Title of analysis
 #' @param place Area you are assessing the analysis for. This can also be used as a title.
 #' @param MinimumNumberOfSpecies An integer indicating the minimum number of species the user is willing to use in an analysis. If set to 1, the analysis will run even if the category only has one species. If set to 10, the analysis will run if there is 10 , 11, or more species, but not 9 or less species. Default = 2.
@@ -1282,7 +1282,7 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
       temp <- temp[, !duplicated(colnames(temp))]
 
 
-      figures.list<-PriceMethodOutput_Plots(temp, baseyr, title0, place, figure.list, NumberOfSpecies)
+      figures.list<-PriceMethodOutput_Plots(temp, baseyr, title, NumberOfSpecies, figures.list)
 
 
       ###OVERVIEW
@@ -1805,7 +1805,7 @@ PriceMethodOutput_Plots<-function(temp, baseyr, title = "", NumberOfSpecies, fig
 #' @param ii Category number.
 #' @param maxyr The maxium year to assess in the dataset.
 #' @param minyr The minium year to assess in the dataset.
-#' @param pctmiss Percent missing threshold. For 60% use "0.6." Default is 1.00.
+#' @param pctmiss Percent missing threshold. For 60 percent use "0.6." Default is 1.00.
 #' @param warnings.list A list where warnings are stored. If using this function in the PriceMethodOutput, it function, it will be inherited. If using outside of that function, put ls().
 #' @param MinimumNumberOfSpecies An integer indicating the minimum number of species the user is willing to use in an analysis. If set to 1, the analysis will run even if the category only has one species. If set to 10, the analysis will run if there is 10 , 11, or more species, but not 9 or less species. Default = 1.
 #' @export
@@ -2143,7 +2143,7 @@ QuantityMethodOutput_Category<-#ImplicitQuantityOutput.speciescat.q<-
 #' This function calculates the Quanity Output at Fishery Level by systematically runing the Quantity Method Productivity Output analysis for all species of each cateorgy.
 #' @param temp Default dataset.
 #' @param baseyr Numeric year (YYYY). The base year you are assessing the anaylsis with. Typically this is the earliest year in the data set, but it can be any year you choose.
-#' @param pctmiss Percent missing threshold. For 60% use "0.6." Default is 1.00. Default is 1.00.
+#' @param pctmiss Percent missing threshold. For 60 percent use "0.6." Default is 1.00. Default is 1.00.
 #' @param title0 Title of analysis
 #' @param place Area you are assessing the analysis for. This can also be used as a title.
 #' @param MinimumNumberOfSpecies An integer indicating the minimum number of species the user is willing to use in an analysis. If set to 1, the analysis will run even if the category only has one species. If set to 10, the analysis will run if there is 10 , 11, or more species, but not 9 or less species. Default = 2.
@@ -2567,9 +2567,7 @@ QuantityMethodOutput<-#ImplicitQuantityOutput.q<-
 
     ##################Graphing
 
-    figures.list<-QuantityMethodOutput.Plots(temp, baseyr, title0, place, figures.list, NumberOfSpecies)
-
-
+    figures.list<-QuantityMethodOutput.Plots(temp, baseyr, title, NumberOfSpecies, figures.list)
     # #########Number Species Inc and Dec
     #
     # temp0<-temp
@@ -3074,7 +3072,7 @@ QuantityMethodOutput_Plots<-function(temp, baseyr, title = "", NumberOfSpecies, 
 #' @param temp.output Dataset from productivity output.
 #' @param temp.input Dataset from productivity input.
 #' @param baseyr Numeric year (YYYY). The base year you are assessing the anaylsis with. Typically this is the earliest year in the data set, but it can be any year you choose.
-#' @param pctmiss Percent missing threshold. For 60% use "0.6." Default is 1.00.
+#' @param pctmiss Percent missing threshold. For 60 percent use "0.6." Default is 1.00.
 #' @export
 #' @examples
 #' TFP_ChangeRate_Method1()
@@ -3128,7 +3126,7 @@ TFP_ChangeRate_Method1<-function(temp.output, temp.input, baseyr, pctmiss){
 #' @param temp.output Dataset from productivity output.
 #' @param temp.input Dataset from productivity input.
 #' @param baseyr Numeric year (YYYY). The base year you are assessing the anaylsis with. Typically this is the earliest year in the data set, but it can be any year you choose.
-#' @param pctmiss Percent missing threshold. For 60% use "0.6." Default is 1.00.
+#' @param pctmiss Percent missing threshold. For 60 percent use "0.6." Default is 1.00.
 #' @export
 #' @examples
 #' TFP_ChangeRate_Method1()

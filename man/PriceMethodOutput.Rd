@@ -2,7 +2,7 @@
 % Please edit documentation in R/FishEconProdOutput.R
 \name{PriceMethodOutput}
 \alias{PriceMethodOutput}
-\title{Price Methods}
+\title{Price Method}
 \usage{
 PriceMethodOutput(
   temp,
@@ -18,7 +18,7 @@ PriceMethodOutput(
 
 \item{baseyr}{Numeric year (YYYY). The base year you are assessing the anaylsis with. Typically this is the earliest year in the data set, but it can be any year you choose.}
 
-\item{pctmiss}{Percent missing threshold. For 60% use "0.6." Default is 1.00.}
+\item{pctmiss}{Percent missing threshold. For 60 percent use "0.6." Default is 1.00.}
 
 \item{title0}{Title of analysis}
 

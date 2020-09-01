@@ -1350,9 +1350,15 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
 #' @export
 #' @examples
 #' PriceMethodOutput_Plots()
-PriceMethodOutput_Plots<-function(temp, baseyr, title = "", NumberOfSpecies, figures.list = ls()) {
+PriceMethodOutput_Plots<-function(temp, baseyr, title0 = "", NumberOfSpecies, figures.list = ls()) {
 
-    place<-title
+    place<-title0
+
+    NOAALightBlue<-"#C9E1E6"
+    NOAADarkBlue<-"#0098A6"
+    NOAADarkGrey<-"#56575A" #text
+    NOAABlueScale<-colorRampPalette(colors = c(NOAALightBlue, NOAADarkBlue))
+
 
   #####Calculated Q by Species
   title00<- "_Q-Category"
@@ -2567,7 +2573,7 @@ QuantityMethodOutput<-#ImplicitQuantityOutput.q<-
 
     ##################Graphing
 
-    figures.list<-QuantityMethodOutput_Plots(temp, baseyr, title, NumberOfSpecies, figures.list)
+    figures.list<-QuantityMethodOutput_Plots(temp, baseyr, title0, NumberOfSpecies, figures.list)
     # #########Number Species Inc and Dec
     #
     # temp0<-temp
@@ -2615,9 +2621,14 @@ QuantityMethodOutput<-#ImplicitQuantityOutput.q<-
 #' @export
 #' @examples
 #' QuantityMethodOutput_Plots()
-QuantityMethodOutput_Plots<-function(temp, baseyr, title = "", NumberOfSpecies, figures.list = ls()) {
+QuantityMethodOutput_Plots<-function(temp, baseyr, title0 = "", NumberOfSpecies, figures.list = ls()) {
 
-  place<-title
+  place<-title0
+
+  NOAALightBlue<-"#C9E1E6"
+  NOAADarkBlue<-"#0098A6"
+  NOAADarkGrey<-"#56575A" #text
+  NOAABlueScale<-colorRampPalette(colors = c(NOAALightBlue, NOAADarkBlue))
 
     #####Calculated Q by Species
     title00<- "_QI-Category"
@@ -3254,8 +3265,6 @@ xunits<-function(val, combine=T) {
 #' plotnlines()
 plotnlines<-function(dat, titleyaxis, title){
 
-  ####COLOR PALLET#####
-  #mostly for figures
   NOAALightBlue<-"#C9E1E6"
   NOAADarkBlue<-"#0098A6"
   NOAADarkGrey<-"#56575A" #text

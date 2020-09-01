@@ -50,15 +50,16 @@ R Package is forthcomming.
 
 
 ```{r}
-dir.in<-dirname(getwd())
+
+library(devtools)
+devtools::install_github("emilyhmarkowitz/FishEconProdOutput", dependencies = TRUE)
+library(FishEconProdOutput)
+
+dir.in<-(getwd())
 #Local Directories
-dir.output<-paste0(dir.in, "/output/")
 dir.data<-paste0(dir.in, "/data/")
 dir.rawdata<-paste0(dir.in, "/data/")
 dir.scripts<-getwd()
-
-ProdI.Funct<-paste0(dir.scripts, "/ProductivityIndex_Functions.R")
-source(ProdI.Funct)
 
 code<-FALSE
 showresults<-FALSE
@@ -110,6 +111,15 @@ options(java.parameters = "-Xmx1000m")
 options(scipen=10000)
 
 ln<-log #tricky, tricky, Base R! Didn't fool me this time!!!
+
+
+echoTF<-function(typical, code = TRUE) {
+  return(ifelse(code == TRUE, typical, FALSE))
+}
+
+includeTF<-function(typical, showresults = TRUE) {
+  return(ifelse(showresults == TRUE, typical, FALSE))
+}
 
 ```
 
@@ -811,20 +821,20 @@ tempQI %>%
 
 Now lets redo that whole analysis up to this point (via function) for the two species of the shellfish group, as we will need them for the next steps of this analysis. 
 
-We use the *QuantityMethodOutput.Category* function to calculate everything we did above at category level. 
+We use the *QuantityMethodOutput_Category* function to calculate everything we did above at category level. 
 
 ```{r, echo = echoTF(TRUE, code), include = includeTF(TRUE, showresults)}
 
 # `r ifelse(showresults == TRUE, "We use this *ImplicitQuantityOutput* function to calculate the Implicit Quanity Output at Species and category Level:", "")` 
 
-# print(QuantityMethodOutput.Category)
+# print(QuantityMethodOutput_Category)
 ```
 
 
 ```{r, echo = echoTF(TRUE, code)}
 ii<-2 #The category index value
 
-tempS<-QuantityMethodOutput.Category(temp, ii, baseyr, maxyr, minyr, 
+tempS<-QuantityMethodOutput_Category(temp, ii, baseyr, maxyr, minyr, 
                          pctmiss = pctmiss, 
                          warnings.list = warnings.list)
 temp<-cbind.data.frame(temp, tempS[[1]])
@@ -2245,21 +2255,21 @@ Is there a warning?
 
 Now lets redo that whole analysis up to this point (via function) for the two species of the shellfish group, as we will need them for the next steps of this analysis. 
 
-We use the *PriceMethodOutput.Category* function to calculate everything we did above at category level. 
+We use the *PriceMethodOutput_Category* function to calculate everything we did above at category level. 
 
 
 ```{r, echo = echoTF(TRUE, code), include = includeTF(TRUE, showresults)}
 
 # `r ifelse(showresults == TRUE, "We use this *PriceMethodOutput* function to calculate the Implicit Quanity Output at Species and category Level:", "")` 
 
-# print(PriceMethodOutput.Category)
+# print(PriceMethodOutput_Category)
 ```
 
 
 ```{r, echo = echoTF(TRUE, code)}
 ii<-2 #The category index value
 
-tempS<-PriceMethodOutput.Category(temp, ii, baseyr, maxyr, minyr, 
+tempS<-PriceMethodOutput_Category(temp, ii, baseyr, maxyr, minyr, 
                          pctmiss = pctmiss, 
                          warnings.list = warnings.list)
 temp<-cbind.data.frame(temp, tempS[[1]])

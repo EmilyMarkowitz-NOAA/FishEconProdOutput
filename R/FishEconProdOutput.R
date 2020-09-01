@@ -3254,6 +3254,13 @@ xunits<-function(val, combine=T) {
 #' plotnlines()
 plotnlines<-function(dat, titleyaxis, title){
 
+  ####COLOR PALLET#####
+  #mostly for figures
+  NOAALightBlue<-"#C9E1E6"
+  NOAADarkBlue<-"#0098A6"
+  NOAADarkGrey<-"#56575A" #text
+  NOAABlueScale<-colorRampPalette(colors = c(NOAALightBlue, NOAADarkBlue))
+
   xnames<-as.numeric(paste0(dat$Year))
   xnames[!(xnames %in% seq(from = min((as.numeric(xnames))),
                            to = max(as.numeric(xnames)),

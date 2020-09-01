@@ -854,7 +854,7 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
 
         #if there are still columns to assess that haven't been "removed"
         ###Append species and category level calculations
-        temp00<-PriceMethodOutput.Category(temp = temp.orig, ii=category[ii],
+        temp00<-PriceMethodOutput_Category(temp = temp.orig, ii=category[ii],
                                            baseyr, maxyr, minyr,
                                            pctmiss, warnings.list, MinimumNumberOfSpecies)
 
@@ -2222,7 +2222,7 @@ QuantityMethodOutput<-#ImplicitQuantityOutput.q<-
         #if there are still columns to assess that haven't been "removed"
         # if (length(VColumns) != 0) {
         ###Append species and category level calculations
-        temp00<-QuantityMethodOutput.Category(temp, ii=category[ii],
+        temp00<-QuantityMethodOutput_Category(temp, ii=category[ii],
                                               baseyr, maxyr, minyr,
                                               pctmiss, warnings.list,
                                               MinimumNumberOfSpecies)
@@ -2246,7 +2246,7 @@ QuantityMethodOutput<-#ImplicitQuantityOutput.q<-
         }
 
 
-        # warnings.list1<-QuantityMethodOutput.Category(temp, ii=category[ii],
+        # warnings.list1<-QuantityMethodOutput_Category(temp, ii=category[ii],
         #                                                                 baseyr, maxyr, minyr,
         #                                                                 pctmiss, warnings.list)[[2]]
 
@@ -3084,7 +3084,7 @@ TFP_ChangeRate_Method1<-function(temp.output, temp.input, baseyr, pctmiss){
                                               split = "[a-zA-Z]")[[1]][1]))[1]
 
   #OUTPUT
-  temp00<-PriceMethodOutput.Category(temp.output, baseyr, pctmiss)
+  temp00<-PriceMethodOutput_Category(temp.output, baseyr, pctmiss)
   temp<-temp00[[1]]
   warnings.list0<-temp00[[2]]
   figures.list0<-temp00[[3]]
@@ -3133,7 +3133,7 @@ TFP_ChangeRate_Method1<-function(temp.output, temp.input, baseyr, pctmiss){
 TFP_ChangeRate_Method2<-function(temp.output, temp.input, baseyr, pctmiss){
 
   #OUTPUT
-  temp00<-PriceMethodOutput.Category(temp.output, baseyr, pctmiss)
+  temp00<-PriceMethodOutput_Category(temp.output, baseyr, pctmiss)
   temp<-temp00[[1]]
   warnings.list0<-temp00[[2]]
   figures.list0<-temp00[[3]]

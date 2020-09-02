@@ -1,5 +1,5 @@
 ---
-title: "Measuring Output for U.S. Commercial Fisheries — From Theory to Practice"
+title: "PRELIMINARY: Measuring Output for U.S. Commercial Fisheries — From Theory to Practice"
 author: 'Emily Markowitz^1^ (Emily.Markowitz@noaa.gov) Sun Ling Wang^2^ (Sun-Ling.Wang@noaa.gov) \n\n ^1^Contractor, ECS Federal in support of NOAA Fisheries Office of Science and Technology Economics & Social Analysis Division \n\n ^2^On detail with the NOAA Fisheries Office of Science and Technology Economics & Social Analysis Division \n\n >*The views expressed are those of the author and should not be attributed to the NOAA, ECS or ERS'
 output: md_document
 ---
@@ -8,8 +8,9 @@ output: md_document
 knitr::opts_chunk$set(echo = FALSE, error = FALSE, message = FALSE, warning = FALSE)
 ```
 
-# Measuring Output for U.S. Commercial Fisheries From Theory to Practice
+# PRELIMINARY: Measuring Output for U.S. Commercial Fisheries From Theory to Practice
 
+## **Code is still in development**
 
 **Emily Markowitz**^1^ (Emily.Markowitz AT noaa.gov)
 
@@ -43,59 +44,6 @@ echoTF<-function(typical, code = TRUE) {
 
 code<-FALSE
 showresults<-FALSE
-
-dir.in<-getwd()
-#Local Directories
-dir.output<-paste0(dir.in, "/output/")
-dir.data<-paste0(dir.in, "/data/")
-
-#####LOAD CRAN LIBRARIES#######
-
-#Seperating species by taxonomic group
-# install.packages("remotes")
-# remotes::install_github("ropensci/taxize")
-library(taxize)
-
-# Data Managment
-library(tidyr)
-library(reshape2)
-library(tidyverse)
-library(filesstrings)
-library(data.table) # := to tag species codes
-require(plyr)  #ddply function
-library(sas7bdat)
-library(rlist)
-
-#RMarkdown
-library(rmarkdown)
-library(knitr)
-library(gridExtra)
-library(ggpubr)
-
-#Excel File Management
-library(officer)
-library(xlsx)
-library(readxl)
-
-#Visuals
-library(ggplot2)
-
-#Package Management
-library(roxygen2)
-library(devtools)
-
-#Presentations
-#remotes::install_github('yihui/xaringan')
-library(xaringan)
-options(htmltools.dir.version = FALSE)
-library(tidyverse)
-library(stargazer)
-
-
-options(java.parameters = "-Xmx1000m")
-options(scipen=10000)
-
-ln<-log #tricky, tricky, Base R! Didn't fool me this time!!!
 
 ```
 

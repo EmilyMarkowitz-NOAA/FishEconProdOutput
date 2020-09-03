@@ -17,7 +17,4 @@ Imports:
     data.table, 
     plyr, 
     rlist, 
-    officer, 
-    xlsx,
-    readxl, 
     ggplot2

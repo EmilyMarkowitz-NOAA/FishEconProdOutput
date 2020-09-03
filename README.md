@@ -1,5 +1,5 @@
-PRELIMINARY: Measuring Output for U.S. Commercial Fisheries From Theory to Practice
-===================================================================================
+**PRELIMINARY**: Measuring Output for U.S. Commercial Fisheries From Theory to Practice
+=======================================================================================
 
 **Code is still in development**
 --------------------------------

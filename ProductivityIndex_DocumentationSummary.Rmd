@@ -935,7 +935,7 @@ temp0 %>%
 
 Revenue Share for the each category ($R_{t,i}$)
 
-$$R_{t,i} = V_{t,i}/VV_{t}$$
+<!-- $$R_{t,i} = V_{t,i}/VV_{t}$$ -->
 
 > TOLEDO - Which this wrong?
 

@@ -13,7 +13,6 @@ Imports:
     tidyr, 
     reshape2, 
     tidyverse, 
-    filesstrings, 
     data.table, 
     plyr, 
     rlist, 

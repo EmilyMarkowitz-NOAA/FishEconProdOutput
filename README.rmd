@@ -44,6 +44,10 @@ echoTF<-function(typical, code = TRUE) {
 
 code<-FALSE
 showresults<-FALSE
+library(tidyr)
+library(knitr)
+
+dir.data<-"./data/"
 
 ```
 
@@ -55,7 +59,13 @@ showresults<-FALSE
  - Evaluate the impacts of missing data and other issues on output estimates. 
 
 
-### Data requirements and source
+# Documentation
+
+For specifics about how the Quantitative and Price Methods are derived, please read this [Documentation](https://github.com/emilyhmarkowitz/FishEconProdOutput/blob/master/ProductivityIndex_DocumentationSummary.pdf). 
+
+
+
+# Data requirements and source
 
 The Tornqvist quantity index requires data on quantity and revenue shares. We employ landings quantity (pounds) and landings value ($USD) data by year, state, and species. 
  
@@ -63,9 +73,301 @@ The Tornqvist quantity index requires data on quantity and revenue shares. We em
  
  - More information about the data: [Commericial Fisheries Landings Data](https://www.fisheries.noaa.gov/national/sustainable-fisheries/commercial-fisheries-landings)
 
-# Documentation
+Data from FOSS looks like this:
 
-For specifics about how the Quantitative and Price Methods are derived, please read this [Documentation](https://github.com/emilyhmarkowitz/FishEconProdOutput/blob/master/ProductivityIndex_DocumentationSummary.pdf). 
+```{r}
+#Landings Data
+landings.data<-read.csv(file = paste0(dir.data, "fis_foss_coastal_ws-foss_landings_mv.csv"))
+landings.data<-tail(landings.data)
+landings.data %>%
+    knitr::kable(row.names = T, booktabs = T)
+```
+
+Then I append state information:
+
+```{r, echo = T}
+statereg<-read.csv(file = paste0(dir.data, "statereg.csv"))
+
+head(statereg) %>%
+    knitr::kable(row.names = T, booktabs = T)
+```
+
+Then I change some column names of the data:
+
+
+
+```{r, echo = T}
+#Edit Landings Data
+landings.data<-landings.data[,c("TSN", "H_NEW_ITIS", "TS_AFS_NAME", "TS_SCIENTIFIC_NAME", "YEAR", 
+                                "POUNDS", "DOLLARS", "S_STATE_ID", "COLLECTION")]
+
+names(landings.data)[names(landings.data) %in% "S_STATE_ID"]<-"State.no"
+names(landings.data)[names(landings.data) %in% "TSN"]<-"Tsn"
+landings.data$TSN[is.na(landings.data$H_NEW_ITIS)]<-landings.data$H_NEW_ITIS[is.na(landings.data$H_NEW_ITIS)]
+landings.data$H_NEW_ITIS<-NULL
+names(landings.data)[names(landings.data) %in% "TS_AFS_NAME"]<-"AFS.Name"
+landings.data$AFS_NAME1<-landings.data$AFS.Name
+landings.data$AFS_NAME1<-gsub(pattern = " ", replacement = ".", x = landings.data$AFS_NAME1)
+landings.data$AFS_NAME1<-gsub(pattern = ",", replacement = ".", x = landings.data$AFS_NAME1)
+landings.data$AFS_NAME1<-gsub(pattern = "/", replacement = ".", x = landings.data$AFS_NAME1)
+landings.data$AFS_NAME1<-gsub(pattern = "\\(", replacement = ".", x = landings.data$AFS_NAME1)
+landings.data$AFS_NAME1<-gsub(pattern = "\\)", replacement = ".", x = landings.data$AFS_NAME1)
+landings.data$AFS_NAME1<-gsub(pattern = "&", replacement = ".", x = landings.data$AFS_NAME1)
+landings.data$AFS_NAME1<-gsub(pattern = "\\.\\.", replacement = ".", x = landings.data$AFS_NAME1)
+landings.data$AFS_NAME1<-gsub(pattern = "\\.\\.", replacement = ".", x = landings.data$AFS_NAME1)
+landings.data$AFS_NAME1<-gsub(pattern = "\\.", replacement = "_", x = landings.data$AFS_NAME1)
+names(landings.data)[names(landings.data) %in% "YEAR"]<-"Year"
+names(landings.data)[names(landings.data) %in% "POUNDS"]<-"Pounds"
+names(landings.data)[names(landings.data) %in% "DOLLARS"]<-"Dollars"
+names(landings.data)[names(landings.data) %in% "COLLECTION"]<-"Collection"
+landings.data<-merge(x = landings.data, y = statereg, by = "State.no")
+
+head(landings.data) %>%
+    knitr::kable(row.names = T, booktabs = T)
+
+```
+
+And add categories for each organism to be binned into:
+
+```{r, echo=T}
+
+########***How to split species############
+########******Taxonomic#####################
+categories<-list("Plantae" = 202422, 
+                 "Chromista" = 590735,
+                 "Fungi" = 555705,
+                 "Bacteria" = 50,
+                 "Protozoa" = 43780,
+                 "Archaea" = 935939,
+                 "Porifera" = 46861, 
+                 "Cnidaria" = 48738, 
+                 "Platyhelminthes" = 53963, 
+                 "Nematoda" = 59490, 
+                 "Annelida" = 64357, 
+                 
+                 "Arthropoda" = 82696, 
+                 "Echinodermata" = 156857, 
+                 "Mollusca" = 69458, 
+                 # "Chordata"  = "phylum", 
+                 "Urochordata" = 158853,
+                 "Agnatha" = 914178,
+                 "Chondrichthyes" = 159785,
+                 "Sarcopterygii" = 161048, 
+                 "Tetrapoda" = 914181, 
+                 "Actinopterygii" = 161061)
+
+library(taxize)
+library(rlist)
+
+
+itis_reclassify<-function(tsn, categories, missing.name){
+  
+  # Find which codes are in which categories
+  tsn0<-as.numeric(tsn)[!(is.na(tsn))]
+  tsn.indata<-classification(sci_id = tsn0, db = 'itis')
+  tsn.indata<-tsn.indata[!(names(tsn.indata) %in% 0)]
+  valid0<- sciname<-category0<-bottomrank<-sppname<- TSN<-c() 
+  
+  TSN<-c()
+  bottomrank<-c()
+  category0<-c()
+  sciname<-c()
+  valid0<-c()
+  
+  
+  for (i in 1:length(categories)) {
+
+    a<-list.search(lapply(X = tsn.indata, '[', 3), categories[i][[1]] %in% . )
+    
+    if (length(a)!=0) {
+      
+      sppcode<-names(a)
+      sppcode<-gsub(pattern = "[a-zA-Z]+", replacement = "", x = sppcode)
+      sppcode<-gsub(pattern = "\\.", replacement = "", x = sppcode)
+      
+      for (ii in 1:length(sppcode)) {
+        TSN<-c(TSN, sppcode[ii])
+        
+        bottomrank<-c(bottomrank, tsn.indata[names(tsn.indata) %in% sppcode[ii]][[1]]$rank[
+          nrow(tsn.indata[names(tsn.indata) %in% sppcode[ii]][[1]])])
+        
+        category0<-c(category0, names(categories[i]))  
+        
+        sciname<-c(sciname, tsn.indata[names(tsn.indata) %in% sppcode[ii]][[1]]$name[
+          nrow(tsn.indata[names(tsn.indata) %in% sppcode[ii]][[1]])])
+        
+        valid0<-c(valid0, 
+                  ifelse(nrow(tsn.indata[names(tsn.indata) %in% sppcode[ii]][[1]])>1, 
+                         "valid", "invalid"))
+      }
+    }
+  }
+  
+  df.out<-data.frame(TSN = TSN, 
+                     category = category0, 
+                     valid = valid0, 
+                     rank = bottomrank, 
+                     sciname = sciname )
+  
+  return(list("df.out" = df.out, 
+              "tsn.indata" = tsn.indata))
+}
+
+spp.cat<-itis_reclassify(tsn = unique(landings.data$Tsn), 
+                         categories, 
+                         missing.name="Uncategorized")
+
+spp.cat$df.out$category.tax<-spp.cat$df.out$category
+spp.cat$df.out$category1.tax<-as.numeric(factor(spp.cat$df.out$category.tax))
+landings.data<-merge(x = landings.data, y = spp.cat$df.out, by.y = "TSN", by.x = "Tsn")
+
+head(landings.data) %>%
+    knitr::kable(row.names = T, booktabs = T)
+```
+
+And then re-organized the data to work in these funcitons: 
+
+```{r, echo=F}
+EditCommData<-function(dat, category0) {
+
+  #Make Sure Data is Annual Aggregate
+  temp0<-dat
+  temp0$AFS_NAME1<-gsub(pattern = "\\*", replacement = "-", x = as.character(temp0$AFS_NAME1))
+  temp0$AFS_NAME1<-gsub(pattern = "_", replacement = "-", x = as.character(temp0$AFS_NAME1))
+  #remove negative values (they're warnings)
+  temp0$Dollars[temp0$Dollars<0]<-NA
+  temp0$Pounds[temp0$Pounds<0]<-NA
+
+  lbs<-aggregate(temp0$Pounds,
+                 by=list(year=temp0$Year, species=temp0$AFS_NAME1),
+                 FUN=sum, na.rm=TRUE)
+  names(lbs)[3]<-"POUNDS"
+
+  dol<-aggregate(temp0$Dollars,
+                 by=list(year=temp0$Year, species=temp0$AFS_NAME1, category=temp0[,names(temp0) %in% category0]),
+                 FUN=sum, na.rm=TRUE)
+  names(dol)[4]<-"DOLLARS"
+
+
+  temp<-data.frame(merge(y = lbs, x = dol, by = c("year", "species")))
+
+
+  cat<-unique(numbers0(as.numeric(factor(temp$category))))
+  cat0<-unique(paste0(temp$category))
+
+  #If there is only 1 species in a group, add it to "Other"
+  for (i in 1:length(cat0)) {
+    a<-data.frame(table(temp$category[temp$category %in% cat0[i]], temp$species[temp$category %in% cat0[i]]))
+    a<-a[!(a$Freq %in% 0),]
+    if (nrow(a) < 2) {
+      temp$category[temp$category %in% cat0[i]]<-"Other"
+
+    }
+  }
+
+  cat<-unique(numbers0(as.numeric(factor(temp$category))))
+  cat0<-unique(paste0(temp$category))
+
+  temp$species<-paste0(numbers0(as.numeric(factor(temp$category))), "_",
+                       numbers0(x = as.numeric(factor(temp$species))), temp$species)
+
+
+  spp.list<-list()
+  tsn.list<-list()
+  for (i in 1:length(cat0)) {
+    spp.list[[i]]<-as.character(unique(dat$AFS.Name[dat[,names(dat) %in% category0] %in% cat0[i]]))
+    tsn.list[[i]]<-as.character(unique(dat$Tsn[dat[,names(dat) %in% category0] %in% cat0[i]]))
+    names(spp.list)[[i]]<-names(tsn.list)[[i]]<-cat0[i]
+  }
+
+  temp$category<-NULL
+
+  #Quantity
+  temp.q<-temp
+  temp.q$POUNDS<-NULL
+  temp.q<-spread(data = temp.q, key = year, value = DOLLARS)
+  rownames(temp.q)<-paste0("Q", temp.q$species)
+  temp.q$species<-NULL
+  temp.q<-data.frame(t(temp.q))
+  if (is.null(dim(temp.q))){
+    temp00<-temp.q
+  } else {
+    temp00<-rowSums(temp.q, na.rm = T)
+  }
+  temp.q$temp<-rowSums(temp.q, na.rm = T)
+  names(temp.q)[names(temp.q) %in% "temp"]<-paste0("QE",numbers0(x = c(0, length(cat0)))[1],"_",
+                                                   paste(rep_len(x = 0,
+                                                                 length.out = nchar(numbers0(x = as.numeric(factor(temp$species)))[1])), collapse = ""),
+                                                   "Total")
+  for (i in 1:length(cat)) {
+    if (sum(grepl(x = names(temp.q), pattern = paste0("Q", cat[i], "_"))) == 1) {
+      temp.q$temp<-temp.q[,grepl(x = names(temp.q), pattern = paste0("Q", cat[i], "_")) ]
+    } else {
+      temp.q$temp<-rowSums(temp.q[,grepl(x = names(temp.q), pattern = paste0("Q", cat[i], "_")) ], na.rm = T)
+    }
+    names(temp.q)[names(temp.q) %in% "temp"]<-paste0("QE", cat[i], "_",
+                                                     paste(rep_len(x = 0,
+                                                                   length.out = nchar(numbers0(x = as.numeric(factor(temp$species)))[1])), collapse = ""),
+                                                     gsub(pattern = " ", replacement = "", x = cat0[i]))
+  }
+
+  #Value
+  temp.v<-temp
+  temp.v$DOLLARS<-NULL
+  temp.v<-spread(data = temp.v, key = year, value = POUNDS)
+  rownames(temp.v)<-paste0("V", temp.v$species)
+  temp.v$species<-NULL
+  temp.v<-data.frame(t(temp.v))
+  if (is.null(dim(temp.v))){
+    temp00<-temp.v
+  } else {
+    temp00<-rowSums(temp.v, na.rm = T)
+  }
+  temp.v$temp<-temp00
+  names(temp.v)[names(temp.v) %in% "temp"]<-paste0("VE",numbers0(x = c(0, length(cat0)))[1],"_",
+                                                   paste(rep_len(x = 0,
+                                                                 length.out = nchar(numbers0(x = as.numeric(factor(temp$species)))[1])), collapse = ""),
+                                                   "Total")
+  for (i in 1:length(cat)) {
+    if (sum(grepl(x = names(temp.v), pattern = paste0("V", cat[i], "_"))) == 1) {
+      temp.v$temp<-temp.v[,grepl(x = names(temp.v), pattern = paste0("V", cat[i], "_")) ]
+    } else {
+      temp.v$temp<-rowSums(temp.v[,grepl(x = names(temp.v), pattern = paste0("V", cat[i], "_")) ], na.rm = T)
+    }
+    names(temp.v)[names(temp.v) %in% "temp"]<-paste0("VE", cat[i], "_",
+                                                     paste(rep_len(x = 0,
+                                                                   length.out = nchar(numbers0(x = as.numeric(factor(temp$species)))[1])), collapse = ""),
+                                                     gsub(pattern = " ", replacement = "", x = cat0[i]))
+  }
+
+
+
+  temp<-cbind.data.frame(temp.q, temp.v)
+
+  return(list(temp, spp.list, tsn.list))
+}
+
+numbers0<-function(x) {
+  xx<-rep_len(x = NA, length.out = length(x))
+  for (i in 1:length(x)){
+    xx[i]<-paste0(paste(rep_len(x = 0,
+                                length.out = nchar(max(x))-nchar(x[i])),
+                        collapse = ""),
+                  as.character(x[i]))
+  }
+  return(xx)
+}
+
+```
+
+```{r, echo = T}
+category0<-"category.tax"
+temp00<-EditCommData(dat = landings.data, category0)
+temp<-temp00[[1]]
+
+head(temp) %>%
+    knitr::kable(row.names = T, booktabs = T)
+```
 
 # File Organization
 
@@ -73,11 +375,34 @@ Main fuctions of interest are:
 
  - PriceMethodOutput
  
- - PriceMethodOutput.Category
+ - PriceMethodOutput_Category
+
+ - PriceMethodOutput_Plots
  
  - QuantityMethodOutput
  
- - QuantityMethodOutput.Category
+ - QuantityMethodOutput_Category
+
+ - QuantityMethodOutput_Plots
+ 
+ - PriceIndex
+ 
+ - PriceChange
+ 
+ - EditCommData
+ 
+ - lmCheck
+ 
+ - numbers0
+ 
+ - xunits
+ 
+ - plotnlines
+ 
+ - ReplaceFirst
+ 
+ - ReplaceMid
+ 
 
 # Theoretical Framework: Törnqvist index
 

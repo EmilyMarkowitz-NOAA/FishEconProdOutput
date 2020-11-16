@@ -1445,7 +1445,12 @@ temp0<-temp0[, !grepl(pattern = "REMOVED_", x = names(temp0))]
 names(temp0)<-gsub(pattern = "0", replacement = "", x = names(temp0))
 temp0$QE_Total<-NULL
 temp0$QEI_Total<-NULL
-temp0 %>%
+head(temp0) %>%
+    knitr::kable(row.names = T, booktabs = T)
+```
+
+```{r, echo = echoTF(FALSE, code), warning = FALSE}
+tail(temp0) %>%
     knitr::kable(row.names = T, booktabs = T)
 ```
 
@@ -3007,7 +3012,12 @@ temp0<-temp0[, !grepl(pattern = "REMOVED_", x = names(temp0))]
 names(temp0)<-gsub(pattern = "0", replacement = "", x = names(temp0))
 temp0$QE_Total<-NULL
 temp0$QEI_Total<-NULL
-temp0 %>%
+head(temp0) %>%
+    knitr::kable(row.names = T, booktabs = T)
+```
+
+```{r, echo = echoTF(FALSE, code), warning = FALSE}
+tail(temp0) %>%
     knitr::kable(row.names = T, booktabs = T)
 ```
 

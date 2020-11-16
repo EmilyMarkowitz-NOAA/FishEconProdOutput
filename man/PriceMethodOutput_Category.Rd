@@ -7,6 +7,8 @@
 PriceMethodOutput_Category(
   temp,
   ii,
+  category,
+  category0,
   baseyr,
   maxyr,
   minyr,

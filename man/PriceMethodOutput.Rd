@@ -10,7 +10,8 @@ PriceMethodOutput(
   pctmiss = 1,
   title0 = "",
   place = "",
-  MinimumNumberOfSpecies = 2
+  MinimumNumberOfSpecies = 2,
+  category0
 )
 }
 \arguments{

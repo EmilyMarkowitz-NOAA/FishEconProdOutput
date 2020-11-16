@@ -320,6 +320,214 @@ lmCheck<-function(Columns, temp) {
   return(lm_check)
 }
 
+
+#' Functions to create data set
+#'
+#' function is for specific series (i.e. finfish, shellfish)
+#' @param data The dataset you would like to use.
+#' @param category Category character string.
+#' @param beg.year The year to assess your dollars in.
+#' @export
+#' @examples
+#' spcat()
+spcat<-function(data,category,beg.year){
+
+  set1<-as.data.table(subset(data, category.orig==category & Year>=beg.year))
+  set1<-set1[,.(sum(Pounds), sum(Dollars)),  #aggregate by Year and Tsn
+             keyby= .(Year,Tsn)]
+  colnames(set1)[3]<-"q"          #set column name equal to q
+  colnames(set1)[4]<-"v"          #set column name equal to v
+  set1$p=set1$v/set1$q            #define implicit price as v/q
+
+  colnames(set1)[2]<-"prod"                 #set name of 2nd column to "prod" rather than tsn
+  set1<-subset(set1, p>0 & v>0 & q>0)  #only keep observations with positive p,v,q
+
+  return(set1)
+}
+
+
+#' Functions to create data set
+#'
+#' for pulling all data regardless of species
+#' @param data The dataset you would like to use.
+#' @param beg.year The year to assess your dollars in.
+#' @export
+#' @examples
+#' sp()
+sp<-function(data,beg.year){
+
+  set1<-as.data.table(subset(data, Year>=beg.year))
+  set1<-set1[,.(sum(Pounds), sum(Dollars)),  #aggregate by Year and Tsn
+             keyby= .(Year,Tsn)]
+  colnames(set1)[3]<-"q"          #set column name equal to q
+  colnames(set1)[4]<-"v"          #set column name equal to v
+  set1$p=set1$v/set1$q            #define implicit price as v/q
+
+  colnames(set1)[2]<-"prod"                 #set name of 2nd column to "prod" rather than tsn
+  set1<-subset(set1, p>0 & v>0 & q>0)  #only keep observations with positive p,v,q
+
+  return(set1)
+}
+
+#' Tornqvist Price Index Base Year Function
+#'
+#' Tornqvist Price Index Base Year Function
+#' @param data1 The dataset you would like to use.
+#' @param Year Name of the column holding year data.
+#' @param pvar Name of the column holding price data.
+#' @param qvar Name of the column holding quantity data.
+#' @param vvar Name of the column holding value data.
+#' @param prodID Name of the column holding prodID data.
+#' @export
+#' @examples
+#' tornb()
+tornb<-#function(data1, baseyr){
+  function(data1, Year, pvar, qvar = NA, vvar, prodID) {
+
+    names(data1)[names(data1) %in% Year]<-"Year"
+    if (is.na(qvar)){
+      names(data1)[names(data1) %in% qvar]<-"q"
+    }
+    names(data1)[names(data1) %in% qvar]<-"q"
+    names(data1)[names(data1) %in% vvar]<-"v"
+    names(data1)[names(data1) %in% prodID]<-"prod"
+    data1<-data1[,c("Year", "p", "q", "v", "prod")]
+
+  years<-unique(data1$Year)
+  N=length(years)
+  min1=min(years)
+  max1=max(years)
+
+  FPI<-as.data.frame(matrix(0,nrow=N,2)) #Set up Data frame to hold results
+  colnames(FPI)[1]<-"Year"                #Name columns in Data Frame PI
+  colnames(FPI)[2]<-"BPI"
+
+  FPI[,1]=years                       #Put Years into first column of dataframe
+
+  t=1
+
+  for(i in (min1:max1)){
+
+    base<-subset(data1, (Year==baseyr & p>0 & v>0))    #only keep observations with positive p,q,v
+    year2<-subset(data1, (Year==i & p>0 & v>0))        #only keep observations with positive p,q,v
+
+    year1_2<-merge(base, year2, by="prod", all.x=TRUE, all.y=TRUE, no.dups=TRUE) #merge two data frames
+
+    year1_2<-na.omit(year1_2)  #Any rows with "NA" values are deleted.
+
+    yr1tval=sum(year1_2$v.x)   #Calculate total value for year 1
+    yr2tval=sum(year1_2$v.y)   #Calculate total value for year 2
+
+    year1_2$yr1shr=(year1_2$v.x/yr1tval) #calculate share values for year 1 products
+    year1_2$yr2shr=(year1_2$v.y/yr2tval) #calculate share values for year 2 products
+
+    year1_2$avgr=(year1_2$yr1shr+year1_2$yr2shr)/2     #calculate average share values for years 1 and 2
+
+    year1_2$tp=(year1_2$p.y/year1_2$p.x)^(year1_2$avgr) #calculate tornqvist value for each product
+
+    BTI=prod(year1_2$tp)   #calculates total tornqvist value
+
+    FPI[t,2]=BTI #creates base Tornqvist Value
+    t=t+1
+  }
+
+  return(FPI)
+}
+
+
+#' Tornqvist Price Index Base Year chain Function
+#'
+#' Tornqvist Price Index Base Year chain Function
+#' @param data1 The dataset you would like to use.
+#' @param Year Name of the column holding year data.
+#' @param pvar Name of the column holding price data.
+#' @param qvar Name of the column holding quantity data.
+#' @param vvar Name of the column holding value data.
+#' @param prodID Name of the column holding prodID data.
+#' @export
+#' @examples
+#' tornc()
+tornc<-#function(data1, baseyr){
+  function(data1, Year, pvar, qvar = NA, vvar, prodID) {
+
+    names(data1)[names(data1) %in% Year]<-"Year"
+    names(data1)[names(data1) %in% pvar]<-"p"
+    if (is.na(qvar)){
+      names(data1)[names(data1) %in% qvar]<-"q"
+    }
+    names(data1)[names(data1) %in% vvar]<-"v"
+    names(data1)[names(data1) %in% prodID]<-"prod"
+    data1<-data1[,c("Year", "p", "q", "v", "prod")]
+# tornc<-function(data1,base.year){
+#
+#   years<-unique(data1$Year)
+#   N=length(years)
+#   min1=min(years)
+#   max1=max(years)
+
+  CPI<-as.data.frame(matrix(0,nrow=N,3)) #Set up Data frame to hold results
+  colnames(CPI)[1]<-"Year"                #Name columns in Data Frame PI
+  colnames(CPI)[2]<-"CPI"
+  colnames(CPI)[3]<-"BPI"
+
+  CPI[,1]=years                      #Put Years into first column of dataframe
+  CPI[1,2]=1
+
+  t=1
+
+  for(i in min1:(max1-1)){
+
+    year1<-subset(data1, (Year==i & p>0 & v>0))    #only keep observations with positive p,q,v
+    year2<-subset(data1, (Year==(i+1) & p>0 & v>0))#only keep observations with positive p,q,v
+
+    year1_2<-merge(year1, year2, by="prod", all.x=TRUE, all.y=TRUE, no.dups=TRUE) #merge two data frames
+
+    year1_2<-na.omit(year1_2)  #Any rows with "NA" values are deleted.
+
+    yr1tval=sum(year1_2$v.x)   #Calculate total value for year 1
+    yr2tval=sum(year1_2$v.y)   #Calculate total value for year 2
+
+    year1_2$yr1shr=(year1_2$v.x/yr1tval) #calculate share values for year 1 products
+    year1_2$yr2shr=(year1_2$v.y/yr2tval) #calculate share values for year 2 products
+
+    year1_2$avgr=(year1_2$yr1shr+year1_2$yr2shr)/2     #calculate average share values for years 1 and 2
+
+    year1_2$tp=(year1_2$p.y/year1_2$p.x)^(year1_2$avgr) #calculate tornqvist value for each product
+
+    CPTI=prod(year1_2$tp)   #calculates total tornqvist value
+
+
+    CPI[(t+1),2]=CPI[t,2]*CPTI #creates chained Tornqvist Value
+
+    t=t+1
+  }
+  baseval=CPI[CPI$Year == base.year,2]
+  CPI$BPI=CPI$CPI/baseval
+
+
+  return(CPI)
+  }
+
+
+#' Sum values in a column
+#'
+#' Sum values in a column
+#' @param data1 The dataset you would like to use.
+#' @param name Name of the column you want summed by "Year."
+#' @export
+#' @examples
+#' sumval()
+sumval<-function(data1,name){
+  data1<-as.data.table(data1)
+  data2<-data1[,.(sum(v)),
+               keyby= .(Year)]
+
+  colnames(data2)[2]<-"v"    #Put in column name
+  data2$prod<-name
+
+  return(data2)
+}
+
 #' Price Methods - Category Level
 #'
 #' This function systematically runs the Price Method Productivity Output analysis for all species of a cateorgy.
@@ -334,6 +542,459 @@ lmCheck<-function(Columns, temp) {
 #' @examples
 #' PriceMethodOutput_Category()
 PriceMethodOutput_Category<-#ImplicitQuantityOutput.speciescat.p<-
+  function(temp, ii, category, category0,
+           baseyr, maxyr, minyr,
+           pctmiss, warnings.list = ls(),
+           MinimumNumberOfSpecies = 1) {
+
+    TPI<-tornc
+
+    maxyr<-max(temp$Year)
+    minyr<-min(temp$Year)
+
+    temp<-data.frame(temp)
+    temp.cat<-temp[temp[,category0] %in% category, ]
+    # temp.cat<-as.data.table(subset(data2, category.orig==category))
+    # temp.cat<-temp.cat[,.(sum(Pounds), sum(Dollars)),  #aggregate by Year and Tsn
+    #                      keyby= .(Year,Tsn)]
+
+    temp.cat<-aggregate.data.frame(x = temp.cat[,c("Pounds", "Dollars")],
+                                   by = list("Year" = temp.cat$Year, "Tsn" = temp.cat$Tsn),
+                                   FUN = sum, na.rm=T)
+
+    temp.cat$cat<-category
+
+    names(temp.cat)[names(temp.cat) %in% "Pounds"]<-"q"
+    names(temp.cat)[names(temp.cat) %in% "Dollars"]<-"v"
+
+    temp.cat$p<-temp.cat$v/temp.cat$q
+
+    Year<-c(minyr:maxyr)                   #set array from 1950:2019
+    time<-(Year-(minyr-1))                        #set array from 1 to 70
+    tyear<-as.data.frame(cbind(Year,time)) #create data frame with Year and time
+
+    temp.cat<-join(temp.cat, tyear, by="Year", type="inner") #join shellfish and tyear
+    names(temp.cat)[names(temp.cat) %in% "Tsn"]<-"prod"
+
+    temp.cat<-subset(temp.cat, p>0 & v>0 & q>0)  #only keep observations with positive p,v,q
+
+    if (sum(minyr:maxyr %in% unique(temp.cat$Year)) != length(minyr:maxyr)) {
+
+      #    if (sum(minyr:maxyr %in% unique(temp.cat$Year))/(length(minyr:maxyr))>pctmiss) {
+      #
+      #      warnings.list<-c(warnings.list, list(paste0("FYI: ", NameBasecategory, " is no longer being calculated because there were no more available columns o P after data was removed for not meeting the pctmiss")))
+      #    }
+      # } else {
+
+      # if (sum(minyr:maxyr %in% unique(temp.cat$Year))/(length(minyr:maxyr))>pctmiss) {
+      #   warnings.list<-c(warnings.list, list(paste0("FYI: ", NameBasecategory, " is no longer being calculated because there were no more available columns o P after data was removed for not meeting the pctmiss")))
+      # } else {
+
+      temp0<-data.frame(matrix(data = NA,
+                               nrow = length(setdiff(x = minyr:maxyr, y = unique(temp.cat$Year))),
+                               ncol = ncol(temp.cat)))
+      names(temp0)<-names(temp.cat)
+      temp0$Year<-setdiff(x = minyr:maxyr, y = unique(temp.cat$Year))
+      temp0$cat<-category
+      temp0$time<-setdiff(x = ((minyr:maxyr)-(minyr-1)), y = unique(temp.cat$time))
+      temp0$prod<-0
+
+      temp.cat<-rbind.data.frame(temp.cat, temp0)
+      temp.cat<-temp.cat[order(temp.cat$Year),]
+
+      #imputed
+      temp.cat<-ReplaceFirst(colnames = c("p", "q", "v"), temp = temp.cat)
+      temp.cat<-ReplaceMid(colnames = c("p", "q", "v"), temp = temp.cat)
+
+      warnings.list<-c(warnings.list, list(paste0('Warning: ',category,': Error in priceIndex(temp.cat, pvar = "p", qvar = "q", pervar = "time",  : The time period variable is not continuous. ')))
+      # }
+    }
+
+    temp.ind<-data.frame(tyear)
+    temp.ind$PI_Base_funct<-priceIndex(temp.cat,
+                                       pvar='p',
+                                       qvar='q',
+                                       pervar='time',
+                                       prodID = 'prod',
+                                       sample='matched',
+                                       output='fixedBase',
+                                       indexMethod='Tornqvist')  #This is a fixed base index
+
+
+
+    if ((sum(minyr:maxyr %in% unique(temp.cat$Year)) != length(minyr:maxyr))) {
+      warnings.list<-c(warnings.list,
+                       list(paste0(category,' with fixed base: ', warnings())))
+    }
+
+    temp.ind$PI_Chained_funct<-priceIndex(temp.cat,
+                                          pvar='p',
+                                          qvar='q',
+                                          pervar='time',
+                                          prodID = 'prod',
+                                          sample='matched',
+                                          indexMethod='Tornqvist',
+                                          output='chained')      #This is a chain Index
+
+
+
+    if ((sum(minyr:maxyr %in% unique(temp.cat$Year)) != length(minyr:maxyr))) {
+      warnings.list<-c(warnings.list,
+                       list(paste0(category,' with chained: ', warnings())))
+    }
+
+    a<-TPI(dat = temp.cat,
+           Year = "Year",
+           pvar = "p",
+           qvar = "q",
+           vvar = "v",
+           prodID = "prod")
+
+
+    names(a)[names(a) %in% "CPI"]<-"PI_Chained_John"
+
+    temp.ind<-merge.data.frame(x = a, y = temp.ind, by = "Year")
+
+
+
+    temp.cat0<-aggregate.data.frame(x = temp.cat[,c("v", "q")],
+                                    by = list("Year" = temp.cat$Year),
+                                    FUN = sum, na.rm=T)
+    temp.cat0$p<-temp.cat0$v/temp.cat0$q
+
+    temp.ind<-merge.data.frame(x = temp.cat0, y = temp.ind, by = "Year")
+
+    # rownames(temp.ind)<-temp.ind$Year
+    # temp.ind$Year<-NULL
+    # temp.ind$time<-NULL
+    temp.ind<-cbind.data.frame(cat = category,
+                               cat0 = ii,
+                               temp.ind)
+
+    temp.cat$cat0<-ii
+
+    return(list("Index" = temp.ind,
+                "Species Level" = temp.cat,
+                "warnings.list" = warnings.list))
+  }
+
+#' Price Method
+#'
+#' This function calculates the Implicit Quanity Output at Fishery Level by systematically runing the Price Method Productivity Output analysis for all species of each cateorgy.
+#' @param temp Default dataset.
+#' @param baseyr Numeric year (YYYY). The base year you are assessing the anaylsis with. Typically this is the earliest year in the data set, but it can be any year you choose.
+#' @param pctmiss Percent missing threshold. For 60 percent use "0.6." Default is 1.00.
+#' @param title0 Title of analysis
+#' @param place Area you are assessing the analysis for. This can also be used as a title.
+#' @param MinimumNumberOfSpecies An integer indicating the minimum number of species the user is willing to use in an analysis. If set to 1, the analysis will run even if the category only has one species. If set to 10, the analysis will run if there is 10 , 11, or more species, but not 9 or less species. Default = 2.
+#' @export
+#' @examples
+#' PriceMethodOutput()
+PriceMethodOutput<-#ImplicitQuantityOutput.p<-
+  function(temp, baseyr, pctmiss = 1.00,
+           title0 = "", place = "", MinimumNumberOfSpecies = 2, category0){
+
+
+    TPI<-tornc
+
+    temp.orig<-data.frame(temp)
+
+    warnings.list<-list()
+    figures.list<-list()
+    spp.level<-data.frame()
+    index.data<-data.frame()
+
+    ########Housekeeping
+    # Here I am just going to collect some housekeeping items
+
+    # NumberOfSpecies<-numbers0(x = c(0, strsplit(x =
+    #                                               strsplit(x = names(temp)[2],
+    #                                                        split = "_")[[1]][2],
+    #                                             split = "[a-zA-Z]")[[1]][1]))[1]
+
+    category_name<-sort(unique(temp[,category0]))
+    category.rm<-c()
+
+    maxyr<-max(temp$Year)
+    minyr<-min(temp$Year)
+
+    for (ii in 1:length(category_name)) {
+
+      category<-category_name[ii]
+
+      #if there are still columns to assess that haven't been "removed"
+      # if (length(VColumns) != 0) {
+      ###Append species and category level calculations
+      temp00<-PriceMethodOutput_Category(temp, ii=ii, category = category, category0 = category0,
+                                         baseyr, maxyr, minyr,
+                                         pctmiss, warnings.list,
+                                         MinimumNumberOfSpecies)
+
+      index.data<-rbind.data.frame(index.data,
+                                   temp00$Index)
+
+      spp.level<-rbind.data.frame(spp.level,
+                                  temp00$`Species Level`)
+
+      warnings.list1<-temp00$warnings.list
+      warnings.list1<-unique(warnings.list1)
+
+
+      # #If data for a catagory is no longer available after precentmissingthreshold etc, remove it from the category lineup
+      #
+      # if (sum(names(temp00[1][[1]]) %in% paste0("QI", NameBasecategory)) == 0) {
+      #   category.rm<-c(category.rm, ii)
+      # } else {
+      #   temp1<-temp00[[1]]
+      #   #remove duplicates
+      #   temp1<-temp1[, !(grepl(pattern = "\\.[0-9]+", x = names(temp1)))]
+      #   temp1 <- temp1[, !duplicated(colnames(temp1))]
+      #   temp0<-cbind.data.frame(temp0, temp1)
+      #
+      #   ###Remove duplicate columns
+      #   temp0<-temp0[, !(grepl(pattern = "\\.[0-9]+", x = names(temp0)))]
+      # }
+      #
+      #
+      # # warnings.list1<-QuantityMethodOutput_Category(temp, ii=category[ii],
+      # #                                                                 baseyr, maxyr, minyr,
+      # #                                                                 pctmiss, warnings.list)[[2]]
+
+      warnings.list<-c(warnings.list, warnings.list1)
+
+    }
+
+
+    #Whole fishery
+
+    temp.ind0<-data.frame(matrix(data = NA,
+                                 nrow = length(minyr:maxyr),
+                                 ncol = ncol(index.data)))
+    names(temp.ind0)<-names(index.data)
+    temp.ind0$Year<-minyr:maxyr
+    temp.ind0$time<-((minyr:maxyr)-(minyr-1))
+    temp.ind0$cat<-"Total"
+    temp.ind0$cat0<-0
+
+
+    temp.ind00<-aggregate.data.frame(x = index.data[,c("v", "q")],
+                                     by = list("Year" = index.data$Year),
+                                     FUN = sum, na.rm=T)
+
+    temp.ind00$p<-temp.ind00$v/temp.ind00$q
+
+    temp.ind0$v<-temp.ind00$v
+    temp.ind0$q<-temp.ind00$q
+    temp.ind0$p0<-temp.ind00$p
+
+
+    ########TOLEDO - am I supposed to find implicit Q by V*PI?
+
+    # #Implicit V
+    # index.data$v_Chained_John<-index.data$q/index.data$PI_Chained_John
+    # index.data$v_Base_funct<-index.data$q/index.data$PI_Base_funct
+    # index.data$v_Chained_funct<-index.data$q/index.data$PI_Chained_funct
+
+    #Implicit Q
+    index.data$Q_Chained_John<-index.data$v*index.data$PI_Chained_John
+    index.data$Q_Base_funct<-index.data$v*index.data$PI_Base_funct
+    index.data$Q_Chained_funct<-index.data$v*index.data$PI_Chained_funct
+
+
+    temp.ind0$PI_Base_funct<-priceIndex(index.data,
+                                        pvar='PI_Base_funct',
+                                        qvar='q', # this might just need to be "Q_Base_funct"
+                                        pervar='time',
+                                        prodID = 'cat',
+                                        sample='matched',
+                                        output='fixedBase',
+                                        indexMethod='Tornqvist')  #This is a fixed base index
+
+
+    temp.ind0$PI_Chained_funct<-priceIndex(index.data,
+                                           pvar='PI_Chained_funct',
+                                           qvar='q', # this might just need to be "Q_Chained_John"
+                                           pervar='time',
+                                           prodID = 'cat',
+                                           sample='matched',
+                                           indexMethod='Tornqvist',
+                                           output='chained')      #This is a chain Index
+
+
+    names(index.data)[names(index.data) %in% "p"]<-"p0"
+    a<-TPI(dat = index.data,
+           Year = "Year",
+           pvar = "PI_Chained_John",
+           qvar = "q",  # this might just need to be "Q_Chained_John"
+           vvar = "v",
+           prodID = "cat")
+
+    temp.ind0$PI_Chained_John<-a$CPI[-nrow(a)]
+
+    # temp.ind0$p<-temp.ind0$p0
+    temp.ind0$p<-NULL
+
+    ########TOLEDO - am I supposed to find implicit Q by V*PI?
+
+    # #Implicit V
+    # index.data$v_Chained_John<-index.data$q/index.data$PI_Chained_John
+    # index.data$v_Base_funct<-index.data$q/index.data$PI_Base_funct
+    # index.data$v_Chained_funct<-index.data$q/index.data$PI_Chained_funct
+
+    #Implicit Q
+    temp.ind0$Q_Chained_John<-temp.ind0$v*temp.ind0$PI_Chained_John
+    temp.ind0$Q_Base_funct<-temp.ind0$v*temp.ind0$PI_Base_funct
+    temp.ind0$Q_Chained_funct<-temp.ind0$v*temp.ind0$PI_Chained_funct
+
+    temp.ind0<-temp.ind0[, match(table = names(temp.ind0), x = names(index.data))]
+
+    index.data<-rbind.data.frame(index.data, temp.ind0)
+
+
+
+
+    ##########Make plots#########
+
+    place<-title0
+
+    NOAALightBlue<-"#C9E1E6"
+    NOAADarkBlue<-"#0098A6"
+    NOAADarkGrey<-"#56575A" #text
+    NOAABlueScale<-colorRampPalette(colors = c(NOAALightBlue, NOAADarkBlue))
+
+    #############Compare Price Indexes for Total and Each Category
+
+    for (i in 1:length(unique(index.data$cat))) {
+
+      title00<-paste0("_PI_", unique(index.data$cat)[i])
+
+      a0<-index.data[index.data$cat %in% unique(index.data$cat)[i],
+                     c("Year", "PI_Chained_John", "PI_Base_funct", "PI_Chained_funct")]
+
+      a <- gather(a0, cat, val, c("PI_Chained_John", "PI_Base_funct", "PI_Chained_funct"), factor_key=TRUE)
+
+      g<-plotnlines(dat = a, title00, place)
+
+      figures.list[[length(figures.list)+1]]<-g
+      names(figures.list)[length(figures.list)]<-paste0(title0, title00)
+
+    }
+
+    #############Compare each type of Price Indexes across Each Category
+    for (i in c("PI_Chained_John", "PI_Base_funct", "PI_Chained_funct") ) {
+
+      title00<-paste0("_", i)
+
+      a0<-index.data[,
+                     c("Year", "cat", i)]
+      names(a0)[3]<-"val"
+
+      a<-a0
+
+      g<-plotnlines(dat = a, title00, place)
+
+      figures.list[[length(figures.list)+1]]<-g
+      names(figures.list)[length(figures.list)]<-paste0(title0, title00)
+
+    }
+
+    #############Compare each type of Price Indexes across Each Category
+    for (i in c("q", "Q_Chained_John", "Q_Base_funct", "Q_Chained_funct") ) {
+
+      title00<-paste0("_", i)
+
+      a0<-index.data[,
+                     c("Year", "cat", i)]
+      names(a0)[3]<-"val"
+
+      a<-a0
+
+      g<-plotnlines(dat = a, title00, place)
+
+      figures.list[[length(figures.list)+1]]<-g
+      names(figures.list)[length(figures.list)]<-paste0(title0, title00)
+
+    }
+
+    #############Plot Category and Total Q
+    title00<-"_Q_CatTot"
+
+    a<-index.data[,c("Year", "cat", "q")]
+    names(a)[3]<-"val"
+
+    g<-plotnlines(dat = a, title00, place)
+
+    figures.list[[length(figures.list)+1]]<-g
+    names(figures.list)[length(figures.list)]<-paste0(title0, title00)
+
+    #############Plot Category and Total Q
+    title00<-"_Q_Chained_John_CatTot"
+
+    a<-index.data[,c("Year", "cat", "Q_Chained_John")]
+    names(a)[3]<-"val"
+
+    g<-plotnlines(dat = a, title00, place)
+
+    figures.list[[length(figures.list)+1]]<-g
+    names(figures.list)[length(figures.list)]<-paste0(title0, title00)
+
+    #############Plot Category and Total Q
+    title00<-"_Q_Base_funct_CatTot"
+
+    a<-index.data[,c("Year", "cat", "Q_Base_funct")]
+    names(a)[3]<-"val"
+
+    g<-plotnlines(dat = a, title00, place)
+
+    figures.list[[length(figures.list)+1]]<-g
+    names(figures.list)[length(figures.list)]<-paste0(title0, title00)
+
+    #############Plot Category and Total Q
+    title00<-"_Q_Chained_funct_CatTot"
+
+    a<-index.data[,c("Year", "cat", "Q_Chained_funct")]
+    names(a)[3]<-"val"
+
+    g<-plotnlines(dat = a, title00, place)
+
+    figures.list[[length(figures.list)+1]]<-g
+    names(figures.list)[length(figures.list)]<-paste0(title0, title00)
+
+    #############Plot Category and Total V
+    title00<-"_V_CatTot"
+
+    a<-index.data[,c("Year", "cat", "v")]
+    names(a)[3]<-"val"
+
+    g<-plotnlines(dat = a, title00, place)
+
+    figures.list[[length(figures.list)+1]]<-g
+    names(figures.list)[length(figures.list)]<-paste0(title0, title00)
+
+
+
+    #############Save Wrok
+    return(list("index.data" = index.data,
+                "warnings.list" = warnings.list,
+                "figures.list" = figures.list))
+
+  }
+
+
+#' Price Methods - Category Level - old
+#'
+#' This function systematically runs the Price Method Productivity Output analysis for all species of a cateorgy.
+#' @param temp Default dataset.
+#' @param ii Category number.
+#' @param maxyr The maxium year to assess in the dataset.
+#' @param minyr The minium year to assess in the dataset.
+#' @param pctmiss Percent missing threshold. For 60 percent use "0.6." Default is 1.00.
+#' @param warnings.list A list where warnings are stored. If using this function in the PriceMethodOutput it will be inherited. If using outside of that function, put ls().
+#' @param MinimumNumberOfSpecies An integer indicating the minimum number of species the user is willing to use in an analysis. If set to 1, the analysis will run even if the category only has one species. If set to 10, the analysis will run if there is 10 , 11, or more species, but not 9 or less species. Default = 1.
+#' @export
+#' @examples
+#' PriceMethodOutput_Category0()
+PriceMethodOutput_Category0<-#ImplicitQuantityOutput.speciescat.p<-
   function(temp, ii, baseyr, maxyr, minyr, pctmiss, warnings.list = ls(),
            MinimumNumberOfSpecies = 1) {
 
@@ -358,10 +1019,18 @@ PriceMethodOutput_Category<-#ImplicitQuantityOutput.speciescat.p<-
                                          start = 1,
                                          stop = (2+nchar(ii))))
 
+    QColumns0<-QColumns0[!(grepl(pattern = NumberOfSpecies, x = names(temp)[QColumns0]))]
+    QColumns<-QColumns[!(grepl(pattern = NumberOfSpecies, x = names(temp)[QColumns]))]
+
+
     VColumns0<-VColumns<-grep(pattern = paste0("V", ii,"_"),
                               x = substr(x = names(temp),
                                          start = 1,
                                          stop = (2+nchar(ii))))
+
+    VColumns0<-VColumns0[!(grepl(pattern = NumberOfSpecies, x = names(temp)[VColumns0]))]
+    VColumns<-VColumns[!(grepl(pattern = NumberOfSpecies, x = names(temp)[VColumns]))]
+
 
     NameBasecategory<-names(temp)[grepl(pattern = paste0("VE", ii,"_"),
                                         x = substr(x = names(temp),
@@ -770,7 +1439,7 @@ PriceMethodOutput_Category<-#ImplicitQuantityOutput.speciescat.p<-
   }
 
 
-#' Price Method
+#' Price Method - old
 #'
 #' This function calculates the Implicit Quanity Output at Fishery Level by systematically runing the Price Method Productivity Output analysis for all species of each cateorgy.
 #' @param temp Default dataset.
@@ -781,8 +1450,8 @@ PriceMethodOutput_Category<-#ImplicitQuantityOutput.speciescat.p<-
 #' @param MinimumNumberOfSpecies An integer indicating the minimum number of species the user is willing to use in an analysis. If set to 1, the analysis will run even if the category only has one species. If set to 10, the analysis will run if there is 10 , 11, or more species, but not 9 or less species. Default = 2.
 #' @export
 #' @examples
-#' PriceMethodOutput()
-PriceMethodOutput<-#ImplicitQuantityOutput.p<-
+#' PriceMethodOutput0()
+PriceMethodOutput0<-#ImplicitQuantityOutput.p<-
   function(temp, baseyr, pctmiss = 1.00,
            title0 = "", place = "", MinimumNumberOfSpecies = 2){
 
@@ -1339,7 +2008,7 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
 
 
 
-#' Create Price Methods Plots
+#' Create Price Methods Plots - old
 #'
 #' This function produces popular plots for the Price Method Productivity Output analysis.
 #' @param temp Default dataset from analysis.
@@ -1351,8 +2020,8 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
 #' @param NameBaseTotal The base name of the total columns.
 #' @export
 #' @examples
-#' PriceMethodOutput_Plots()
-PriceMethodOutput_Plots<-function(temp, temp.orig, baseyr, title0 = "", NumberOfSpecies, figures.list = list(), NameBaseTotal) {
+#' PriceMethodOutput_Plots0()
+PriceMethodOutput_Plots0<-function(temp, temp.orig, baseyr, title0 = "", NumberOfSpecies, figures.list = list(), NameBaseTotal) {
 
     place<-title0
 
@@ -2162,14 +2831,13 @@ QuantityMethodOutput<-#ImplicitQuantityOutput.q<-
   function(temp, baseyr, pctmiss = 1.00,
            title0 = "", place = "", MinimumNumberOfSpecies = 2){
 
-    temp.orig<-temp
+    temp.orig<-data.frame(temp)
 
     warnings.list<-list()
     figures.list<-list()
 
     ########Housekeeping
     # Here I am just going to collect some housekeeping items
-    temp<-data.frame(temp)
 
     NumberOfSpecies<-numbers0(x = c(0, strsplit(x =
                                                   strsplit(x = names(temp)[2],

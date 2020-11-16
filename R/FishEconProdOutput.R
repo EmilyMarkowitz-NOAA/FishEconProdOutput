@@ -378,11 +378,12 @@ sp<-function(data,beg.year){
 #' @param qvar Name of the column holding quantity data.
 #' @param vvar Name of the column holding value data.
 #' @param prodID Name of the column holding prodID data.
+#' @param base.year The year dollar values need to be in.
 #' @export
 #' @examples
 #' tornb()
 tornb<-#function(data1, baseyr){
-  function(data1, Year, pvar, qvar = NA, vvar, prodID) {
+  function(data1, Year, pvar, qvar = NA, vvar, prodID, base.year) {
 
     names(data1)[names(data1) %in% Year]<-"Year"
     if (is.na(qvar)){
@@ -444,11 +445,12 @@ tornb<-#function(data1, baseyr){
 #' @param qvar Name of the column holding quantity data.
 #' @param vvar Name of the column holding value data.
 #' @param prodID Name of the column holding prodID data.
+#' @param base.year The year dollar values need to be in.
 #' @export
 #' @examples
 #' tornc()
 tornc<-#function(data1, baseyr){
-  function(data1, Year, pvar, qvar = NA, vvar, prodID) {
+  function(data1, Year, pvar, qvar = NA, vvar, prodID, base.year) {
 
     names(data1)[names(data1) %in% Year]<-"Year"
     names(data1)[names(data1) %in% pvar]<-"p"
@@ -460,10 +462,10 @@ tornc<-#function(data1, baseyr){
     data1<-data1[,c("Year", "p", "q", "v", "prod")]
 # tornc<-function(data1,base.year){
 #
-#   years<-unique(data1$Year)
-#   N=length(years)
-#   min1=min(years)
-#   max1=max(years)
+  years<-unique(data1$Year)
+  N=length(years)
+  min1=min(years)
+  max1=max(years)
 
   CPI<-as.data.frame(matrix(0,nrow=N,3)) #Set up Data frame to hold results
   colnames(CPI)[1]<-"Year"                #Name columns in Data Frame PI
@@ -546,6 +548,7 @@ PriceMethodOutput_Category<-#ImplicitQuantityOutput.speciescat.p<-
            baseyr, maxyr, minyr,
            pctmiss, warnings.list = ls(),
            MinimumNumberOfSpecies = 1) {
+
 
     TPI<-tornc
 
@@ -643,19 +646,33 @@ PriceMethodOutput_Category<-#ImplicitQuantityOutput.speciescat.p<-
                        list(paste0(category,' with chained: ', warnings())))
     }
 
-    a<-TPI(dat = temp.cat,
+    #Chain
+    a<-tornc(dat = temp.cat,
            Year = "Year",
            pvar = "p",
            qvar = "q",
            vvar = "v",
-           prodID = "prod")
+           prodID = "prod",
+           base.year = baseyr)
 
 
     names(a)[names(a) %in% "CPI"]<-"PI_Chained_John"
 
     temp.ind<-merge.data.frame(x = a, y = temp.ind, by = "Year")
 
+    #Base
+    a<-tornb(dat = temp.cat,
+             Year = "Year",
+             pvar = "p",
+             qvar = "q",
+             vvar = "v",
+             prodID = "prod",
+             base.year = baseyr)
 
+
+    names(a)[names(a) %in% "BPI"]<-"PI_Base_John"
+
+    temp.ind<-merge.data.frame(x = a, y = temp.ind, by = "Year")
 
     temp.cat0<-aggregate.data.frame(x = temp.cat[,c("v", "q")],
                                     by = list("Year" = temp.cat$Year),
@@ -693,6 +710,7 @@ PriceMethodOutput_Category<-#ImplicitQuantityOutput.speciescat.p<-
 PriceMethodOutput<-#ImplicitQuantityOutput.p<-
   function(temp, baseyr, pctmiss = 1.00,
            title0 = "", place = "", MinimumNumberOfSpecies = 2, category0){
+
 
 
     TPI<-tornc
@@ -822,14 +840,27 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
 
 
     names(index.data)[names(index.data) %in% "p"]<-"p0"
-    a<-TPI(dat = index.data,
+    a<-tornc(dat = index.data,
            Year = "Year",
            pvar = "PI_Chained_John",
            qvar = "q",  # this might just need to be "Q_Chained_John"
            vvar = "v",
-           prodID = "cat")
+           prodID = "cat",
+           base.year = baseyr)
 
     temp.ind0$PI_Chained_John<-a$CPI[-nrow(a)]
+
+
+    names(index.data)[names(index.data) %in% "p"]<-"p0"
+    a<-tornb(dat = index.data,
+           Year = "Year",
+           pvar = "PI_Base_John",
+           qvar = "q",  # this might just need to be "Q_Chained_John"
+           vvar = "v",
+           prodID = "cat",
+           base.year = baseyr)
+
+    temp.ind0$PI_base_John<-a$BPI[-nrow(a)]
 
     # temp.ind0$p<-temp.ind0$p0
     temp.ind0$p<-NULL

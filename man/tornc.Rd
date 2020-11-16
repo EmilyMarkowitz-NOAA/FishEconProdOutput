@@ -4,7 +4,7 @@
 \alias{tornc}
 \title{Tornqvist Price Index Base Year chain Function}
 \usage{
-tornc(data1, Year, pvar, qvar = NA, vvar, prodID)
+tornc(data1, Year, pvar, qvar = NA, vvar, prodID, base.year)
 }
 \arguments{
 \item{data1}{The dataset you would like to use.}
@@ -18,6 +18,8 @@ tornc(data1, Year, pvar, qvar = NA, vvar, prodID)
 \item{vvar}{Name of the column holding value data.}
 
 \item{prodID}{Name of the column holding prodID data.}
+
+\item{base.year}{The year dollar values need to be in.}
 }
 \description{
 Tornqvist Price Index Base Year chain Function

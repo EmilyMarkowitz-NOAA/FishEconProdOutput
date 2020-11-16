@@ -386,26 +386,27 @@ tornb<-#function(data1, baseyr){
   function(data1, Year, pvar, qvar = NA, vvar, prodID, base.year) {
 
     names(data1)[names(data1) %in% Year]<-"Year"
+    names(data1)[names(data1) %in% pvar]<-"p"
     if (is.na(qvar)){
       names(data1)[names(data1) %in% qvar]<-"q"
     }
-    names(data1)[names(data1) %in% qvar]<-"q"
     names(data1)[names(data1) %in% vvar]<-"v"
     names(data1)[names(data1) %in% prodID]<-"prod"
     data1<-data1[,c("Year", "p", "q", "v", "prod")]
+    # tornc<-function(data1,base.year){
+    #
+    years<-unique(data1$Year)
+    N=length(years)
+    min1=min(years)
+    max1=max(years)
 
-  years<-unique(data1$Year)
-  N=length(years)
-  min1=min(years)
-  max1=max(years)
+    FPI<-as.data.frame(matrix(0,nrow=N,2)) #Set up Data frame to hold results
+    colnames(FPI)[1]<-"Year"                #Name columns in Data Frame PI
+    colnames(FPI)[2]<-"BPI"
 
-  FPI<-as.data.frame(matrix(0,nrow=N,2)) #Set up Data frame to hold results
-  colnames(FPI)[1]<-"Year"                #Name columns in Data Frame PI
-  colnames(FPI)[2]<-"BPI"
+    FPI[,1]=years                      #Put Years into first column of dataframe
 
-  FPI[,1]=years                       #Put Years into first column of dataframe
-
-  t=1
+    t=1
 
   for(i in (min1:max1)){
 
@@ -840,7 +841,7 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
 
 
     names(index.data)[names(index.data) %in% "p"]<-"p0"
-    a<-tornc(dat = index.data,
+    a<-tornc(data1 = index.data,
            Year = "Year",
            pvar = "PI_Chained_John",
            qvar = "q",  # this might just need to be "Q_Chained_John"
@@ -848,19 +849,18 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
            prodID = "cat",
            base.year = baseyr)
 
-    temp.ind0$PI_Chained_John<-a$CPI[-nrow(a)]
+    temp.ind0$PI_Chained_John<-a$CPI
+    temp.ind0$PI_Chained_Base_John<-a$BPI
 
-
-    names(index.data)[names(index.data) %in% "p"]<-"p0"
-    a<-tornb(dat = index.data,
+    a<-tornb(data1 = index.data,
            Year = "Year",
            pvar = "PI_Base_John",
-           qvar = "q",  # this might just need to be "Q_Chained_John"
+           qvar = "q",  # this might just need to be "Q_Base_John"
            vvar = "v",
            prodID = "cat",
            base.year = baseyr)
 
-    temp.ind0$PI_base_John<-a$BPI[-nrow(a)]
+    temp.ind0$PI_Base_John<-a$BPI
 
     # temp.ind0$p<-temp.ind0$p0
     temp.ind0$p<-NULL

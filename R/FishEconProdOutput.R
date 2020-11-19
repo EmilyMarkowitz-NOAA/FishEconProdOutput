@@ -400,6 +400,8 @@ tornb<-#function(data1, baseyr){
     min1=min(years)
     max1=max(years)
 
+    data1<-data1[order(data1$Year, decreasing = T),]
+
     FPI<-as.data.frame(matrix(0,nrow=N,2)) #Set up Data frame to hold results
     colnames(FPI)[1]<-"Year"                #Name columns in Data Frame PI
     colnames(FPI)[2]<-"BPI"
@@ -408,33 +410,33 @@ tornb<-#function(data1, baseyr){
 
     t=1
 
-  for(i in (min1:max1)){
+    for(i in (min1:max1)){
 
-    base<-subset(data1, (Year==baseyr & p>0 & v>0))    #only keep observations with positive p,q,v
-    year2<-subset(data1, (Year==i & p>0 & v>0))        #only keep observations with positive p,q,v
+      base<-subset(data1, (Year==baseyr & p>0 & v>0))    #only keep observations with positive p,q,v
+      year2<-subset(data1, (Year==i & p>0 & v>0))        #only keep observations with positive p,q,v
 
-    year1_2<-merge(base, year2, by="prod", all.x=TRUE, all.y=TRUE, no.dups=TRUE) #merge two data frames
+      year1_2<-merge(base, year2, by="prod", all.x=TRUE, all.y=TRUE, no.dups=TRUE) #merge two data frames
 
-    year1_2<-na.omit(year1_2)  #Any rows with "NA" values are deleted.
+      year1_2<-na.omit(year1_2)  #Any rows with "NA" values are deleted.
 
-    yr1tval=sum(year1_2$v.x)   #Calculate total value for year 1
-    yr2tval=sum(year1_2$v.y)   #Calculate total value for year 2
+      yr1tval=sum(year1_2$v.x, na.rm = T)   #Calculate total value for year 1
+      yr2tval=sum(year1_2$v.y, na.rm = T)   #Calculate total value for year 2
 
-    year1_2$yr1shr=(year1_2$v.x/yr1tval) #calculate share values for year 1 products
-    year1_2$yr2shr=(year1_2$v.y/yr2tval) #calculate share values for year 2 products
+      year1_2$yr1shr=(year1_2$v.x/yr1tval) #calculate share values for year 1 products
+      year1_2$yr2shr=(year1_2$v.y/yr2tval) #calculate share values for year 2 products
 
-    year1_2$avgr=(year1_2$yr1shr+year1_2$yr2shr)/2     #calculate average share values for years 1 and 2
+      year1_2$avgr=(year1_2$yr1shr+year1_2$yr2shr)/2     #calculate average share values for years 1 and 2
 
-    year1_2$tp=(year1_2$p.y/year1_2$p.x)^(year1_2$avgr) #calculate tornqvist value for each product
+      year1_2$tp=(year1_2$p.y/year1_2$p.x)^(year1_2$avgr) #calculate tornqvist value for each product
 
-    BTI=prod(year1_2$tp)   #calculates total tornqvist value
+      BTI=prod(year1_2$tp)   #calculates total tornqvist value
 
-    FPI[t,2]=BTI #creates base Tornqvist Value
-    t=t+1
+      FPI[t,2]=BTI #creates base Tornqvist Value
+      t=t+1
+    }
+
+    return(FPI)
   }
-
-  return(FPI)
-}
 
 
 #' Tornqvist Price Index Base Year chain Function
@@ -461,55 +463,58 @@ tornc<-#function(data1, baseyr){
     names(data1)[names(data1) %in% vvar]<-"v"
     names(data1)[names(data1) %in% prodID]<-"prod"
     data1<-data1[,c("Year", "p", "q", "v", "prod")]
-# tornc<-function(data1,base.year){
-#
-  years<-unique(data1$Year)
-  N=length(years)
-  min1=min(years)
-  max1=max(years)
+    # tornc<-function(data1,base.year){
+    #
+    years<-unique(data1$Year)
+    N=length(years)
+    min1=min(years)
+    max1=max(years)
 
-  CPI<-as.data.frame(matrix(0,nrow=N,3)) #Set up Data frame to hold results
-  colnames(CPI)[1]<-"Year"                #Name columns in Data Frame PI
-  colnames(CPI)[2]<-"CPI"
-  colnames(CPI)[3]<-"BPI"
+    data1<-data1[order(data1$Year, decreasing = T),]
 
-  CPI[,1]=years                      #Put Years into first column of dataframe
-  CPI[1,2]=1
+    CPI<-as.data.frame(matrix(0,nrow=N,3)) #Set up Data frame to hold results
+    colnames(CPI)[1]<-"Year"                #Name columns in Data Frame PI
+    colnames(CPI)[2]<-"CPI"
+    colnames(CPI)[3]<-"BPI"
 
-  t=1
+    CPI[,1]=years                      #Put Years into first column of dataframe
+    CPI[1,2]=1
 
-  for(i in min1:(max1-1)){
+    t=1
 
-    year1<-subset(data1, (Year==i & p>0 & v>0))    #only keep observations with positive p,q,v
-    year2<-subset(data1, (Year==(i+1) & p>0 & v>0))#only keep observations with positive p,q,v
+    for(i in min1:(max1-1)){
 
-    year1_2<-merge(year1, year2, by="prod", all.x=TRUE, all.y=TRUE, no.dups=TRUE) #merge two data frames
+      year1<-subset(data1, (Year==i & p>0 & v>0))    #only keep observations with positive p,q,v
+      year2<-subset(data1, (Year==(i+1) & p>0 & v>0))#only keep observations with positive p,q,v
 
-    year1_2<-na.omit(year1_2)  #Any rows with "NA" values are deleted.
+      year1_2<-merge(year1, year2, by="prod", all.x=TRUE, all.y=TRUE, no.dups=TRUE) #merge two data frames
 
-    yr1tval=sum(year1_2$v.x)   #Calculate total value for year 1
-    yr2tval=sum(year1_2$v.y)   #Calculate total value for year 2
+      year1_2<-na.omit(year1_2)  #Any rows with "NA" values are deleted.
 
-    year1_2$yr1shr=(year1_2$v.x/yr1tval) #calculate share values for year 1 products
-    year1_2$yr2shr=(year1_2$v.y/yr2tval) #calculate share values for year 2 products
+      yr1tval=sum(year1_2$v.x, na.rm = T)   #Calculate total value for year 1
+      yr2tval=sum(year1_2$v.y, na.rm = T)   #Calculate total value for year 2
 
-    year1_2$avgr=(year1_2$yr1shr+year1_2$yr2shr)/2     #calculate average share values for years 1 and 2
+      year1_2$yr1shr=(year1_2$v.x/yr1tval) #calculate share values for year 1 products
+      year1_2$yr2shr=(year1_2$v.y/yr2tval) #calculate share values for year 2 products
 
-    year1_2$tp=(year1_2$p.y/year1_2$p.x)^(year1_2$avgr) #calculate tornqvist value for each product
+      year1_2$avgr=(year1_2$yr1shr+year1_2$yr2shr)/2     #calculate average share values for years 1 and 2
 
-    CPTI=prod(year1_2$tp)   #calculates total tornqvist value
+      year1_2$tp=(year1_2$p.y/year1_2$p.x)^(year1_2$avgr) #calculate tornqvist value for each product
+
+      CPTI=prod(year1_2$tp)   #calculates total tornqvist value
 
 
-    CPI[(t+1),2]=CPI[t,2]*CPTI #creates chained Tornqvist Value
+      CPI[(t+1),2]=CPI[t,2]*CPTI #creates chained Tornqvist Value
 
-    t=t+1
+      t=t+1
+    }
+    baseval=CPI[CPI$Year == base.year,2]
+    CPI$BPI=CPI$CPI/baseval
+
+
+    return(CPI)
   }
-  baseval=CPI[CPI$Year == base.year,2]
-  CPI$BPI=CPI$CPI/baseval
 
-
-  return(CPI)
-  }
 
 
 #' Sum values in a column
@@ -549,9 +554,6 @@ PriceMethodOutput_Category<-#ImplicitQuantityOutput.speciescat.p<-
            baseyr, maxyr, minyr,
            pctmiss, warnings.list = ls(),
            MinimumNumberOfSpecies = 1) {
-
-
-    TPI<-tornc
 
     maxyr<-max(temp$Year)
     minyr<-min(temp$Year)
@@ -658,6 +660,7 @@ PriceMethodOutput_Category<-#ImplicitQuantityOutput.speciescat.p<-
 
 
     names(a)[names(a) %in% "CPI"]<-"PI_Chained_John"
+    names(a)[names(a) %in% "BPI"]<-"PI_Chained_Base_John"
 
     temp.ind<-merge.data.frame(x = a, y = temp.ind, by = "Year")
 
@@ -711,10 +714,6 @@ PriceMethodOutput_Category<-#ImplicitQuantityOutput.speciescat.p<-
 PriceMethodOutput<-#ImplicitQuantityOutput.p<-
   function(temp, baseyr, pctmiss = 1.00,
            title0 = "", place = "", MinimumNumberOfSpecies = 2, category0){
-
-
-
-    TPI<-tornc
 
     temp.orig<-data.frame(temp)
 

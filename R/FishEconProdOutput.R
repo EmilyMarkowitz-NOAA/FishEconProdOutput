@@ -823,8 +823,8 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
     index.data$Q_Chained_cran<-index.data$v*index.data$PI_Chained_cran
 
 
-    temp.ind0<-temp.ind0[order(temp.ind0$Year, decreasing = T),]
-    index.data<-index.data[order(index.data$Year, decreasing = T),]
+    temp.ind0<-temp.ind0[order(temp.ind0$Year, decreasing = F),]
+    index.data<-index.data[order(index.data$Year, decreasing = F),]
 
     temp.ind0$PI_Base_cran<-priceIndex(index.data,
                                         pvar='PI_Base_cran',

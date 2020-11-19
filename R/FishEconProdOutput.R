@@ -620,7 +620,7 @@ PriceMethodOutput_Category<-#ImplicitQuantityOutput.speciescat.p<-
     temp.cat<-temp.cat[order(temp.cat$Year),]
 
 
-    temp.ind$PI_Base_funct<-priceIndex(temp.cat,
+    temp.ind$PI_Base_cran<-priceIndex(temp.cat,
                                        pvar='p',
                                        qvar='q',
                                        pervar='time',
@@ -636,7 +636,7 @@ PriceMethodOutput_Category<-#ImplicitQuantityOutput.speciescat.p<-
                        list(paste0(category,' with fixed base: ', warnings())))
     }
 
-    temp.ind$PI_Chained_funct<-priceIndex(temp.cat,
+    temp.ind$PI_Chained_cran<-priceIndex(temp.cat,
                                           pvar='p',
                                           qvar='q',
                                           pervar='time',
@@ -679,7 +679,8 @@ PriceMethodOutput_Category<-#ImplicitQuantityOutput.speciescat.p<-
 
     names(a)[names(a) %in% "BPI"]<-"PI_Base_John"
 
-    temp.ind<-merge.data.frame(x = a, y = temp.ind, by = "Year")
+    temp.ind<-merge.data.frame(x = temp.ind, y = a, by = "Year")
+    temp.ind<-merge.data.frame(x = tyear, y = temp.ind, by = "Year")
 
     temp.cat0<-aggregate.data.frame(x = temp.cat[,c("v", "q")],
                                     by = list("Year" = temp.cat$Year),
@@ -813,21 +814,21 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
 
     # #Implicit V
     # index.data$v_Chained_John<-index.data$q/index.data$PI_Chained_John
-    # index.data$v_Base_funct<-index.data$q/index.data$PI_Base_funct
-    # index.data$v_Chained_funct<-index.data$q/index.data$PI_Chained_funct
+    # index.data$v_Base_cran<-index.data$q/index.data$PI_Base_cran
+    # index.data$v_Chained_cran<-index.data$q/index.data$PI_Chained_cran
 
     #Implicit Q
     index.data$Q_Chained_John<-index.data$v*index.data$PI_Chained_John
-    index.data$Q_Base_funct<-index.data$v*index.data$PI_Base_funct
-    index.data$Q_Chained_funct<-index.data$v*index.data$PI_Chained_funct
+    index.data$Q_Base_cran<-index.data$v*index.data$PI_Base_cran
+    index.data$Q_Chained_cran<-index.data$v*index.data$PI_Chained_cran
 
 
-    temp.ind0<-temp.ind0[order(temp.ind0$Year),]
-    index.data<-index.data[order(index.data$Year),]
+    temp.ind0<-temp.ind0[order(temp.ind0$Year, decreasing = T),]
+    index.data<-index.data[order(index.data$Year, decreasing = T),]
 
-    temp.ind0$PI_Base_funct<-priceIndex(index.data,
-                                        pvar='PI_Base_funct',
-                                        qvar='q', # this might just need to be "Q_Base_funct"
+    temp.ind0$PI_Base_cran<-priceIndex(index.data,
+                                        pvar='PI_Base_cran',
+                                        qvar='q', # this might just need to be "Q_Base_cran"
                                         pervar='time',
                                         prodID = 'cat',
                                         sample='matched',
@@ -835,8 +836,8 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
                                         indexMethod='Tornqvist')  #This is a fixed base index
 
 
-    temp.ind0$PI_Chained_funct<-priceIndex(index.data,
-                                           pvar='PI_Chained_funct',
+    temp.ind0$PI_Chained_cran<-priceIndex(index.data,
+                                           pvar='PI_Chained_cran',
                                            qvar='q', # this might just need to be "Q_Chained_John"
                                            pervar='time',
                                            prodID = 'cat',
@@ -874,13 +875,13 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
 
     # #Implicit V
     # index.data$v_Chained_John<-index.data$q/index.data$PI_Chained_John
-    # index.data$v_Base_funct<-index.data$q/index.data$PI_Base_funct
-    # index.data$v_Chained_funct<-index.data$q/index.data$PI_Chained_funct
+    # index.data$v_Base_cran<-index.data$q/index.data$PI_Base_cran
+    # index.data$v_Chained_cran<-index.data$q/index.data$PI_Chained_cran
 
     #Implicit Q
     temp.ind0$Q_Chained_John<-temp.ind0$v*temp.ind0$PI_Chained_John
-    temp.ind0$Q_Base_funct<-temp.ind0$v*temp.ind0$PI_Base_funct
-    temp.ind0$Q_Chained_funct<-temp.ind0$v*temp.ind0$PI_Chained_funct
+    temp.ind0$Q_Base_cran<-temp.ind0$v*temp.ind0$PI_Base_cran
+    temp.ind0$Q_Chained_cran<-temp.ind0$v*temp.ind0$PI_Chained_cran
 
     temp.ind0<-temp.ind0[, match(table = names(temp.ind0), x = names(index.data))]
 
@@ -905,9 +906,12 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
       title00<-paste0("_PI_", unique(index.data$cat)[i])
 
       a0<-index.data[index.data$cat %in% unique(index.data$cat)[i],
-                     c("Year", "PI_Chained_John", "PI_Base_funct", "PI_Chained_funct")]
+                     c("Year",
+                       names(index.data)[grep(pattern = "PI_", x = names(index.data))])]
 
-      a <- gather(a0, cat, val, c("PI_Chained_John", "PI_Base_funct", "PI_Chained_funct"), factor_key=TRUE)
+      a <- gather(a0, cat, val,
+                  names(index.data)[grep(pattern = "PI_", x = names(index.data))],
+                  factor_key=TRUE)
 
       g<-plotnlines(dat = a, title00, place)
 
@@ -917,7 +921,24 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
     }
 
     #############Compare each type of Price Indexes across Each Category
-    for (i in c("PI_Chained_John", "PI_Base_funct", "PI_Chained_funct") ) {
+    for (i in (names(index.data)[grep(pattern = "PI_", x = names(index.data))]) ) {
+
+      title00<-paste0("_", i)
+
+      a0<-index.data[, c("Year", "cat", i)]
+      names(a0)[3]<-"val"
+
+      a<-a0
+
+      g<-plotnlines(dat = a, title00, place)
+
+      figures.list[[length(figures.list)+1]]<-g
+      names(figures.list)[length(figures.list)]<-paste0(title0, title00, "_PI")
+
+    }
+
+    #############Compare each type of Price Indexes across Each Category
+    for (i in c("q", (names(index.data)[grep(pattern = "Q_", x = names(index.data))])) ) {
 
       title00<-paste0("_", i)
 
@@ -930,30 +951,14 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
       g<-plotnlines(dat = a, title00, place)
 
       figures.list[[length(figures.list)+1]]<-g
-      names(figures.list)[length(figures.list)]<-paste0(title0, title00)
-
-    }
-
-    #############Compare each type of Price Indexes across Each Category
-    for (i in c("q", "Q_Chained_John", "Q_Base_funct", "Q_Chained_funct") ) {
-
-      title00<-paste0("_", i)
-
-      a0<-index.data[,
-                     c("Year", "cat", i)]
-      names(a0)[3]<-"val"
-
-      a<-a0
-
-      g<-plotnlines(dat = a, title00, place)
-
-      figures.list[[length(figures.list)+1]]<-g
-      names(figures.list)[length(figures.list)]<-paste0(title0, title00)
+      names(figures.list)[length(figures.list)]<-paste0(title0, title00, "_Q")
 
     }
 
     #############Plot Category and Total Q
-    title00<-"_Q_CatTot"
+    for (i in c("q", (names(index.data)[grep(pattern = "Q_", x = names(index.data))])) ) {
+
+    title00<-paste0("_",i,"_CatTot")
 
     a<-index.data[,c("Year", "cat", "q")]
     names(a)[3]<-"val"
@@ -961,53 +966,22 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
     g<-plotnlines(dat = a, title00, place)
 
     figures.list[[length(figures.list)+1]]<-g
-    names(figures.list)[length(figures.list)]<-paste0(title0, title00)
-
-    #############Plot Category and Total Q
-    title00<-"_Q_Chained_John_CatTot"
-
-    a<-index.data[,c("Year", "cat", "Q_Chained_John")]
-    names(a)[3]<-"val"
-
-    g<-plotnlines(dat = a, title00, place)
-
-    figures.list[[length(figures.list)+1]]<-g
-    names(figures.list)[length(figures.list)]<-paste0(title0, title00)
-
-    #############Plot Category and Total Q
-    title00<-"_Q_Base_funct_CatTot"
-
-    a<-index.data[,c("Year", "cat", "Q_Base_funct")]
-    names(a)[3]<-"val"
-
-    g<-plotnlines(dat = a, title00, place)
-
-    figures.list[[length(figures.list)+1]]<-g
-    names(figures.list)[length(figures.list)]<-paste0(title0, title00)
-
-    #############Plot Category and Total Q
-    title00<-"_Q_Chained_funct_CatTot"
-
-    a<-index.data[,c("Year", "cat", "Q_Chained_funct")]
-    names(a)[3]<-"val"
-
-    g<-plotnlines(dat = a, title00, place)
-
-    figures.list[[length(figures.list)+1]]<-g
-    names(figures.list)[length(figures.list)]<-paste0(title0, title00)
+    names(figures.list)[length(figures.list)]<-paste0(title0, title00, "_QCatTot")
+}
 
     #############Plot Category and Total V
-    title00<-"_V_CatTot"
+    for (i in c("v", (names(index.data)[grep(pattern = "V_", x = names(index.data))])) ) {
 
-    a<-index.data[,c("Year", "cat", "v")]
-    names(a)[3]<-"val"
+      title00<-paste0("_",i,"_CatTot")
 
-    g<-plotnlines(dat = a, title00, place)
+      a<-index.data[,c("Year", "cat", "v")]
+      names(a)[3]<-"val"
 
-    figures.list[[length(figures.list)+1]]<-g
-    names(figures.list)[length(figures.list)]<-paste0(title0, title00)
+      g<-plotnlines(dat = a, title00, place)
 
-
+      figures.list[[length(figures.list)+1]]<-g
+      names(figures.list)[length(figures.list)]<-paste0(title0, title00, "_VCatTot")
+    }
 
     #############Save Wrok
     return(list("index.data" = index.data,

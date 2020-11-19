@@ -689,6 +689,27 @@ PriceMethodOutput_Category<-#ImplicitQuantityOutput.speciescat.p<-
 
     temp.ind<-merge.data.frame(x = temp.cat0, y = temp.ind, by = "Year")
 
+
+    #Implicit Q
+    temp.ind$Q_Chained_Base_John<-temp.ind$v*temp.ind$PI_Chained_Base_John
+    temp.ind$Q_Base_John<-temp.ind$v*temp.ind$PI_Base_John
+    temp.ind$Q_Chained_John<-temp.ind$v*temp.ind$PI_Chained_John
+    temp.ind$Q_Base_cran<-temp.ind$v*temp.ind$PI_Base_cran
+    temp.ind$Q_Chained_cran<-temp.ind$v*temp.ind$PI_Chained_cran
+
+    #Quantity Index
+    temp.ind$QI_Chained_Base_John<-temp.ind$Q_Chained_Base_John/
+      temp.ind$Q_Chained_Base_John[temp.ind$Year %in% baseyr]
+    temp.ind$QI_Base_John<-temp.ind$Q_Base_John/
+      temp.ind$Q_Base_John[temp.ind$Year %in% baseyr]
+    temp.ind$QI_Chained_John<-temp.ind$Q_Chained_John/
+      temp.ind$Q_Chained_John[temp.ind$Year %in% baseyr]
+    temp.ind$QI_Base_cran<-temp.ind$Q_Base_cran/
+      temp.ind$Q_Base_cran[temp.ind$Year %in% baseyr]
+    temp.ind$QI_Chained_cran<-temp.ind$Q_Chained_cran/
+      temp.ind$Q_Chained_cran[temp.ind$Year %in% baseyr]
+
+
     # rownames(temp.ind)<-temp.ind$Year
     # temp.ind$Year<-NULL
     # temp.ind$time<-NULL
@@ -817,10 +838,7 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
     # index.data$v_Base_cran<-index.data$q/index.data$PI_Base_cran
     # index.data$v_Chained_cran<-index.data$q/index.data$PI_Chained_cran
 
-    #Implicit Q
-    index.data$Q_Chained_John<-index.data$v*index.data$PI_Chained_John
-    index.data$Q_Base_cran<-index.data$v*index.data$PI_Base_cran
-    index.data$Q_Chained_cran<-index.data$v*index.data$PI_Chained_cran
+
 
 
     temp.ind0<-temp.ind0[order(temp.ind0$Year, decreasing = F),]
@@ -879,15 +897,28 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
     # index.data$v_Chained_cran<-index.data$q/index.data$PI_Chained_cran
 
     #Implicit Q
+    temp.ind0$Q_Chained_Base_John<-temp.ind0$v*temp.ind0$PI_Chained_Base_John
+    temp.ind0$Q_Base_John<-temp.ind0$v*temp.ind0$PI_Base_John
     temp.ind0$Q_Chained_John<-temp.ind0$v*temp.ind0$PI_Chained_John
     temp.ind0$Q_Base_cran<-temp.ind0$v*temp.ind0$PI_Base_cran
     temp.ind0$Q_Chained_cran<-temp.ind0$v*temp.ind0$PI_Chained_cran
 
+    #Quantity Index
+    temp.ind0$QI_Chained_Base_John<-temp.ind0$Q_Chained_Base_John/
+      temp.ind0$Q_Chained_Base_John[temp.ind0$Year %in% baseyr]
+    temp.ind0$QI_Base_John<-temp.ind0$Q_Base_John/
+      temp.ind0$Q_Base_John[temp.ind0$Year %in% baseyr]
+    temp.ind0$QI_Chained_John<-temp.ind0$Q_Chained_John/
+      temp.ind0$Q_Chained_John[temp.ind0$Year %in% baseyr]
+    temp.ind0$QI_Base_cran<-temp.ind0$Q_Base_cran/
+      temp.ind0$Q_Base_cran[temp.ind0$Year %in% baseyr]
+    temp.ind0$QI_Chained_cran<-temp.ind0$Q_Chained_cran/
+      temp.ind0$Q_Chained_cran[temp.ind0$Year %in% baseyr]
+
+    #Combine
+
     temp.ind0<-temp.ind0[, match(table = names(temp.ind0), x = names(index.data))]
-
     index.data<-rbind.data.frame(index.data, temp.ind0)
-
-
 
 
     ##########Make plots#########

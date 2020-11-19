@@ -616,7 +616,10 @@ PriceMethodOutput_Category<-#ImplicitQuantityOutput.speciescat.p<-
       # }
     }
 
-    temp.ind<-data.frame(tyear)
+    temp.ind<-data.frame("Year" = minyr:maxyr)
+    temp.cat<-temp.cat[order(temp.cat$Year),]
+
+
     temp.ind$PI_Base_funct<-priceIndex(temp.cat,
                                        pvar='p',
                                        qvar='q',
@@ -818,6 +821,9 @@ PriceMethodOutput<-#ImplicitQuantityOutput.p<-
     index.data$Q_Base_funct<-index.data$v*index.data$PI_Base_funct
     index.data$Q_Chained_funct<-index.data$v*index.data$PI_Chained_funct
 
+
+    temp.ind0<-temp.ind0[order(temp.ind0$Year),]
+    index.data<-index.data[order(index.data$Year),]
 
     temp.ind0$PI_Base_funct<-priceIndex(index.data,
                                         pvar='PI_Base_funct',

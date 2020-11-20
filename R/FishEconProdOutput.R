@@ -570,7 +570,7 @@ PriceMethodOutput_Category <-
     temp.cat <- temp.cat[order(temp.cat$Year), ]
 
 
-    # temp.ind$PI_Base_cran<-priceIndex(temp.cat,
+    # temp.ind$PI_B_cran<-priceIndex(temp.cat,
     #                                    pvar='p',
     #                                    qvar='q',
     #                                    pervar='time',
@@ -586,7 +586,7 @@ PriceMethodOutput_Category <-
     #                    list(paste0(category,' with fixed base: ', warnings())))
     # }
     #
-    # temp.ind$PI_Chained_cran<-priceIndex(temp.cat,
+    # temp.ind$PI_C_cran<-priceIndex(temp.cat,
     #                                       pvar='p',
     #                                       qvar='q',
     #                                       pervar='time',
@@ -631,7 +631,7 @@ PriceMethodOutput_Category <-
     )
 
 
-    names(a)[names(a) %in% "BPI"] <- "PI_Base"
+    names(a)[names(a) %in% "BPI"] <- "PI_B"
 
     temp.ind <- merge.data.frame(x = temp.ind, y = a, by = "Year")
     temp.ind <- merge.data.frame(x = tyear, y = temp.ind, by = "Year")
@@ -650,20 +650,20 @@ PriceMethodOutput_Category <-
 
     #Implicit Q
     temp.ind$Q_CB <- temp.ind$v * temp.ind$PI_CB
-    temp.ind$Q_Base <- temp.ind$v * temp.ind$PI_Base
+    temp.ind$Q_B <- temp.ind$v * temp.ind$PI_B
     temp.ind$Q_C <- temp.ind$v * temp.ind$PI_C
-    # temp.ind$Q_Base_cran<-temp.ind$v*temp.ind$PI_Base_cran
+    # temp.ind$Q_B_cran<-temp.ind$v*temp.ind$PI_B_cran
     # temp.ind$Q_C_cran<-temp.ind$v*temp.ind$PI_C_cran
 
     #Quantity Index
     temp.ind$QI_CB <- temp.ind$Q_CB /
       temp.ind$Q_CB[temp.ind$Year %in% baseyr]
-    temp.ind$QI_Base <- temp.ind$Q_Base /
-      temp.ind$Q_Base[temp.ind$Year %in% baseyr]
+    temp.ind$QI_B <- temp.ind$Q_B /
+      temp.ind$Q_B[temp.ind$Year %in% baseyr]
     temp.ind$QI_C <- temp.ind$Q_C /
       temp.ind$Q_C[temp.ind$Year %in% baseyr]
-    # temp.ind$QI_Base_cran<-temp.ind$Q_Base_cran/
-    #   temp.ind$Q_Base_cran[temp.ind$Year %in% baseyr]
+    # temp.ind$QI_B_cran<-temp.ind$Q_B_cran/
+    #   temp.ind$Q_B_cran[temp.ind$Year %in% baseyr]
     # temp.ind$QI_C_cran<-temp.ind$Q_C_cran/
     #   temp.ind$Q_C_cran[temp.ind$Year %in% baseyr]
 
@@ -705,6 +705,7 @@ PriceMethodOutput <-
            place = "",
            MinimumNumberOfSpecies = 2,
            category0) {
+
     temp.orig <- data.frame(temp)
 
     warnings.list <- list()
@@ -778,9 +779,9 @@ PriceMethodOutput <-
     temp.ind0 <- temp.ind0[order(temp.ind0$Year, decreasing = F), ]
     index.data <- index.data[order(index.data$Year, decreasing = F), ]
 
-    # temp.ind0$PI_Base_cran<-priceIndex(index.data,
-    #                                     pvar='PI_Base_cran',
-    #                                     qvar='q', # this might just need to be "Q_Base_cran"
+    # temp.ind0$PI_B_cran<-priceIndex(index.data,
+    #                                     pvar='PI_B_cran',
+    #                                     qvar='q', # this might just need to be "Q_B_cran"
     #                                     pervar='time',
     #                                     prodID = 'cat',
     #                                     sample='matched',
@@ -788,9 +789,9 @@ PriceMethodOutput <-
     #                                     indexMethod='Tornqvist')  #This is a fixed base index
     #
     #
-    # temp.ind0$PI_Chained_cran<-priceIndex(index.data,
-    #                                        pvar='PI_Chained_cran',
-    #                                        qvar='q', # this might just need to be "Q_Chained"
+    # temp.ind0$PI_C_cran<-priceIndex(index.data,
+    #                                        pvar='PI_C_cran',
+    #                                        qvar='q', # this might just need to be "Q_C"
     #                                        pervar='time',
     #                                        prodID = 'cat',
     #                                        sample='matched',
@@ -923,7 +924,7 @@ PriceMethodOutput <-
       g <- plotnlines(dat = a, title00, place)
 
       figures.list[[length(figures.list) + 1]] <- g
-      names(figures.list)[length(figures.list)] <- paste0(place,"_",title00, "_QCatTot")
+      names(figures.list)[length(figures.list)] <- paste0(place,"_",title00)
     }
 
     #############Plot Category and Total V
@@ -936,7 +937,7 @@ PriceMethodOutput <-
       g <- plotnlines(dat = a, title00, place)
 
       figures.list[[length(figures.list) + 1]] <- g
-      names(figures.list)[length(figures.list)] <-paste0(place,"_",title00, "_VCatTot")
+      names(figures.list)[length(figures.list)] <-paste0(place,"_",title00)
     }
 
     #############Save Wrok

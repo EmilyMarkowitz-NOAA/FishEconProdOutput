@@ -924,7 +924,7 @@ PriceMethodOutput <-
       g <- plotnlines(dat = a, title00, place)
 
       figures.list[[length(figures.list) + 1]] <- g
-      names(figures.list)[length(figures.list)] <- paste0(place,"_",title00)
+      names(figures.list)[length(figures.list)] <- paste0(place,"_",title00, "_QCatTot")
     }
 
     #############Plot Category and Total V
@@ -937,7 +937,7 @@ PriceMethodOutput <-
       g <- plotnlines(dat = a, title00, place)
 
       figures.list[[length(figures.list) + 1]] <- g
-      names(figures.list)[length(figures.list)] <-paste0(place,"_",title00)
+      names(figures.list)[length(figures.list)] <-paste0(place,"_",title00, "_VCatTot")
     }
 
     #############Save Wrok

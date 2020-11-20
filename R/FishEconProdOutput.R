@@ -649,19 +649,19 @@ PriceMethodOutput_Category <-
 
 
     #Implicit Q
-    temp.ind$Q_CB_John <- temp.ind$v * temp.ind$PI_CB_John
-    temp.ind$Q_Base_John <- temp.ind$v * temp.ind$PI_Base_John
-    temp.ind$Q_C_John <- temp.ind$v * temp.ind$PI_C_John
+    temp.ind$Q_CB <- temp.ind$v * temp.ind$PI_CB
+    temp.ind$Q_Base <- temp.ind$v * temp.ind$PI_Base
+    temp.ind$Q_C <- temp.ind$v * temp.ind$PI_C
     # temp.ind$Q_Base_cran<-temp.ind$v*temp.ind$PI_Base_cran
     # temp.ind$Q_C_cran<-temp.ind$v*temp.ind$PI_C_cran
 
     #Quantity Index
-    temp.ind$QI_CB_John <- temp.ind$Q_CB_John /
-      temp.ind$Q_CB_John[temp.ind$Year %in% baseyr]
-    temp.ind$QI_Base_John <- temp.ind$Q_Base_John /
-      temp.ind$Q_Base_John[temp.ind$Year %in% baseyr]
-    temp.ind$QI_C_John <- temp.ind$Q_C_John /
-      temp.ind$Q_C_John[temp.ind$Year %in% baseyr]
+    temp.ind$QI_CB <- temp.ind$Q_CB /
+      temp.ind$Q_CB[temp.ind$Year %in% baseyr]
+    temp.ind$QI_Base <- temp.ind$Q_Base /
+      temp.ind$Q_Base[temp.ind$Year %in% baseyr]
+    temp.ind$QI_C <- temp.ind$Q_C /
+      temp.ind$Q_C[temp.ind$Year %in% baseyr]
     # temp.ind$QI_Base_cran<-temp.ind$Q_Base_cran/
     #   temp.ind$Q_Base_cran[temp.ind$Year %in% baseyr]
     # temp.ind$QI_C_cran<-temp.ind$Q_C_cran/
@@ -790,7 +790,7 @@ PriceMethodOutput <-
     #
     # temp.ind0$PI_Chained_cran<-priceIndex(index.data,
     #                                        pvar='PI_Chained_cran',
-    #                                        qvar='q', # this might just need to be "Q_Chained_John"
+    #                                        qvar='q', # this might just need to be "Q_Chained"
     #                                        pervar='time',
     #                                        prodID = 'cat',
     #                                        sample='matched',
@@ -817,7 +817,7 @@ PriceMethodOutput <-
       Year = "Year",
       pvar = "PI_B",
       qvar = "q",
-      # this might just need to be "Q_B_John"
+      # this might just need to be "Q_B"
       vvar = "v",
       prodID = "cat",
       base.year = baseyr

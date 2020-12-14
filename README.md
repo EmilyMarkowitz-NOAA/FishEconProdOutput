@@ -24,7 +24,7 @@ Woods Hole, MA
 
 > The views expressed are those of the author and should not be attributed to the NOAA, ECS or ERS
 
-**GitHub:** <https://github.com/emilyhmarkowitz/FishEconProdOutput>
+**GitHub:** <https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput>
 
 ## NOAA README
 
@@ -38,7 +38,7 @@ Download this package
 =====================
 
     library(devtools)
-    devtools::install_github("emilyhmarkowitz/FishEconProdOutput", dependencies = TRUE)
+    devtools::install_github("EmilyMarkowitz-NOAA/FishEconProdOutput", dependencies = TRUE)
     library(FishEconProdOutput)
 
 Study Purpose
@@ -55,7 +55,7 @@ Documentation
 
 For specifics about how the Quantitative and Price Methods are derived,
 please read this
-[Documentation](https://github.com/emilyhmarkowitz/FishEconProdOutput/blob/master/ProductivityIndex_DocumentationSummary.pdf).
+[Documentation](https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput/blob/master/ProductivityIndex_DocumentationSummary.pdf).
 
 Data requirements and source
 ============================

@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = FALSE, error = FALSE, message = FALSE, warning = FA
 
 # **PRELIMINARY**: Measuring Output for U.S. Commercial Fisheries From Theory to Practice
 
-## **Code is still in development**
+> **Code is still in development**
 
 **Emily Markowitz**^1^ (Emily.Markowitz AT noaa.gov)
 

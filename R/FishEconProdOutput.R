@@ -87,80 +87,79 @@ ReplaceMid <- function(colnames, temp) {
 #' @export
 #' @examples
 #' tornb()
-tornb <- #function(data1, baseyr){
-  function(data1,
-           Year,
-           pvar,
-           qvar = NA,
-           vvar,
-           prodID,
-           base.year) {
-    names(data1)[names(data1) %in% Year] <- "Year"
-    names(data1)[names(data1) %in% pvar] <- "p"
-    if (is.na(qvar)) {
-      names(data1)[names(data1) %in% qvar] <- "q"
-    }
-    names(data1)[names(data1) %in% vvar] <- "v"
-    names(data1)[names(data1) %in% prodID] <- "prod"
-    data1 <- data1[, c("Year", "p", "q", "v", "prod")]
-    # tornc<-function(data1,base.year){
-    #
-    years <- unique(data1$Year)
-    N = length(years)
-    min1 = min(years)
-    max1 = max(years)
+tornb <- function(dat,
+                  Year,
+                  pvar,
+                  qvar = NA,
+                  vvar,
+                  prodID,
+                  base.year) {
 
-    data1 <- data1[order(data1$Year, decreasing = T), ]
+  data1<-dat
 
-    FPI <-
-      as.data.frame(matrix(0, nrow = N, 2)) #Set up Data frame to hold results
-    colnames(FPI)[1] <-
-      "Year"                #Name columns in Data Frame PI
-    colnames(FPI)[2] <- "BPI"
-
-    FPI[, 1] = years                      #Put Years into first column of dataframe
-
-    t = 1
-
-    for (i in (min1:max1)) {
-      base <-
-        subset(data1, (Year == baseyr &
-                         p > 0 & v > 0))    #only keep observations with positive p,q,v
-      year2 <-
-        subset(data1, (Year == i &
-                         p > 0 & v > 0))        #only keep observations with positive p,q,v
-
-      year1_2 <-
-        merge(
-          base,
-          year2,
-          by = "prod",
-          all.x = TRUE,
-          all.y = TRUE,
-          no.dups = TRUE
-        ) #merge two data frames
-
-      year1_2 <-
-        na.omit(year1_2)  #Any rows with "NA" values are deleted.
-
-      yr1tval = sum(year1_2$v.x, na.rm = T)   #Calculate total value for year 1
-      yr2tval = sum(year1_2$v.y, na.rm = T)   #Calculate total value for year 2
-
-      year1_2$yr1shr = (year1_2$v.x / yr1tval) #calculate share values for year 1 products
-      year1_2$yr2shr = (year1_2$v.y / yr2tval) #calculate share values for year 2 products
-
-      year1_2$avgr = (year1_2$yr1shr + year1_2$yr2shr) / 2     #calculate average share values for years 1 and 2
-
-      year1_2$tp = (year1_2$p.y / year1_2$p.x) ^ (year1_2$avgr) #calculate tornqvist value for each product
-
-      BTI = prod(year1_2$tp)   #calculates total tornqvist value
-
-      FPI[t, 2] = BTI #creates base Tornqvist Value
-      t = t + 1
-    }
-
-    return(FPI)
+  names(data1)[names(data1) %in% Year] <- "Year"
+  names(data1)[names(data1) %in% pvar] <- "p"
+  if (is.na(qvar)) {
+    names(data1)[names(data1) %in% qvar] <- "q"
   }
+  names(data1)[names(data1) %in% vvar] <- "v"
+  names(data1)[names(data1) %in% prodID] <- "prod"
+  data1 <- data1[, c("Year", "p", "q", "v", "prod")]
+  # tornc<-function(data1,base.year){
+  #
+  years<-unique(data1$Year)
+  N=length(years)
+  min1=min(years)
+  max1=max(years)
+
+  data1 <- data1[order(data1$Year, decreasing = T), ]
+
+  FPI<-as.data.frame(matrix(0,nrow=N,2)) #Set up Data frame to hold results
+  colnames(FPI)[1]<-"Year"                #Name columns in Data Frame PI
+  colnames(FPI)[2]<-"BPI"
+
+  FPI[,1]=years                       #Put Years into first column of dataframe
+
+  t=1
+
+
+  for (i in (min1:max1)) {
+    base <- subset(data1, (Year == baseyr &
+                             p > 0 & v > 0))    #only keep observations with positive p,q,v
+    year2 <- subset(data1, (Year == i &
+                              p > 0 & v > 0))        #only keep observations with positive p,q,v
+
+    year1_2 <-
+      merge(
+        base,
+        year2,
+        by = "prod",
+        all.x = TRUE,
+        all.y = TRUE,
+        no.dups = TRUE
+      ) #merge two data frames
+
+    year1_2 <-
+      na.omit(year1_2)  #Any rows with "NA" values are deleted.
+
+    yr1tval = sum(year1_2$v.x, na.rm = T)   #Calculate total value for year 1
+    yr2tval = sum(year1_2$v.y, na.rm = T)   #Calculate total value for year 2
+
+    year1_2$yr1shr = (year1_2$v.x / yr1tval) #calculate share values for year 1 products
+    year1_2$yr2shr = (year1_2$v.y / yr2tval) #calculate share values for year 2 products
+
+    year1_2$avgr = (year1_2$yr1shr + year1_2$yr2shr) / 2     #calculate average share values for years 1 and 2
+
+    year1_2$tp = (year1_2$p.y / year1_2$p.x) ^ (year1_2$avgr) #calculate tornqvist value for each product
+
+    BTI = prod(year1_2$tp)   #calculates total tornqvist value
+
+    FPI[t, 2] = BTI #creates base Tornqvist Value
+    t = t + 1
+  }
+
+  return(FPI)
+}
 
 
 #' Tornqvist Price Index Base Year chain Function
@@ -176,87 +175,75 @@ tornb <- #function(data1, baseyr){
 #' @export
 #' @examples
 #' tornc()
-tornc <- #function(data1, baseyr){
-  function(data1,
-           Year,
-           pvar,
-           qvar = NA,
-           vvar,
-           prodID,
-           base.year) {
-    names(data1)[names(data1) %in% Year] <- "Year"
-    names(data1)[names(data1) %in% pvar] <- "p"
-    if (is.na(qvar)) {
-      names(data1)[names(data1) %in% qvar] <- "q"
-    }
-    names(data1)[names(data1) %in% vvar] <- "v"
-    names(data1)[names(data1) %in% prodID] <- "prod"
-    data1 <- data1[, c("Year", "p", "q", "v", "prod")]
-    # tornc<-function(data1,base.year){
-    #
-    years <- unique(data1$Year)
-    N = length(years)
-    min1 = min(years)
-    max1 = max(years)
+tornc <- function(dat,
+                  Year,
+                  pvar,
+                  qvar = NA,
+                  vvar,
+                  prodID,
+                  base.year) {
 
-    data1 <- data1[order(data1$Year, decreasing = T), ]
+  data1<-dat
 
-    CPI <-
-      as.data.frame(matrix(0, nrow = N, 3)) #Set up Data frame to hold results
-    colnames(CPI)[1] <-
-      "Year"                #Name columns in Data Frame PI
-    colnames(CPI)[2] <- "CPI"
-    colnames(CPI)[3] <- "BPI"
-
-    CPI[, 1] = years                      #Put Years into first column of dataframe
-    CPI[1, 2] = 1
-
-    t = 1
-
-    for (i in min1:(max1 - 1)) {
-      year1 <-
-        subset(data1, (Year == i &
-                         p > 0 & v > 0))    #only keep observations with positive p,q,v
-      year2 <-
-        subset(data1, (Year == (i + 1) &
-                         p > 0 & v > 0))#only keep observations with positive p,q,v
-
-      year1_2 <-
-        merge(
-          year1,
-          year2,
-          by = "prod",
-          all.x = TRUE,
-          all.y = TRUE,
-          no.dups = TRUE
-        ) #merge two data frames
-
-      year1_2 <-
-        na.omit(year1_2)  #Any rows with "NA" values are deleted.
-
-      yr1tval = sum(year1_2$v.x, na.rm = T)   #Calculate total value for year 1
-      yr2tval = sum(year1_2$v.y, na.rm = T)   #Calculate total value for year 2
-
-      year1_2$yr1shr = (year1_2$v.x / yr1tval) #calculate share values for year 1 products
-      year1_2$yr2shr = (year1_2$v.y / yr2tval) #calculate share values for year 2 products
-
-      year1_2$avgr = (year1_2$yr1shr + year1_2$yr2shr) / 2     #calculate average share values for years 1 and 2
-
-      year1_2$tp = (year1_2$p.y / year1_2$p.x) ^ (year1_2$avgr) #calculate tornqvist value for each product
-
-      CPTI = prod(year1_2$tp)   #calculates total tornqvist value
-
-
-      CPI[(t + 1), 2] = CPI[t, 2] * CPTI #creates chained Tornqvist Value
-
-      t = t + 1
-    }
-    baseval = CPI[CPI$Year == base.year, 2]
-    CPI$BPI = CPI$CPI / baseval
-
-
-    return(CPI)
+  names(data1)[names(data1) %in% Year] <- "Year"
+  names(data1)[names(data1) %in% pvar] <- "p"
+  if (is.na(qvar)) {
+    names(data1)[names(data1) %in% qvar] <- "q"
   }
+  names(data1)[names(data1) %in% vvar] <- "v"
+  names(data1)[names(data1) %in% prodID] <- "prod"
+  data1 <- data1[, c("Year", "p", "q", "v", "prod")]
+  # tornc<-function(data1,base.year){
+  #
+  years <- unique(data1$Year)
+  N = length(years)
+  min1 = min(years)
+  max1 = max(years)
+
+  data1 <- data1[order(data1$Year, decreasing = T), ]
+
+  CPI <- as.data.frame(matrix(0, nrow = N, 3)) #Set up Data frame to hold results
+  colnames(CPI)[1] <- "Year"                #Name columns in Data Frame PI
+  colnames(CPI)[2] <- "CPI"
+  colnames(CPI)[3] <- "BPI"
+
+  CPI[, 1] = years                      #Put Years into first column of dataframe
+  CPI[1, 2] = 1
+
+  t=1
+
+  for(i in min1:(max1-1)){
+
+    year1<-subset(data1, (Year==i & p>0 & v>0))    #only keep observations with positive p,q,v
+    year2<-subset(data1, (Year==(i+1) & p>0 & v>0))#only keep observations with positive p,q,v
+
+    year1_2<-merge(year1, year2, by="prod", all.x=TRUE, all.y=TRUE, no.dups=TRUE) #merge two data frames
+
+    year1_2<-na.omit(year1_2)  #Any rows with "NA" values are deleted.
+
+    yr1tval=sum(year1_2$v.x, na.rm = T)   #Calculate total value for year 1
+    yr2tval=sum(year1_2$v.y, na.rm = T)   #Calculate total value for year 2
+
+    year1_2$yr1shr=(year1_2$v.x/yr1tval) #calculate share values for year 1 products
+    year1_2$yr2shr=(year1_2$v.y/yr2tval) #calculate share values for year 2 products
+
+    year1_2$avgr=(year1_2$yr1shr+year1_2$yr2shr)/2     #calculate average share values for years 1 and 2
+
+    year1_2$tp=(year1_2$p.y/year1_2$p.x)^(year1_2$avgr) #calculate tornqvist value for each product
+
+    CPTI=prod(year1_2$tp)   #calculates total tornqvist value
+
+
+    CPI[(t+1),2]=CPI[t,2]*CPTI #creates chained Tornqvist Value
+
+    t=t+1
+  }
+  baseval=CPI[CPI$Year == base.year,2]
+  CPI$BPI=CPI$CPI/baseval
+
+
+  return(CPI)
+}
 
 #' Price Methods - Category Level
 #'
@@ -279,43 +266,36 @@ PriceMethodOutput_Category <-
            baseyr,
            maxyr,
            minyr,
-           pctmiss,
-           warnings.list = ls(),
-           MinimumNumberOfSpecies = 1) {
+           warnings.list = ls()) {
+
     maxyr <- max(temp$Year)
     minyr <- min(temp$Year)
 
-    temp <- data.frame(temp)
+    # set1<-as.data.table(subset(data.frame(temp),
+    #                            category0==category))
     temp.cat <- temp[temp[, category0] %in% category,]
+    # set1<-set1[,.(sum(Pounds), sum(Dollars)),  #aggregate by Year and Tsn
+    #            keyby= .(Year,Tsn,)]
 
     temp.cat <-
       aggregate.data.frame(
         x = temp.cat[, c("Pounds", "Dollars")],
-        by = list("Year" = temp.cat$Year, "Tsn" = temp.cat$Tsn),
+        by = list("Year" = temp.cat$Year,
+                  "Tsn" = temp.cat$Tsn,
+                  "cat" = temp.cat[, category0]),
         FUN = sum,
         na.rm = T
       )
 
-    temp.cat$cat <- category
-
     names(temp.cat)[names(temp.cat) %in% "Pounds"] <- "q"
     names(temp.cat)[names(temp.cat) %in% "Dollars"] <- "v"
+    names(temp.cat)[names(temp.cat) %in% "Tsn"] <- "prod"
 
     temp.cat$p <- temp.cat$v / temp.cat$q
 
-    Year <- c(minyr:maxyr)                   #set array from 1950:2019
-    time <-
-      (Year - (minyr - 1))                        #set array from 1 to 70
-    tyear <-
-      as.data.frame(cbind(Year, time)) #create data frame with Year and time
+    temp.cat$time<-((temp.cat$Year-minyr)+1)
 
-    temp.cat <-
-      join(temp.cat, tyear, by = "Year", type = "inner") #join shellfish and tyear
-    names(temp.cat)[names(temp.cat) %in% "Tsn"] <- "prod"
-
-    temp.cat <-
-      subset(temp.cat, p > 0 &
-               v > 0 & q > 0)  #only keep observations with positive p,v,q
+    temp.cat <- subset(temp.cat, p > 0 &  v > 0 & q > 0)  #only keep observations with positive p,v,q
 
     if (sum(minyr:maxyr %in% unique(temp.cat$Year)) != length(minyr:maxyr)) {
       temp0 <- data.frame(matrix(
@@ -396,8 +376,7 @@ PriceMethodOutput_Category <-
       qvar = "q",
       vvar = "v",
       prodID = "prod",
-      base.year = baseyr
-    )
+      base.year = baseyr)
 
 
     names(a)[names(a) %in% "CPI"] <- "PI_C"
@@ -413,25 +392,29 @@ PriceMethodOutput_Category <-
       qvar = "q",
       vvar = "v",
       prodID = "prod",
-      base.year = baseyr
-    )
+      base.year = baseyr)
 
 
     names(a)[names(a) %in% "BPI"] <- "PI_B"
 
     temp.ind <- merge.data.frame(x = temp.ind, y = a, by = "Year")
-    temp.ind <- merge.data.frame(x = tyear, y = temp.ind, by = "Year")
+
+    temp.ind$tyear<-((temp.ind$Year-minyr)+1)
 
     temp.cat0 <- aggregate.data.frame(
       x = temp.cat[, c("v", "q")],
       by = list("Year" = temp.cat$Year),
       FUN = sum,
-      na.rm = T
-    )
+      na.rm = T)
+
     temp.cat0$p <- temp.cat0$v / temp.cat0$q
 
-    temp.ind <-
-      merge.data.frame(x = temp.cat0, y = temp.ind, by = "Year")
+    # temp.ind <- merge.data.frame(x = tyear, y = temp.ind, by = "Year")
+    temp.ind<-join(temp.cat0,temp.ind,by="Year", type="inner")
+
+
+    # temp.ind <-
+    #   merge.data.frame(x = temp.cat0, y = temp.ind, by = "Year")
 
 
     #Implicit Q
@@ -461,8 +444,6 @@ PriceMethodOutput_Category <-
                                  cat0 = ii,
                                  temp.ind)
 
-    temp.cat$cat0 <- ii
-
     return(list(
       "Index" = temp.ind,
       "Species Level" = temp.cat,
@@ -482,260 +463,255 @@ PriceMethodOutput_Category <-
 #' @export
 #' @examples
 #' PriceMethodOutput()
-PriceMethodOutput <-
+PriceMethodOutput <-function(temp,
+                             baseyr,
+                             title0 = "",
+                             place = "",
+                             category0) {
 
-  function(temp,
-           baseyr,
-           pctmiss = 1.00,
-           title0 = "",
-           place = "",
-           MinimumNumberOfSpecies = 2,
-           category0) {
+  temp.orig <- data.frame(temp)
 
-    temp.orig <- data.frame(temp)
+  warnings.list <- list()
+  figures.list <- list()
+  spp.level <- data.frame()
+  index.data <- data.frame()
 
-    warnings.list <- list()
-    figures.list <- list()
-    spp.level <- data.frame()
-    index.data <- data.frame()
+  category_name <- sort(unique(temp[, category0]))
+  category.rm <- c()
 
-    category_name <- sort(unique(temp[, category0]))
-    category.rm <- c()
+  maxyr <- max(temp$Year)
+  minyr <- min(temp$Year)
 
-    maxyr <- max(temp$Year)
-    minyr <- min(temp$Year)
+  for (ii in 1:length(category_name)) {
 
-    for (ii in 1:length(category_name)) {
-      category <- category_name[ii]
+    category <- category_name[ii]
 
-      temp00 <-
-        PriceMethodOutput_Category(
-          temp,
-          ii = ii,
-          category = category,
-          category0 = category0,
-          baseyr,
-          maxyr,
-          minyr,
-          pctmiss,
-          warnings.list,
-          MinimumNumberOfSpecies
-        )
+    temp00 <-
+      PriceMethodOutput_Category(
+        temp,
+        ii = ii,
+        category = category,
+        category0 = category0,
+        baseyr,
+        maxyr,
+        minyr,
+        warnings.list)
 
-      index.data <- rbind.data.frame(index.data,
-                                     temp00$Index)
+    index.data <- rbind.data.frame(index.data,
+                                   temp00$Index)
 
-      spp.level <- rbind.data.frame(spp.level,
-                                    temp00$`Species Level`)
+    spp.level <- rbind.data.frame(spp.level,
+                                  temp00$`Species Level`)
 
-      warnings.list1 <- temp00$warnings.list
-      warnings.list1 <- unique(warnings.list1)
+    warnings.list1 <- temp00$warnings.list
+    warnings.list1 <- unique(warnings.list1)
 
-      warnings.list <- c(warnings.list, warnings.list1)
-
-    }
-
-    #Whole fishery
-
-    temp.ind0 <- data.frame(matrix(
-      data = NA,
-      nrow = length(minyr:maxyr),
-      ncol = ncol(index.data)
-    ))
-    names(temp.ind0) <- names(index.data)
-    temp.ind0$Year <- minyr:maxyr
-    temp.ind0$time <- ((minyr:maxyr) - (minyr - 1))
-    temp.ind0$cat <- "Total"
-    temp.ind0$cat0 <- 0
-
-
-    temp.ind00 <- aggregate.data.frame(
-      x = index.data[, c("v", "q")],
-      by = list("Year" = index.data$Year),
-      FUN = sum,
-      na.rm = T
-    )
-
-    temp.ind00$p <- temp.ind00$v / temp.ind00$q
-
-    temp.ind0$v <- temp.ind00$v
-    temp.ind0$q <- temp.ind00$q
-    temp.ind0$p0 <- temp.ind00$p
-
-    temp.ind0 <- temp.ind0[order(temp.ind0$Year, decreasing = F), ]
-    index.data <- index.data[order(index.data$Year, decreasing = F), ]
-
-    # temp.ind0$PI_B_cran<-priceIndex(index.data,
-    #                                     pvar='PI_B_cran',
-    #                                     qvar='q', # this might just need to be "Q_B_cran"
-    #                                     pervar='time',
-    #                                     prodID = 'cat',
-    #                                     sample='matched',
-    #                                     output='fixedBase',
-    #                                     indexMethod='Tornqvist')  #This is a fixed base index
-    #
-    #
-    # temp.ind0$PI_C_cran<-priceIndex(index.data,
-    #                                        pvar='PI_C_cran',
-    #                                        qvar='q', # this might just need to be "Q_C"
-    #                                        pervar='time',
-    #                                        prodID = 'cat',
-    #                                        sample='matched',
-    #                                        indexMethod='Tornqvist',
-    #                                        output='chained')      #This is a chain Index
-
-
-    names(index.data)[names(index.data) %in% "p"] <- "p0"
-    a <- tornc(
-      data1 = index.data,
-      Year = "Year",
-      pvar = "PI_C",
-      qvar = "q",
-      vvar = "v",
-      prodID = "cat",
-      base.year = baseyr
-    )
-
-    temp.ind0$PI_C <- a$CPI
-    temp.ind0$PI_CB <- a$BPI
-
-    a <- tornb(
-      data1 = index.data,
-      Year = "Year",
-      pvar = "PI_B",
-      qvar = "q",
-      # this might just need to be "Q_B"
-      vvar = "v",
-      prodID = "cat",
-      base.year = baseyr
-    )
-
-    temp.ind0$PI_B <- a$BPI
-
-    temp.ind0$p <- NULL
-
-    #Implicit Q
-    temp.ind0$Q_CB <- temp.ind0$v * temp.ind0$PI_CB
-    temp.ind0$Q_B <- temp.ind0$v * temp.ind0$PI_B
-    temp.ind0$Q_C <- temp.ind0$v * temp.ind0$PI_C
-    # temp.ind0$Q_B_cran<-temp.ind0$v*temp.ind0$PI_B_cran
-    # temp.ind0$Q_C_cran<-temp.ind0$v*temp.ind0$PI_C_cran
-
-    #Quantity Index
-    temp.ind0$QI_CB <- temp.ind0$Q_CB /
-      temp.ind0$Q_CB[temp.ind0$Year %in% baseyr]
-    temp.ind0$QI_B <- temp.ind0$Q_B /
-      temp.ind0$Q_B[temp.ind0$Year %in% baseyr]
-    temp.ind0$QI_C <- temp.ind0$Q_C /
-      temp.ind0$Q_C[temp.ind0$Year %in% baseyr]
-    # temp.ind0$QI_B_cran<-temp.ind0$Q_B_cran/
-    #   temp.ind0$Q_B_cran[temp.ind0$Year %in% baseyr]
-    # temp.ind0$QI_C_cran<-temp.ind0$Q_C_cran/
-    #   temp.ind0$Q_C_cran[temp.ind0$Year %in% baseyr]
-
-    #Combine
-
-    temp.ind0 <-
-      temp.ind0[, match(table = names(temp.ind0), x = names(index.data))]
-    index.data <- rbind.data.frame(index.data, temp.ind0)
-
-    ##########Make plots
-
-    NOAALightBlue <- "#C9E1E6"
-    NOAADarkBlue <- "#0098A6"
-    NOAADarkGrey <- "#56575A" #text
-    NOAABlueScale <-
-      colorRampPalette(colors = c(NOAALightBlue, NOAADarkBlue))
-
-    #############Compare Price Indexes for Total and Each Category
-
-    for (i in 1:length(unique(index.data$cat))) {
-      title00 <- paste0("_PI_", unique(index.data$cat)[i])
-
-      a0 <- index.data[index.data$cat %in% unique(index.data$cat)[i],
-                       c("Year",
-                         names(index.data)[grep(pattern = "PI_", x = names(index.data))])]
-
-      a <- gather(a0, cat, val,
-                  names(index.data)[grep(pattern = "PI_", x = names(index.data))],
-                  factor_key = TRUE)
-
-      g <- plotnlines(dat = a, title00, place)
-
-      figures.list[[length(figures.list) + 1]] <- g
-      names(figures.list)[length(figures.list)] <- paste0(place,"_",title00)
-
-    }
-
-    #############Compare each type of Price Indexes across Each Category
-    for (i in (names(index.data)[grep(pattern = "PI_", x = names(index.data))])) {
-      title00 <- paste0("_", i)
-
-      a0 <- index.data[, c("Year", "cat", i)]
-      names(a0)[3] <- "val"
-
-      a <- a0
-
-      g <- plotnlines(dat = a, title00, place)
-
-      figures.list[[length(figures.list) + 1]] <- g
-      names(figures.list)[length(figures.list)] <- paste0(place,"_",title00, "_PI")
-
-    }
-
-    #############Compare each type of Price Indexes across Each Category
-    for (i in c("q", (names(index.data)[grep(pattern = "Q_", x = names(index.data))]))) {
-      title00 <- paste0("_", i)
-
-      a0 <- index.data[,
-                       c("Year", "cat", i)]
-      names(a0)[3] <- "val"
-
-      a <- a0
-
-      g <- plotnlines(dat = a, title00, place)
-
-      figures.list[[length(figures.list) + 1]] <- g
-      names(figures.list)[length(figures.list)] <- paste0(place,"_",title00, "_Q")
-
-    }
-
-    #############Plot Category and Total Q
-    for (i in c("q", (names(index.data)[grep(pattern = "Q_", x = names(index.data))]))) {
-      title00 <- paste0("_", i, "_CatTot")
-
-      a <- index.data[, c("Year", "cat", "q")]
-      names(a)[3] <- "val"
-
-      g <- plotnlines(dat = a, title00, place)
-
-      figures.list[[length(figures.list) + 1]] <- g
-      names(figures.list)[length(figures.list)] <- paste0(place,"_",title00, "_QCatTot")
-    }
-
-    #############Plot Category and Total V
-    for (i in c("v", (names(index.data)[grep(pattern = "V_", x = names(index.data))]))) {
-      title00 <- paste0("_", i, "_CatTot")
-
-      a <- index.data[, c("Year", "cat", "v")]
-      names(a)[3] <- "val"
-
-      g <- plotnlines(dat = a, title00, place)
-
-      figures.list[[length(figures.list) + 1]] <- g
-      names(figures.list)[length(figures.list)] <-paste0(place,"_",title00, "_VCatTot")
-    }
-
-    #############Save Wrok
-    return(
-      list(
-        "index.data" = index.data,
-        "warnings.list" = warnings.list,
-        "figures.list" = figures.list
-      )
-    )
+    warnings.list <- c(warnings.list, warnings.list1)
 
   }
+
+  #Whole fishery
+
+  temp.ind0 <- data.frame(matrix(
+    data = NA,
+    nrow = length(minyr:maxyr),
+    ncol = ncol(index.data)
+  ))
+  names(temp.ind0) <- names(index.data)
+  temp.ind0$Year <- minyr:maxyr
+  temp.ind0$time <- ((minyr:maxyr) - (minyr - 1))
+  temp.ind0$cat <- "Total"
+  temp.ind0$cat0 <- 0
+
+
+  temp.ind00 <- aggregate.data.frame(
+    x = index.data[, c("v", "q")],
+    by = list("Year" = index.data$Year),
+    FUN = sum,
+    na.rm = T
+  )
+
+  temp.ind00$p <- temp.ind00$v / temp.ind00$q
+
+  temp.ind0$v <- temp.ind00$v
+  temp.ind0$q <- temp.ind00$q
+  temp.ind0$p0 <- temp.ind00$p
+
+  temp.ind0 <- temp.ind0[order(temp.ind0$Year, decreasing = F), ]
+  index.data <- index.data[order(index.data$Year, decreasing = F), ]
+
+  # temp.ind0$PI_B_cran<-priceIndex(index.data,
+  #                                     pvar='PI_B_cran',
+  #                                     qvar='q', # this might just need to be "Q_B_cran"
+  #                                     pervar='time',
+  #                                     prodID = 'cat',
+  #                                     sample='matched',
+  #                                     output='fixedBase',
+  #                                     indexMethod='Tornqvist')  #This is a fixed base index
+  #
+  #
+  # temp.ind0$PI_C_cran<-priceIndex(index.data,
+  #                                        pvar='PI_C_cran',
+  #                                        qvar='q', # this might just need to be "Q_C"
+  #                                        pervar='time',
+  #                                        prodID = 'cat',
+  #                                        sample='matched',
+  #                                        indexMethod='Tornqvist',
+  #                                        output='chained')      #This is a chain Index
+
+
+  names(index.data)[names(index.data) %in% "p"] <- "p0"
+  a <- tornc(
+    dat = index.data,
+    Year = "Year",
+    pvar = "PI_C",
+    qvar = "q",
+    vvar = "v",
+    prodID = "cat",
+    base.year = baseyr
+  )
+
+  temp.ind0$PI_C <- a$CPI
+  temp.ind0$PI_CB <- a$BPI
+
+  a <- tornb(
+    dat = index.data,
+    Year = "Year",
+    pvar = "PI_B",
+    qvar = "q",
+    # this might just need to be "Q_B"
+    vvar = "v",
+    prodID = "cat",
+    base.year = baseyr
+  )
+
+  temp.ind0$PI_B <- a$BPI
+
+  temp.ind0$p <- NULL
+
+  #Implicit Q
+  temp.ind0$Q_CB <- temp.ind0$v * temp.ind0$PI_CB
+  temp.ind0$Q_B <- temp.ind0$v * temp.ind0$PI_B
+  temp.ind0$Q_C <- temp.ind0$v * temp.ind0$PI_C
+  # temp.ind0$Q_B_cran<-temp.ind0$v*temp.ind0$PI_B_cran
+  # temp.ind0$Q_C_cran<-temp.ind0$v*temp.ind0$PI_C_cran
+
+  #Quantity Index
+  temp.ind0$QI_CB <- temp.ind0$Q_CB /
+    temp.ind0$Q_CB[temp.ind0$Year %in% baseyr]
+  temp.ind0$QI_B <- temp.ind0$Q_B /
+    temp.ind0$Q_B[temp.ind0$Year %in% baseyr]
+  temp.ind0$QI_C <- temp.ind0$Q_C /
+    temp.ind0$Q_C[temp.ind0$Year %in% baseyr]
+  # temp.ind0$QI_B_cran<-temp.ind0$Q_B_cran/
+  #   temp.ind0$Q_B_cran[temp.ind0$Year %in% baseyr]
+  # temp.ind0$QI_C_cran<-temp.ind0$Q_C_cran/
+  #   temp.ind0$Q_C_cran[temp.ind0$Year %in% baseyr]
+
+  #Combine
+
+  temp.ind0 <-
+    temp.ind0[, match(table = names(temp.ind0), x = names(index.data))]
+  index.data <- rbind.data.frame(index.data, temp.ind0)
+
+  ##########Make plots
+
+  NOAALightBlue <- "#C9E1E6"
+  NOAADarkBlue <- "#0098A6"
+  NOAADarkGrey <- "#56575A" #text
+  NOAABlueScale <-
+    colorRampPalette(colors = c(NOAALightBlue, NOAADarkBlue))
+
+  #############Compare Price Indexes for Total and Each Category
+
+  for (i in 1:length(unique(index.data$cat))) {
+    title00 <- paste0("_PI_", unique(index.data$cat)[i])
+
+    a0 <- index.data[index.data$cat %in% unique(index.data$cat)[i],
+                     c("Year",
+                       names(index.data)[grep(pattern = "PI_", x = names(index.data))])]
+
+    a <- gather(a0, cat, val,
+                names(index.data)[grep(pattern = "PI_", x = names(index.data))],
+                factor_key = TRUE)
+
+    g <- plotnlines(dat = a, title00, place)
+
+    figures.list[[length(figures.list) + 1]] <- g
+    names(figures.list)[length(figures.list)] <- paste0(place,"_",title00)
+
+  }
+
+  #############Compare each type of Price Indexes across Each Category
+  for (i in (names(index.data)[grep(pattern = "PI_", x = names(index.data))])) {
+    title00 <- paste0("_", i)
+
+    a0 <- index.data[, c("Year", "cat", i)]
+    names(a0)[3] <- "val"
+
+    a <- a0
+
+    g <- plotnlines(dat = a, title00, place)
+
+    figures.list[[length(figures.list) + 1]] <- g
+    names(figures.list)[length(figures.list)] <- paste0(place,"_",title00, "_PI")
+
+  }
+
+  #############Compare each type of Price Indexes across Each Category
+  for (i in c("q", (names(index.data)[grep(pattern = "Q_", x = names(index.data))]))) {
+    title00 <- paste0("_", i)
+
+    a0 <- index.data[,
+                     c("Year", "cat", i)]
+    names(a0)[3] <- "val"
+
+    a <- a0
+
+    g <- plotnlines(dat = a, title00, place)
+
+    figures.list[[length(figures.list) + 1]] <- g
+    names(figures.list)[length(figures.list)] <- paste0(place,"_",title00, "_Q")
+
+  }
+
+  #############Plot Category and Total Q
+  for (i in c("q", (names(index.data)[grep(pattern = "Q_", x = names(index.data))]))) {
+    title00 <- paste0("_", i, "_CatTot")
+
+    a <- index.data[, c("Year", "cat", "q")]
+    names(a)[3] <- "val"
+
+    g <- plotnlines(dat = a, title00, place)
+
+    figures.list[[length(figures.list) + 1]] <- g
+    names(figures.list)[length(figures.list)] <- paste0(place,"_",title00, "_QCatTot")
+  }
+
+  #############Plot Category and Total V
+  for (i in c("v", (names(index.data)[grep(pattern = "V_", x = names(index.data))]))) {
+    title00 <- paste0("_", i, "_CatTot")
+
+    a <- index.data[, c("Year", "cat", "v")]
+    names(a)[3] <- "val"
+
+    g <- plotnlines(dat = a, title00, place)
+
+    figures.list[[length(figures.list) + 1]] <- g
+    names(figures.list)[length(figures.list)] <-paste0(place,"_",title00, "_VCatTot")
+  }
+
+  #############Save Wrok
+  return(
+    list(
+      "Index" = index.data,
+      "Species Level" = spp.level,
+      "warnings.list" = warnings.list,
+      "figures.list" = figures.list
+    )
+  )
+
+}
 
 
 #' How Many Speices are in a Dataset numeric identifier

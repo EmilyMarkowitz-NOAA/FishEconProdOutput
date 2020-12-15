@@ -4,26 +4,18 @@
 \alias{PriceMethodOutput}
 \title{Price Method}
 \usage{
-PriceMethodOutput(
-  temp,
-  baseyr,
-  pctmiss = 1,
-  title0 = "",
-  place = "",
-  MinimumNumberOfSpecies = 2,
-  category0
-)
+PriceMethodOutput(temp, baseyr, title0 = "", place = "", category0)
 }
 \arguments{
 \item{temp}{Default dataset.}
 
 \item{baseyr}{Numeric year (YYYY). The base year you are assessing the anaylsis with. Typically this is the earliest year in the data set, but it can be any year you choose.}
 
-\item{pctmiss}{Percent missing threshold. For 60 percent use "0.6." Default is 1.00.}
-
 \item{title0}{Title of analysis}
 
 \item{place}{Area you are assessing the analysis for. This can also be used as a title.}
+
+\item{pctmiss}{Percent missing threshold. For 60 percent use "0.6." Default is 1.00.}
 
 \item{MinimumNumberOfSpecies}{An integer indicating the minimum number of species the user is willing to use in an analysis. If set to 1, the analysis will run even if the category only has one species. If set to 10, the analysis will run if there is 10 , 11, or more species, but not 9 or less species. Default = 2.}
 }

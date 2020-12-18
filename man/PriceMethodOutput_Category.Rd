@@ -26,8 +26,6 @@ PriceMethodOutput_Category(
 
 \item{warnings.list}{A list where warnings are stored. If using this function in the PriceMethodOutput it will be inherited. If using outside of that function, put ls().}
 
-\item{pctmiss}{Percent missing threshold. For 60 percent use "0.6." Default is 1.00.}
-
 \item{MinimumNumberOfSpecies}{An integer indicating the minimum number of species the user is willing to use in an analysis. If set to 1, the analysis will run even if the category only has one species. If set to 10, the analysis will run if there is 10 , 11, or more species, but not 9 or less species. Default = 1.}
 }
 \description{

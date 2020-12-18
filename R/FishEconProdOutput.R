@@ -230,7 +230,6 @@ tornc <- function(dat,
 #' @param ii Category number.
 #' @param maxyr The maxium year to assess in the dataset.
 #' @param minyr The minium year to assess in the dataset.
-#' @param pctmiss Percent missing threshold. For 60 percent use "0.6." Default is 1.00.
 #' @param warnings.list A list where warnings are stored. If using this function in the PriceMethodOutput it will be inherited. If using outside of that function, put ls().
 #' @param MinimumNumberOfSpecies An integer indicating the minimum number of species the user is willing to use in an analysis. If set to 1, the analysis will run even if the category only has one species. If set to 10, the analysis will run if there is 10 , 11, or more species, but not 9 or less species. Default = 1.
 #' @export
@@ -380,7 +379,6 @@ PriceMethodOutput_Category <- function(temp,
 #' This function calculates the Implicit Quanity Output at Fishery Level by systematically runing the Price Method Productivity Output analysis for all species of each cateorgy.
 #' @param temp Default dataset.
 #' @param baseyr Numeric year (YYYY). The base year you are assessing the anaylsis with. Typically this is the earliest year in the data set, but it can be any year you choose.
-#' @param pctmiss Percent missing threshold. For 60 percent use "0.6." Default is 1.00.
 #' @param title0 Title of analysis
 #' @param place Area you are assessing the analysis for. This can also be used as a title.
 #' @param MinimumNumberOfSpecies An integer indicating the minimum number of species the user is willing to use in an analysis. If set to 1, the analysis will run even if the category only has one species. If set to 10, the analysis will run if there is 10 , 11, or more species, but not 9 or less species. Default = 2.

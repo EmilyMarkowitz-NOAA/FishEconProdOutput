@@ -15,8 +15,6 @@ PriceMethodOutput(temp, baseyr, title0 = "", place = "", category0)
 
 \item{place}{Area you are assessing the analysis for. This can also be used as a title.}
 
-\item{pctmiss}{Percent missing threshold. For 60 percent use "0.6." Default is 1.00.}
-
 \item{MinimumNumberOfSpecies}{An integer indicating the minimum number of species the user is willing to use in an analysis. If set to 1, the analysis will run even if the category only has one species. If set to 10, the analysis will run if there is 10 , 11, or more species, but not 9 or less species. Default = 2.}
 }
 \description{

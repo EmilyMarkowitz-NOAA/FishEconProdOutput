@@ -4,14 +4,12 @@
 \alias{tornb}
 \title{Tornqvist Price Index Base Year Function}
 \usage{
-tornb(dat, Year, pvar, qvar = NA, vvar, prodID, base.year)
+tornb(dat, Year, pvar, vvar, prodID, base.year)
 }
 \arguments{
 \item{Year}{Name of the column holding year data.}
 
 \item{pvar}{Name of the column holding price data.}
-
-\item{qvar}{Name of the column holding quantity data.}
 
 \item{vvar}{Name of the column holding value data.}
 

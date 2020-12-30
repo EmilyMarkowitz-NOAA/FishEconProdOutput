@@ -1,6 +1,19 @@
 ---
-title: "FEUS-tables"
-output: rmarkdown::html_vignette
+title: "Create Tables from the Fisheries Economics of the US (FEUS) Report"
+author: Emily Markowitz (Emily.Markowitz AT NOAA.gov / EmilyMarkowitz-NOAA)
+date: "`r Sys.Date() `"
+output: 
+  html_document:
+    standalone: true
+    smart: true
+    normalize: true
+    toc: true
+    highlight: tango
+    self-contained: true
+    theme: cerulean
+  pdf_document:
+    toc: true
+    highlight: tango
 vignette: >
   %\VignetteIndexEntry{FEUS-tables}
   %\VignetteEngine{knitr::rmarkdown}
@@ -9,11 +22,20 @@ vignette: >
 
 ```{r, include = FALSE}
 # https://r-pkgs.org/vignettes.html
+
+  # rmarkdown::html_vignette
+
+
 knitr::opts_chunk$set(message = FALSE, echo = TRUE, warning = FALSE, 
   collapse = TRUE,
   comment = "#>"
 )
 ```
+
+# Productivity Output Analysis
+
+Purpose: Construct the FEUS Commerical Fisheries state and national tables and output them to csv files
+
 
 ```{r setup}
 PKG <- c(# devtools::install_github("emilymarkowitz-NOAA/FishEconProdOutput", force = TRUE)
@@ -47,13 +69,6 @@ for (p in PKG) {
 ```
 
 
-# Productivity Output Analysis
-
-Purpose: Construct the FEUS Commerical Fisheries state and national tables and output them to csv files
-
-Author: Emily Markowitz (Emily.Markowitz AT NOAA.gov / EmilyMarkowitz-NOAA)
-
-Date: `r Sys.Date() `
 
 ## 1. Set your Directories where you will save everything. 
 

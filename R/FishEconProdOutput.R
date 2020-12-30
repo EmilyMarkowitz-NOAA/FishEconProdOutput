@@ -228,10 +228,12 @@ tornc <- function(dat,
 #' This function systematically runs the Price Method Productivity Output analysis for all species of a cateorgy.
 #' @param temp Default dataset.
 #' @param ii Category number.
+#' @param category A character string. A unique string from the 'category0' column of the group being evaluated.
+#' @param category0 A character string. The column where the category is defined.
+#' @param baseyr Numeric year (YYYY). The base year you are assessing the anaylsis with. Typically this is the earliest year in the data set, but it can be any year you choose.
 #' @param maxyr The maxium year to assess in the dataset.
 #' @param minyr The minium year to assess in the dataset.
 #' @param warnings.list A list where warnings are stored. If using this function in the PriceMethodOutput it will be inherited. If using outside of that function, put ls().
-#' @param MinimumNumberOfSpecies An integer indicating the minimum number of species the user is willing to use in an analysis. If set to 1, the analysis will run even if the category only has one species. If set to 10, the analysis will run if there is 10 , 11, or more species, but not 9 or less species. Default = 1.
 #' @export
 #' @examples
 #' PriceMethodOutput_Category()
@@ -348,7 +350,9 @@ PriceMethodOutput_Category <- function(temp,
 
   temp.cat0$p <- temp.cat0$v / temp.cat0$q
 
-  temp.ind<-join(temp.cat0,temp.ind,by="Year", type="inner")
+  temp.ind<-join(temp.cat0,
+                 temp.ind,by="Year",
+                 type="inner")
 
   #Implicit Q
   temp.ind$Q_CB <- temp.ind$v * temp.ind$PI_CB
@@ -356,12 +360,9 @@ PriceMethodOutput_Category <- function(temp,
   temp.ind$Q_C <- temp.ind$v * temp.ind$PI_C
 
   #Quantity Index
-  temp.ind$QI_CB <- temp.ind$Q_CB /
-    temp.ind$Q_CB[temp.ind$Year %in% baseyr]
-  temp.ind$QI_B <- temp.ind$Q_B /
-    temp.ind$Q_B[temp.ind$Year %in% baseyr]
-  temp.ind$QI_C <- temp.ind$Q_C /
-    temp.ind$Q_C[temp.ind$Year %in% baseyr]
+  temp.ind$QI_CB <- temp.ind$Q_CB / temp.ind$Q_CB[temp.ind$Year %in% baseyr]
+  temp.ind$QI_B <- temp.ind$Q_B / temp.ind$Q_B[temp.ind$Year %in% baseyr]
+  temp.ind$QI_C <- temp.ind$Q_C / temp.ind$Q_C[temp.ind$Year %in% baseyr]
 
   temp.ind <- cbind.data.frame(cat = category,
                                cat0 = ii,
@@ -381,7 +382,7 @@ PriceMethodOutput_Category <- function(temp,
 #' @param baseyr Numeric year (YYYY). The base year you are assessing the anaylsis with. Typically this is the earliest year in the data set, but it can be any year you choose.
 #' @param title0 Title of analysis
 #' @param place Area you are assessing the analysis for. This can also be used as a title.
-#' @param MinimumNumberOfSpecies An integer indicating the minimum number of species the user is willing to use in an analysis. If set to 1, the analysis will run even if the category only has one species. If set to 10, the analysis will run if there is 10 , 11, or more species, but not 9 or less species. Default = 2.
+#' @param category0 A character string. The column where the category is defined. A character string.
 #' @export
 #' @examples
 #' PriceMethodOutput()
@@ -795,3 +796,275 @@ plotnlines <- function(dat, titleyaxis, title0) {
 
   return(g)
 }
+
+
+#' Run Analysis for the US and several regions.
+#'
+#' @param landings.data Landings data with the following columns: "Year", "Pounds", "Dollars", category0, "Tsn", "State"
+#' @param category0 A character string. The column where the category is defined.
+#' @param baseyr Numeric year (YYYY). The base year you are assessing the anaylsis with. Typically this is the earliest year in the data set, but it can be any year you choose.
+#' @param titleadd A string to add to the file with the outputs to remind you why this particular analysis was interesting.
+#' @param dir.analyses A directory that your analyses will be saved to (e.g., "./output/").
+#' @param reg.order The US and each region that you would like to assess. Default = c("National", "North Pacific", "Pacific", "Western Pacific (Hawai`i)", "New England", "Mid-Atlantic", "Northeast", "South Atlantic", "Gulf of Mexico").
+#' @param reg.order0 Acronym of the US and each region listed in reg.order. Default = c("US", "NP", "Pac", "WP", "NE", "MA", "NorE", "SA", "GOM").
+#' @param skipplots TRUE (create and save plots) or don't FALSE.
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' vignette(FEUS-tables)
+OutputAnalysis<-function(landings.data,
+                         category0,
+                         baseyr,
+                         titleadd,
+                         dir.analyses,
+                         reg.order = c("National", "North Pacific", "Pacific",
+                                       "Western Pacific (Hawai`i)", "New England",
+                                       "Mid-Atlantic", "Northeast", "South Atlantic", "Gulf of Mexico"),
+                         reg.order0 = c("US", "NP", "Pac", "WP", "NE", "MA", "NorE", "SA", "GOM"),
+                         skipplots = F) {
+
+  dir.analyses1<-paste0(dir.analyses, "/",titleadd, "_", #analysisby, "_",
+                        gsub(pattern = "\\.", replacement = "", x = category0), "/")
+  dir.create(dir.analyses1)
+  dir.reports<-paste0(dir.analyses1, "/reports/")
+  dir.create(paste0(dir.analyses1, "/reports/"))
+  dir.figures<-paste0(dir.analyses1, "/figures/")
+  dir.create(paste0(dir.analyses1, "/figures/"))
+  dir.outputtables<-paste0(dir.analyses1, "/outputtables/")
+  dir.create(paste0(dir.analyses1, "/outputtables/"))
+
+  #Save Stuff
+  editeddata.list <- index.list <- spp.list <- finaltable.list <- warnings.list <- figures.list<-list()
+  counter<-0
+  for (r in 1:length(reg.order)) {
+
+    if (reg.order[r] == "Northeast") {
+      landings.data$Region[landings.data$Region %in% c("Mid-Atlantic", "New England")]<-"Northeast"
+      landings.data$abbvreg[landings.data$Region %in% c("Mid-Atlantic", "New England")]<-"NorE"
+    }
+
+    place<-reg.order[r]
+    print(place)
+    counter<-funct_counter(counter)
+
+
+    title000<-paste0("_","byr",baseyr)
+    title0<-paste0(counter, "_", gsub(pattern = "\\(", replacement = "", x =
+                                        gsub(pattern = ")", replacement = "", x =
+                                               gsub(pattern = "`", replacement = "", x =
+                                                      gsub(reg.order0[r], pattern = " ", replacement = "")))),
+                   title000, "_", titleadd)
+
+
+    idx<-c(1:nrow(landings.data))
+    if (reg.order[r] != "National") {
+      idx<-which(landings.data$State %in% landings.data$State[landings.data$Region %in% place])
+    }
+
+    temp.orig<-landings.data[idx,
+                             c(category0, "Year", "Pounds", "Dollars", "Tsn")]
+
+    ### B. Enter base year
+
+    ### C. Run the function
+    # if (analysisby == "P") {
+    temp00<-PriceMethodOutput(temp = temp.orig,
+                              baseyr = baseyr,
+                              title0 = title0,
+                              place = place,
+                              category0 = category0)
+    # } else if (analysisby == "Q") {
+    #   temp00<-QuantityMethodOutput(temp = temp.orig, baseyr,
+    #                                title0 = title0, place = place,
+    #                                category0 = category0)
+    # }
+
+    warnings.list<-c(warnings.list, temp00$warnings.list)
+    figures.list<-c(figures.list, temp00$figures.list)
+
+    ### D. Obtain the implicit quantity estimates
+
+    #EditedData
+    editeddata.list[[r]]<-temp.orig
+    names(editeddata.list)[r]<-place
+    write.csv(x = editeddata.list[[r]],
+              file = paste0(dir.outputtables, title0,"_EditedData.csv"))
+
+    #Raw
+    write.csv(x = temp00$Index, file = paste0(dir.outputtables, title0,"_AllData.csv"))
+    index.list[[r]]<-temp00$Index
+    names(index.list)[r]<-place
+
+    #Raw
+    write.csv(x = temp00$`Species Level`,
+              file = paste0(dir.outputtables, title0,"_AllDataSpp.csv"))
+    spp.list[[r]]<-temp00$`Species Level`
+    names(spp.list)[r]<-place
+
+  }
+
+  ########SPREADSHEETS########
+  print("Create spreadsheets")
+
+  save(editeddata.list, index.list, spp.list,
+       file = paste0(dir.outputtables, "AllOutputs.rdata"))
+
+  # write.csv(x = spptable, file = paste0(dir.outputtables, "000_All", title000,"_Species.csv"))
+
+
+  for (r in 1:length(reg.order)){
+
+    # #Print
+    # write.xlsx2(x = editeddata.list[[r]],
+    #             file = paste0(dir.outputtables, "000_All", title000, "_", titleadd, "_EditedData.xlsx"),
+    #             sheetName = reg.order[r],
+    #             col.names = T, row.names = T, append = T)
+
+    #Review
+    write.xlsx2(x = index.list[[r]],
+                file = paste0(dir.outputtables, "000_All", title000, "_", titleadd, "_AllData.xlsx"),
+                sheetName = reg.order[r],
+                col.names = T, row.names = T, append = T)
+
+    # #All Data
+    # write.xlsx2(x = spp.list[[r]],
+    #             file = paste0(dir.outputtables, "000_All", title000, "_", titleadd, "_AllDataSpp.xlsx"),
+    #             sheetName = reg.order[r],
+    #             col.names = T, row.names = T, append = T)
+
+  }
+
+  ######PLOTS##########
+
+  print("Create plots")
+
+  save(figures.list, #gridfigures.list,
+       file = paste0(dir.figures, "AllFigures.rdata"))
+
+  #Side by Side graphs
+  figs<-unique(paste0(lapply(X = strsplit(x = names(figures.list),
+                                          split = "__"),
+                             function(x) x[2])))
+  gridfigures.list<-list()
+
+  # if (length(r)>1){
+  for (i in 1:length(figs)){
+
+    a<-strsplit(x = names(figures.list)[i], split = "_")[[1]][length(strsplit(x = names(figures.list)[i], split = "_")[[1]])]
+
+    dir.create(paste0(dir.figures, "/", a, "/"))
+
+    fig<-figs[i]
+    list0<-figures.list[grep(pattern = fig, x = names(figures.list))]
+
+    # g<-ggarrange(list0[[1]],
+    #                 list0[[2]],
+    #                 list0[[3]],
+    #                 list0[[4]],
+    #                 list0[[5]],
+    #                 list0[[6]],
+    #                 list0[[7]],
+    #                 nrow=3, ncol = 3)
+
+    g<-ggarrange(plotlist = list0,
+                 nrow=3, ncol = 3)
+
+    ggsave(filename = paste0(dir.figures, "/", a, "/", "000_All_byr",baseyr,
+                             "_",gsub(pattern = "\\.", replacement = "", x = category0), fig, ".png"),
+           plot = g,
+           width = 11, height = 8.5)
+
+    gridfigures.list<-c(gridfigures.list, list(g))
+    names(gridfigures.list)[length(gridfigures.list)]<-paste0("000_All_byr",baseyr,
+                                                              "_",gsub(pattern = "\\.", replacement = "", x = category0), fig)
+  }
+  save(gridfigures.list,
+       file = paste0(dir.figures, "AllFiguresGrid.rdata"))
+
+  #    #make single plots
+  #   for (i in 1:length(figures.list)) {
+  #
+  #     a<-strsplit(x = names(figures.list)[i], split = "_")[[1]][length(strsplit(x = names(figures.list)[i], split = "_")[[1]])]
+  #     dir.create(paste0(dir.figures, "/", a, "/"))
+  #
+  #     ggsave(filename = paste0(dir.figures, "/", a, "/", names(figures.list)[i], ".png"),
+  #            plot = figures.list[[i]],
+  #            width = 11, height = 8.5)
+  # }
+}
+
+
+
+
+
+#' Title
+#'
+#' @param tsn A vector of Taxonomic Serial Numbers to be evaluated.
+#' @param categories A list of the categories and associated TSN values.
+#' @param missing.name A string of what to call the missing value.
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'
+itis_reclassify<-function(tsn, categories, missing.name){
+
+  # Find which codes are in which categories
+  tsn0<-as.numeric(tsn)[!(is.na(tsn))]
+  tsn.indata<-classification(sci_id = tsn0, db = 'itis')
+  tsn.indata<-tsn.indata[!(names(tsn.indata) %in% 0)]
+  valid0<- sciname<-category0<-bottomrank<-sppname<- TSN<-c()
+
+  TSN<-c()
+  bottomrank<-c()
+  category0<-c()
+  sciname<-c()
+  valid0<-c()
+
+
+  for (i in 1:length(categories)) {
+
+    a<-list.search(lapply(X = tsn.indata, '[', 3), categories[i][[1]] %in% . )
+
+    # for (ii in 1:length(categories[i][[1]])) {
+    # a<-c(a, list.search(lapply(X = tsn.indata, '[', 3), categories[i][[1]][[ii]] %in% . ))
+    # }
+
+    if (length(a)!=0) {
+
+      sppcode<-names(a)
+      sppcode<-gsub(pattern = "[a-zA-Z]+", replacement = "", x = sppcode)
+      sppcode<-gsub(pattern = "\\.", replacement = "", x = sppcode)
+
+      for (ii in 1:length(sppcode)) {
+        TSN<-c(TSN, sppcode[ii])
+
+        bottomrank<-c(bottomrank, tsn.indata[names(tsn.indata) %in% sppcode[ii]][[1]]$rank[
+          nrow(tsn.indata[names(tsn.indata) %in% sppcode[ii]][[1]])])
+
+        category0<-c(category0, names(categories[i]))
+
+        sciname<-c(sciname, tsn.indata[names(tsn.indata) %in% sppcode[ii]][[1]]$name[
+          nrow(tsn.indata[names(tsn.indata) %in% sppcode[ii]][[1]])])
+
+        valid0<-c(valid0,
+                  ifelse(nrow(tsn.indata[names(tsn.indata) %in% sppcode[ii]][[1]])>1,
+                         "valid", "invalid"))
+      }
+    }
+  }
+
+  df.out<-data.frame(TSN = TSN,
+                     category = category0,
+                     valid = valid0,
+                     rank = bottomrank,
+                     sciname = sciname )
+
+  return(list("df.out" = df.out,
+              "tsn.indata" = tsn.indata))
+}
+
+

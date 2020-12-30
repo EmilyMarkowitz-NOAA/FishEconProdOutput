@@ -1,0 +1,19 @@
+---
+title: "FEUS-tables"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{FEUS-tables}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(FishEconProdOutput)
+```

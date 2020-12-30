@@ -20,13 +20,17 @@ PriceMethodOutput_Category(
 
 \item{ii}{Category number.}
 
+\item{category}{A character string. A unique string from the 'category0' column of the group being evaluated.}
+
+\item{category0}{A character string. The column where the category is defined.}
+
+\item{baseyr}{Numeric year (YYYY). The base year you are assessing the anaylsis with. Typically this is the earliest year in the data set, but it can be any year you choose.}
+
 \item{maxyr}{The maxium year to assess in the dataset.}
 
 \item{minyr}{The minium year to assess in the dataset.}
 
 \item{warnings.list}{A list where warnings are stored. If using this function in the PriceMethodOutput it will be inherited. If using outside of that function, put ls().}
-
-\item{MinimumNumberOfSpecies}{An integer indicating the minimum number of species the user is willing to use in an analysis. If set to 1, the analysis will run even if the category only has one species. If set to 10, the analysis will run if there is 10 , 11, or more species, but not 9 or less species. Default = 1.}
 }
 \description{
 This function systematically runs the Price Method Productivity Output analysis for all species of a cateorgy.

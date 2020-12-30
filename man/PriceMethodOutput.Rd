@@ -15,7 +15,7 @@ PriceMethodOutput(temp, baseyr, title0 = "", place = "", category0)
 
 \item{place}{Area you are assessing the analysis for. This can also be used as a title.}
 
-\item{MinimumNumberOfSpecies}{An integer indicating the minimum number of species the user is willing to use in an analysis. If set to 1, the analysis will run even if the category only has one species. If set to 10, the analysis will run if there is 10 , 11, or more species, but not 9 or less species. Default = 2.}
+\item{category0}{A character string. The column where the category is defined. A character string.}
 }
 \description{
 This function calculates the Implicit Quanity Output at Fishery Level by systematically runing the Price Method Productivity Output analysis for all species of each cateorgy.

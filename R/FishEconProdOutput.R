@@ -355,9 +355,9 @@ PriceMethodOutput_Category <- function(temp,
                  type="inner")
 
   #Implicit Q
-  temp.ind$Q_CB <- temp.ind$v * temp.ind$PI_CB
-  temp.ind$Q_B <- temp.ind$v * temp.ind$PI_B
-  temp.ind$Q_C <- temp.ind$v * temp.ind$PI_C
+  temp.ind$Q_CB <- temp.ind$v / temp.ind$PI_CB
+  temp.ind$Q_B <- temp.ind$v / temp.ind$PI_B
+  temp.ind$Q_C <- temp.ind$v / temp.ind$PI_C
 
   #Quantity Index
   temp.ind$QI_CB <- temp.ind$Q_CB / temp.ind$Q_CB[temp.ind$Year %in% baseyr]
@@ -501,9 +501,9 @@ PriceMethodOutput <-function(temp,
   temp.ind0$p <- NULL
 
   #Implicit Q
-  temp.ind0$Q_CB <- temp.ind0$v * temp.ind0$PI_CB
-  temp.ind0$Q_B <- temp.ind0$v * temp.ind0$PI_B
-  temp.ind0$Q_C <- temp.ind0$v * temp.ind0$PI_C
+  temp.ind0$Q_CB <- temp.ind0$v / temp.ind0$PI_CB
+  temp.ind0$Q_B <- temp.ind0$v / temp.ind0$PI_B
+  temp.ind0$Q_C <- temp.ind0$v / temp.ind0$PI_C
   # temp.ind0$Q_B_cran<-temp.ind0$v*temp.ind0$PI_B_cran
   # temp.ind0$Q_C_cran<-temp.ind0$v*temp.ind0$PI_C_cran
 
@@ -800,13 +800,13 @@ plotnlines <- function(dat, titleyaxis, title0) {
 
 #' Run Analysis for the US and several regions.
 #'
-#' @param landings.data Landings data with the following columns: "Year", "Pounds", "Dollars", category0, "Tsn", "State"
+#' @param landings_data Landings data with the following columns: "Year", "Pounds", "Dollars", category0, "Tsn", "State"
 #' @param category0 A character string. The column where the category is defined.
 #' @param baseyr Numeric year (YYYY). The base year you are assessing the anaylsis with. Typically this is the earliest year in the data set, but it can be any year you choose.
 #' @param titleadd A string to add to the file with the outputs to remind you why this particular analysis was interesting.
-#' @param dir.analyses A directory that your analyses will be saved to (e.g., "./output/").
-#' @param reg.order The US and each region that you would like to assess. Default = c("National", "North Pacific", "Pacific", "Western Pacific (Hawai`i)", "New England", "Mid-Atlantic", "Northeast", "South Atlantic", "Gulf of Mexico").
-#' @param reg.order0 Acronym of the US and each region listed in reg.order. Default = c("US", "NP", "Pac", "WP", "NE", "MA", "NorE", "SA", "GOM").
+#' @param dir-analyses A directory that your analyses will be saved to (e.g., "./output/").
+#' @param reg_order The US and each region that you would like to assess. Default = c("National", "North Pacific", "Pacific", "Western Pacific (Hawai`i)", "New England", "Mid-Atlantic", "Northeast", "South Atlantic", "Gulf of Mexico").
+#' @param reg_order_abbrv Acronym of the US and each region listed in reg_order. Default = c("US", "NP", "Pac", "WP", "NE", "MA", "NorE", "SA", "GOM").
 #' @param skipplots TRUE (create and save plots) or don't FALSE.
 #'
 #' @return
@@ -814,38 +814,38 @@ plotnlines <- function(dat, titleyaxis, title0) {
 #'
 #' @examples
 #' vignette(FEUS-tables)
-OutputAnalysis<-function(landings.data,
+OutputAnalysis<-function(landings_data,
                          category0,
                          baseyr,
                          titleadd,
-                         dir.analyses,
-                         reg.order = c("National", "North Pacific", "Pacific",
+                         dir_analyses,
+                         reg_order = c("National", "North Pacific", "Pacific",
                                        "Western Pacific (Hawai`i)", "New England",
                                        "Mid-Atlantic", "Northeast", "South Atlantic", "Gulf of Mexico"),
-                         reg.order0 = c("US", "NP", "Pac", "WP", "NE", "MA", "NorE", "SA", "GOM"),
+                         reg_order_abbrv = c("US", "NP", "Pac", "WP", "NE", "MA", "NorE", "SA", "GOM"),
                          skipplots = F) {
 
-  dir.analyses1<-paste0(dir.analyses, "/",titleadd, "_", #analysisby, "_",
+  dir_analyses1<-paste0(dir_analyses, "/",titleadd, "_", #analysisby, "_",
                         gsub(pattern = "\\.", replacement = "", x = category0), "/")
-  dir.create(dir.analyses1)
-  dir.reports<-paste0(dir.analyses1, "/reports/")
-  dir.create(paste0(dir.analyses1, "/reports/"))
-  dir.figures<-paste0(dir.analyses1, "/figures/")
-  dir.create(paste0(dir.analyses1, "/figures/"))
-  dir.outputtables<-paste0(dir.analyses1, "/outputtables/")
-  dir.create(paste0(dir.analyses1, "/outputtables/"))
+  dir.create(dir_analyses1)
+  # dir_reports<-paste0(dir_analyses1, "/reports/")
+  dir.create(paste0(dir_analyses1, "/reports/"))
+  dir_figures<-paste0(dir_analyses1, "/figures/")
+  dir.create(paste0(dir_analyses1, "/figures/"))
+  dir_outputtables<-paste0(dir_analyses1, "/outputtables/")
+  dir.create(paste0(dir_analyses1, "/outputtables/"))
 
   #Save Stuff
   editeddata.list <- index.list <- spp.list <- finaltable.list <- warnings.list <- figures.list<-list()
   counter<-0
-  for (r in 1:length(reg.order)) {
+  for (r in 1:length(reg_order)) {
 
-    if (reg.order[r] == "Northeast") {
-      landings.data$Region[landings.data$Region %in% c("Mid-Atlantic", "New England")]<-"Northeast"
-      landings.data$abbvreg[landings.data$Region %in% c("Mid-Atlantic", "New England")]<-"NorE"
+    if (reg_order[r] == "Northeast") {
+      landings_data$Region[landings_data$Region %in% c("Mid-Atlantic", "New England")]<-"Northeast"
+      landings_data$abbvreg[landings_data$Region %in% c("Mid-Atlantic", "New England")]<-"NorE"
     }
 
-    place<-reg.order[r]
+    place<-reg_order[r]
     print(place)
     counter<-funct_counter(counter)
 
@@ -854,29 +854,30 @@ OutputAnalysis<-function(landings.data,
     title0<-paste0(counter, "_", gsub(pattern = "\\(", replacement = "", x =
                                         gsub(pattern = ")", replacement = "", x =
                                                gsub(pattern = "`", replacement = "", x =
-                                                      gsub(reg.order0[r], pattern = " ", replacement = "")))),
+                                                      gsub(reg_order_abbrv[r], pattern = " ",
+                                                           replacement = "")))),
                    title000, "_", titleadd)
 
 
-    idx<-c(1:nrow(landings.data))
-    if (reg.order[r] != "National") {
-      idx<-which(landings.data$State %in% landings.data$State[landings.data$Region %in% place])
+    idx<-c(1:nrow(landings_data))
+    if (reg_order[r] != "National") {
+      idx<-which(landings_data$State %in% landings_data$State[landings_data$Region %in% place])
     }
 
-    temp.orig<-landings.data[idx,
+    temp_orig<-landings_data[idx,
                              c(category0, "Year", "Pounds", "Dollars", "Tsn")]
 
     ### B. Enter base year
 
     ### C. Run the function
     # if (analysisby == "P") {
-    temp00<-PriceMethodOutput(temp = temp.orig,
+    temp00<-PriceMethodOutput(temp = temp_orig,
                               baseyr = baseyr,
                               title0 = title0,
                               place = place,
                               category0 = category0)
     # } else if (analysisby == "Q") {
-    #   temp00<-QuantityMethodOutput(temp = temp.orig, baseyr,
+    #   temp00<-QuantityMethodOutput(temp = temp_orig, baseyr,
     #                                title0 = title0, place = place,
     #                                category0 = category0)
     # }
@@ -887,19 +888,19 @@ OutputAnalysis<-function(landings.data,
     ### D. Obtain the implicit quantity estimates
 
     #EditedData
-    editeddata.list[[r]]<-temp.orig
+    editeddata.list[[r]]<-temp_orig
     names(editeddata.list)[r]<-place
     write.csv(x = editeddata.list[[r]],
-              file = paste0(dir.outputtables, title0,"_EditedData.csv"))
+              file = paste0(dir_outputtables, title0,"_EditedData.csv"))
 
     #Raw
-    write.csv(x = temp00$Index, file = paste0(dir.outputtables, title0,"_AllData.csv"))
+    write.csv(x = temp00$Index, file = paste0(dir_outputtables, title0,"_AllData.csv"))
     index.list[[r]]<-temp00$Index
     names(index.list)[r]<-place
 
     #Raw
     write.csv(x = temp00$`Species Level`,
-              file = paste0(dir.outputtables, title0,"_AllDataSpp.csv"))
+              file = paste0(dir_outputtables, title0,"_AllDataSpp.csv"))
     spp.list[[r]]<-temp00$`Species Level`
     names(spp.list)[r]<-place
 
@@ -909,29 +910,29 @@ OutputAnalysis<-function(landings.data,
   print("Create spreadsheets")
 
   save(editeddata.list, index.list, spp.list,
-       file = paste0(dir.outputtables, "AllOutputs.rdata"))
+       file = paste0(dir_outputtables, "AllOutputs.rdata"))
 
-  # write.csv(x = spptable, file = paste0(dir.outputtables, "000_All", title000,"_Species.csv"))
+  # write.csv(x = spptable, file = paste0(dir_outputtables, "000_All", title000,"_Species.csv"))
 
 
-  for (r in 1:length(reg.order)){
+  for (r in 1:length(reg_order)){
 
     # #Print
     # write.xlsx2(x = editeddata.list[[r]],
-    #             file = paste0(dir.outputtables, "000_All", title000, "_", titleadd, "_EditedData.xlsx"),
-    #             sheetName = reg.order[r],
+    #             file = paste0(dir_outputtables, "000_All", title000, "_", titleadd, "_EditedData.xlsx"),
+    #             sheetName = reg_order[r],
     #             col.names = T, row.names = T, append = T)
 
     #Review
     write.xlsx2(x = index.list[[r]],
-                file = paste0(dir.outputtables, "000_All", title000, "_", titleadd, "_AllData.xlsx"),
-                sheetName = reg.order[r],
+                file = paste0(dir_outputtables, "000_All", title000, "_", titleadd, "_AllData.xlsx"),
+                sheetName = reg_order[r],
                 col.names = T, row.names = T, append = T)
 
     # #All Data
     # write.xlsx2(x = spp.list[[r]],
-    #             file = paste0(dir.outputtables, "000_All", title000, "_", titleadd, "_AllDataSpp.xlsx"),
-    #             sheetName = reg.order[r],
+    #             file = paste0(dir_outputtables, "000_All", title000, "_", titleadd, "_AllDataSpp.xlsx"),
+    #             sheetName = reg_order[r],
     #             col.names = T, row.names = T, append = T)
 
   }
@@ -940,8 +941,8 @@ OutputAnalysis<-function(landings.data,
 
   print("Create plots")
 
-  save(figures.list, #gridfigures.list,
-       file = paste0(dir.figures, "AllFigures.rdata"))
+  save(figures.list,
+       file = paste0(dir_figures, "AllFigures.rdata"))
 
   #Side by Side graphs
   figs<-unique(paste0(lapply(X = strsplit(x = names(figures.list),
@@ -954,7 +955,7 @@ OutputAnalysis<-function(landings.data,
 
     a<-strsplit(x = names(figures.list)[i], split = "_")[[1]][length(strsplit(x = names(figures.list)[i], split = "_")[[1]])]
 
-    dir.create(paste0(dir.figures, "/", a, "/"))
+    dir.create(paste0(dir_figures, "/", a, "/"))
 
     fig<-figs[i]
     list0<-figures.list[grep(pattern = fig, x = names(figures.list))]
@@ -971,7 +972,7 @@ OutputAnalysis<-function(landings.data,
     g<-ggarrange(plotlist = list0,
                  nrow=3, ncol = 3)
 
-    ggsave(filename = paste0(dir.figures, "/", a, "/", "000_All_byr",baseyr,
+    ggsave(filename = paste0(dir_figures, "/", a, "/", "000_All_byr",baseyr,
                              "_",gsub(pattern = "\\.", replacement = "", x = category0), fig, ".png"),
            plot = g,
            width = 11, height = 8.5)
@@ -981,15 +982,15 @@ OutputAnalysis<-function(landings.data,
                                                               "_",gsub(pattern = "\\.", replacement = "", x = category0), fig)
   }
   save(gridfigures.list,
-       file = paste0(dir.figures, "AllFiguresGrid.rdata"))
+       file = paste0(dir_figures, "AllFiguresGrid.rdata"))
 
   #    #make single plots
   #   for (i in 1:length(figures.list)) {
   #
   #     a<-strsplit(x = names(figures.list)[i], split = "_")[[1]][length(strsplit(x = names(figures.list)[i], split = "_")[[1]])]
-  #     dir.create(paste0(dir.figures, "/", a, "/"))
+  #     dir.create(paste0(dir_figures, "/", a, "/"))
   #
-  #     ggsave(filename = paste0(dir.figures, "/", a, "/", names(figures.list)[i], ".png"),
+  #     ggsave(filename = paste0(dir_figures, "/", a, "/", names(figures.list)[i], ".png"),
   #            plot = figures.list[[i]],
   #            width = 11, height = 8.5)
   # }

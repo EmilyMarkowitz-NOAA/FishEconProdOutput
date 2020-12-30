@@ -5,19 +5,19 @@
 \title{Run Analysis for the US and several regions.}
 \usage{
 OutputAnalysis(
-  landings.data,
+  landings_data,
   category0,
   baseyr,
   titleadd,
-  dir.analyses,
-  reg.order = c("National", "North Pacific", "Pacific", "Western Pacific (Hawai`i)",
+  dir_analyses,
+  reg_order = c("National", "North Pacific", "Pacific", "Western Pacific (Hawai`i)",
     "New England", "Mid-Atlantic", "Northeast", "South Atlantic", "Gulf of Mexico"),
-  reg.order0 = c("US", "NP", "Pac", "WP", "NE", "MA", "NorE", "SA", "GOM"),
+  reg_order_abbrv = c("US", "NP", "Pac", "WP", "NE", "MA", "NorE", "SA", "GOM"),
   skipplots = F
 )
 }
 \arguments{
-\item{landings.data}{Landings data with the following columns: "Year", "Pounds", "Dollars", category0, "Tsn", "State"}
+\item{landings_data}{Landings data with the following columns: "Year", "Pounds", "Dollars", category0, "Tsn", "State"}
 
 \item{category0}{A character string. The column where the category is defined.}
 
@@ -25,13 +25,13 @@ OutputAnalysis(
 
 \item{titleadd}{A string to add to the file with the outputs to remind you why this particular analysis was interesting.}
 
-\item{dir.analyses}{A directory that your analyses will be saved to (e.g., "./output/").}
+\item{reg_order}{The US and each region that you would like to assess. Default = c("National", "North Pacific", "Pacific", "Western Pacific (Hawai`i)", "New England", "Mid-Atlantic", "Northeast", "South Atlantic", "Gulf of Mexico").}
 
-\item{reg.order}{The US and each region that you would like to assess. Default = c("National", "North Pacific", "Pacific", "Western Pacific (Hawai`i)", "New England", "Mid-Atlantic", "Northeast", "South Atlantic", "Gulf of Mexico").}
-
-\item{reg.order0}{Acronym of the US and each region listed in reg.order. Default = c("US", "NP", "Pac", "WP", "NE", "MA", "NorE", "SA", "GOM").}
+\item{reg_order_abbrv}{Acronym of the US and each region listed in reg_order. Default = c("US", "NP", "Pac", "WP", "NE", "MA", "NorE", "SA", "GOM").}
 
 \item{skipplots}{TRUE (create and save plots) or don't FALSE.}
+
+\item{dir-analyses}{A directory that your analyses will be saved to (e.g., "./output/").}
 }
 \value{
 

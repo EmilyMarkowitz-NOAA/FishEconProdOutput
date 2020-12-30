@@ -10,45 +10,36 @@ knitr::opts_chunk$set(echo = FALSE, error = FALSE, message = FALSE, warning = FA
 
 # **PRELIMINARY**: Measuring Output for U.S. Commercial Fisheries From Theory to Practice
 
-> **Code is still in development**
+> Code is still in Development
 
 **Emily Markowitz**^1^ (Emily.Markowitz AT noaa.gov)
 
-**Sun Ling Wang**^2^ (Sun-Ling.Wang AT noaa.gov)
+**Sun Ling Wang**^2^ (sunling.wang AT usda.gov)
 
-^1^Contractor, ECS Federal in support of NOAA Fisheries Office of Science and Technology Economics & Social Analysis Division; as of Sept. 28, 2020: Alaska Fisheries Science Center, National Marine Fisheries Service, National Oceanic and Atmospheric Administration, Seattle, WA 98195
+**John Walden**^3^ (John.Walden AT noaa.gov)
 
-^2^On detail with the NOAA Fisheries Office of Science and Technology Economics & Social Analysis Division
+^1^Alaska Fisheries Science Center, 
+National Marine Fisheries Service, National Oceanic and Atmospheric Administration,
+Seattle, WA 98195. 
+Work completed as a contractor with ECS in the NOAA Fisheries Office of Science and Technology Economics & Social Analysis Division
+
+^2^On detail with the NOAA Fisheries Office of Science and Technology Economics & Social Analysis Division. 
+United States Department of Agriculture, Economic Research Service 
+
+^3^Northeast Fisheries Science Center, 
+National Marine Fisheries Service, National Oceanic and Atmospheric Administration,
+Woods Hole, MA
 
 >*The views expressed are those of the author and should not be attributed to the NOAA, ECS or ERS
 
-**GitHub:** [https://github.com/emilyhmarkowitz/FishEconProdOutput](https://github.com/emilyhmarkowitz/FishEconProdOutput)  
-
-# NOAA README
-
->This repository is a scientific product and is not official communication of the National Oceanic and Atmospheric Administration, or the United States Department of Commerce. All NOAA GitHub project code is provided on an ‘as is’ basis and the user assumes responsibility for its use. Any claims against the Department of Commerce or Department of Commerce bureaus stemming from the use of this GitHub project will be governed by all applicable Federal law. Any reference to specific commercial products, processes, or services by service mark, trademark, manufacturer, or otherwise, does not constitute or imply their endorsement, recommendation or favoring by the Department of Commerce. The Department of Commerce seal and logo, or the seal and logo of a DOC bureau, shall not be used in any manner to imply endorsement of any commercial product or activity by DOC or the United States Government.
-
+**GitHub:** [https://github.com/emilyhmarkowitz/FishEconProdOutput](https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput)  
 
 # Download this package
 
 ```{r, echo=TRUE, eval=FALSE}
 library(devtools)
-devtools::install_github("emilyhmarkowitz/FishEconProdOutput", dependencies = TRUE)
+devtools::install_github("EmilyMarkowitz-NOAA/FishEconProdOutput", dependencies = TRUE)
 library(FishEconProdOutput)
-```
-
-```{r}
-echoTF<-function(typical, code = TRUE) {
-  return(ifelse(code == TRUE, typical, FALSE))
-}
-
-code<-FALSE
-showresults<-FALSE
-library(tidyr)
-library(knitr)
-
-dir.data<-"./data/"
-
 ```
 
 
@@ -61,403 +52,27 @@ dir.data<-"./data/"
 
 # Documentation
 
-For specifics about how the Quantitative and Price Methods are derived, please read this [Documentation](https://github.com/emilyhmarkowitz/FishEconProdOutput/blob/master/ProductivityIndex_DocumentationSummary.pdf). 
+You can find Vignettes here
 
-
-
-# Data requirements and source
-
-The Tornqvist quantity index requires data on quantity and revenue shares. We employ landings quantity (pounds) and landings value ($USD) data by year, state, and species. 
- 
- - Data source: [Fisheries One Stop Shop downloaded August 13 2020](https://foss.nmfs.noaa.gov/apexfoss/f?p=215:200::::::) 
- 
- - More information about the data: [Commericial Fisheries Landings Data](https://www.fisheries.noaa.gov/national/sustainable-fisheries/commercial-fisheries-landings)
-
-Data from FOSS looks like this:
-
-```{r}
-#Landings Data
-landings.data<-read.csv(file = paste0(dir.data, "fis_foss_coastal_ws-foss_landings_mv.csv"))
-landings.data<-tail(landings.data)
-landings.data %>%
-    knitr::kable(row.names = T, booktabs = T)
+```{r, echo=TRUE, eval=FALSE}
+browseVignettes()
 ```
 
-Then I append state information:
+Or directly view the outputs here: 
 
-```{r, echo = T}
-statereg<-read.csv(file = paste0(dir.data, "statereg.csv"))
 
-head(statereg) %>%
-    knitr::kable(row.names = T, booktabs = T)
-```
+# Publications
 
-Then I change some column names of the data:
+A publication on this work in forthcoming. 
 
 
+# NOAA README
 
-```{r, echo = T}
-#Edit Landings Data
-landings.data<-landings.data[,c("TSN", "H_NEW_ITIS", "TS_AFS_NAME", "TS_SCIENTIFIC_NAME", "YEAR", 
-                                "POUNDS", "DOLLARS", "S_STATE_ID", "COLLECTION")]
+>This repository is a scientific product and is not official communication of the National Oceanic and Atmospheric Administration, or the United States Department of Commerce. All NOAA GitHub project code is provided on an ‘as is’ basis and the user assumes responsibility for its use. Any claims against the Department of Commerce or Department of Commerce bureaus stemming from the use of this GitHub project will be governed by all applicable Federal law. Any reference to specific commercial products, processes, or services by service mark, trademark, manufacturer, or otherwise, does not constitute or imply their endorsement, recommendation or favoring by the Department of Commerce. The Department of Commerce seal and logo, or the seal and logo of a DOC bureau, shall not be used in any manner to imply endorsement of any commercial product or activity by DOC or the United States Government.
 
-names(landings.data)[names(landings.data) %in% "S_STATE_ID"]<-"State.no"
-names(landings.data)[names(landings.data) %in% "TSN"]<-"Tsn"
-landings.data$TSN[is.na(landings.data$H_NEW_ITIS)]<-landings.data$H_NEW_ITIS[is.na(landings.data$H_NEW_ITIS)]
-landings.data$H_NEW_ITIS<-NULL
-names(landings.data)[names(landings.data) %in% "TS_AFS_NAME"]<-"AFS.Name"
-landings.data$AFS_NAME1<-landings.data$AFS.Name
-landings.data$AFS_NAME1<-gsub(pattern = " ", replacement = ".", x = landings.data$AFS_NAME1)
-landings.data$AFS_NAME1<-gsub(pattern = ",", replacement = ".", x = landings.data$AFS_NAME1)
-landings.data$AFS_NAME1<-gsub(pattern = "/", replacement = ".", x = landings.data$AFS_NAME1)
-landings.data$AFS_NAME1<-gsub(pattern = "\\(", replacement = ".", x = landings.data$AFS_NAME1)
-landings.data$AFS_NAME1<-gsub(pattern = "\\)", replacement = ".", x = landings.data$AFS_NAME1)
-landings.data$AFS_NAME1<-gsub(pattern = "&", replacement = ".", x = landings.data$AFS_NAME1)
-landings.data$AFS_NAME1<-gsub(pattern = "\\.\\.", replacement = ".", x = landings.data$AFS_NAME1)
-landings.data$AFS_NAME1<-gsub(pattern = "\\.\\.", replacement = ".", x = landings.data$AFS_NAME1)
-landings.data$AFS_NAME1<-gsub(pattern = "\\.", replacement = "_", x = landings.data$AFS_NAME1)
-names(landings.data)[names(landings.data) %in% "YEAR"]<-"Year"
-names(landings.data)[names(landings.data) %in% "POUNDS"]<-"Pounds"
-names(landings.data)[names(landings.data) %in% "DOLLARS"]<-"Dollars"
-names(landings.data)[names(landings.data) %in% "COLLECTION"]<-"Collection"
-landings.data<-merge(x = landings.data, y = statereg, by = "State.no")
 
-head(landings.data) %>%
-    knitr::kable(row.names = T, booktabs = T)
+# License
 
-```
+>Software code created by U.S. Government employees is not subject to copyright in the United States (17 U.S.C. §105). The United States/Department of Commerce reserve all rights to seek and obtain copyright protection in countries other than the United States for Software authored in its entirety by the Department of Commerce. To this end, the Department of Commerce hereby grants to Recipient a royalty-free, nonexclusive license to use, copy, and create derivative works of the Software outside of the United States.
 
-And add categories for each organism to be binned into:
 
-```{r, echo=T}
-
-########***How to split species############
-########******Taxonomic#####################
-categories<-list("Plantae" = 202422, 
-                 "Chromista" = 590735,
-                 "Fungi" = 555705,
-                 "Bacteria" = 50,
-                 "Protozoa" = 43780,
-                 "Archaea" = 935939,
-                 "Porifera" = 46861, 
-                 "Cnidaria" = 48738, 
-                 "Platyhelminthes" = 53963, 
-                 "Nematoda" = 59490, 
-                 "Annelida" = 64357, 
-                 
-                 "Arthropoda" = 82696, 
-                 "Echinodermata" = 156857, 
-                 "Mollusca" = 69458, 
-                 # "Chordata"  = "phylum", 
-                 "Urochordata" = 158853,
-                 "Agnatha" = 914178,
-                 "Chondrichthyes" = 159785,
-                 "Sarcopterygii" = 161048, 
-                 "Tetrapoda" = 914181, 
-                 "Actinopterygii" = 161061)
-
-library(taxize)
-library(rlist)
-
-
-itis_reclassify<-function(tsn, categories, missing.name){
-  
-  # Find which codes are in which categories
-  tsn0<-as.numeric(tsn)[!(is.na(tsn))]
-  tsn.indata<-classification(sci_id = tsn0, db = 'itis')
-  tsn.indata<-tsn.indata[!(names(tsn.indata) %in% 0)]
-  valid0<- sciname<-category0<-bottomrank<-sppname<- TSN<-c() 
-  
-  TSN<-c()
-  bottomrank<-c()
-  category0<-c()
-  sciname<-c()
-  valid0<-c()
-  
-  
-  for (i in 1:length(categories)) {
-
-    a<-list.search(lapply(X = tsn.indata, '[', 3), categories[i][[1]] %in% . )
-    
-    if (length(a)!=0) {
-      
-      sppcode<-names(a)
-      sppcode<-gsub(pattern = "[a-zA-Z]+", replacement = "", x = sppcode)
-      sppcode<-gsub(pattern = "\\.", replacement = "", x = sppcode)
-      
-      for (ii in 1:length(sppcode)) {
-        TSN<-c(TSN, sppcode[ii])
-        
-        bottomrank<-c(bottomrank, tsn.indata[names(tsn.indata) %in% sppcode[ii]][[1]]$rank[
-          nrow(tsn.indata[names(tsn.indata) %in% sppcode[ii]][[1]])])
-        
-        category0<-c(category0, names(categories[i]))  
-        
-        sciname<-c(sciname, tsn.indata[names(tsn.indata) %in% sppcode[ii]][[1]]$name[
-          nrow(tsn.indata[names(tsn.indata) %in% sppcode[ii]][[1]])])
-        
-        valid0<-c(valid0, 
-                  ifelse(nrow(tsn.indata[names(tsn.indata) %in% sppcode[ii]][[1]])>1, 
-                         "valid", "invalid"))
-      }
-    }
-  }
-  
-  df.out<-data.frame(TSN = TSN, 
-                     category = category0, 
-                     valid = valid0, 
-                     rank = bottomrank, 
-                     sciname = sciname )
-  
-  return(list("df.out" = df.out, 
-              "tsn.indata" = tsn.indata))
-}
-
-spp.cat<-itis_reclassify(tsn = unique(landings.data$Tsn), 
-                         categories, 
-                         missing.name="Uncategorized")
-
-spp.cat$df.out$category.tax<-spp.cat$df.out$category
-spp.cat$df.out$category1.tax<-as.numeric(factor(spp.cat$df.out$category.tax))
-landings.data<-merge(x = landings.data, y = spp.cat$df.out, by.y = "TSN", by.x = "Tsn")
-
-head(landings.data) %>%
-    knitr::kable(row.names = T, booktabs = T)
-```
-
-And then re-organized the data to work in these funcitons: 
-
-```{r, echo=F}
-EditCommData<-function(dat, category0) {
-
-  #Make Sure Data is Annual Aggregate
-  temp0<-dat
-  temp0$AFS_NAME1<-gsub(pattern = "\\*", replacement = "-", x = as.character(temp0$AFS_NAME1))
-  temp0$AFS_NAME1<-gsub(pattern = "_", replacement = "-", x = as.character(temp0$AFS_NAME1))
-  #remove negative values (they're warnings)
-  temp0$Dollars[temp0$Dollars<0]<-NA
-  temp0$Pounds[temp0$Pounds<0]<-NA
-
-  lbs<-aggregate(temp0$Pounds,
-                 by=list(year=temp0$Year, species=temp0$AFS_NAME1),
-                 FUN=sum, na.rm=TRUE)
-  names(lbs)[3]<-"POUNDS"
-
-  dol<-aggregate(temp0$Dollars,
-                 by=list(year=temp0$Year, species=temp0$AFS_NAME1, category=temp0[,names(temp0) %in% category0]),
-                 FUN=sum, na.rm=TRUE)
-  names(dol)[4]<-"DOLLARS"
-
-
-  temp<-data.frame(merge(y = lbs, x = dol, by = c("year", "species")))
-
-
-  cat<-unique(numbers0(as.numeric(factor(temp$category))))
-  cat0<-unique(paste0(temp$category))
-
-  #If there is only 1 species in a group, add it to "Other"
-  for (i in 1:length(cat0)) {
-    a<-data.frame(table(temp$category[temp$category %in% cat0[i]], temp$species[temp$category %in% cat0[i]]))
-    a<-a[!(a$Freq %in% 0),]
-    if (nrow(a) < 2) {
-      temp$category[temp$category %in% cat0[i]]<-"Other"
-
-    }
-  }
-
-  cat<-unique(numbers0(as.numeric(factor(temp$category))))
-  cat0<-unique(paste0(temp$category))
-
-  temp$species<-paste0(numbers0(as.numeric(factor(temp$category))), "_",
-                       numbers0(x = as.numeric(factor(temp$species))), temp$species)
-
-
-  spp.list<-list()
-  tsn.list<-list()
-  for (i in 1:length(cat0)) {
-    spp.list[[i]]<-as.character(unique(dat$AFS.Name[dat[,names(dat) %in% category0] %in% cat0[i]]))
-    tsn.list[[i]]<-as.character(unique(dat$Tsn[dat[,names(dat) %in% category0] %in% cat0[i]]))
-    names(spp.list)[[i]]<-names(tsn.list)[[i]]<-cat0[i]
-  }
-
-  temp$category<-NULL
-
-  #Quantity
-  temp.q<-temp
-  temp.q$POUNDS<-NULL
-  temp.q<-spread(data = temp.q, key = year, value = DOLLARS)
-  rownames(temp.q)<-paste0("Q", temp.q$species)
-  temp.q$species<-NULL
-  temp.q<-data.frame(t(temp.q))
-  if (is.null(dim(temp.q))){
-    temp00<-temp.q
-  } else {
-    temp00<-rowSums(temp.q, na.rm = T)
-  }
-  temp.q$temp<-rowSums(temp.q, na.rm = T)
-  names(temp.q)[names(temp.q) %in% "temp"]<-paste0("QE",numbers0(x = c(0, length(cat0)))[1],"_",
-                                                   paste(rep_len(x = 0,
-                                                                 length.out = nchar(numbers0(x = as.numeric(factor(temp$species)))[1])), collapse = ""),
-                                                   "Total")
-  for (i in 1:length(cat)) {
-    if (sum(grepl(x = names(temp.q), pattern = paste0("Q", cat[i], "_"))) == 1) {
-      temp.q$temp<-temp.q[,grepl(x = names(temp.q), pattern = paste0("Q", cat[i], "_")) ]
-    } else {
-      temp.q$temp<-rowSums(temp.q[,grepl(x = names(temp.q), pattern = paste0("Q", cat[i], "_")) ], na.rm = T)
-    }
-    names(temp.q)[names(temp.q) %in% "temp"]<-paste0("QE", cat[i], "_",
-                                                     paste(rep_len(x = 0,
-                                                                   length.out = nchar(numbers0(x = as.numeric(factor(temp$species)))[1])), collapse = ""),
-                                                     gsub(pattern = " ", replacement = "", x = cat0[i]))
-  }
-
-  #Value
-  temp.v<-temp
-  temp.v$DOLLARS<-NULL
-  temp.v<-spread(data = temp.v, key = year, value = POUNDS)
-  rownames(temp.v)<-paste0("V", temp.v$species)
-  temp.v$species<-NULL
-  temp.v<-data.frame(t(temp.v))
-  if (is.null(dim(temp.v))){
-    temp00<-temp.v
-  } else {
-    temp00<-rowSums(temp.v, na.rm = T)
-  }
-  temp.v$temp<-temp00
-  names(temp.v)[names(temp.v) %in% "temp"]<-paste0("VE",numbers0(x = c(0, length(cat0)))[1],"_",
-                                                   paste(rep_len(x = 0,
-                                                                 length.out = nchar(numbers0(x = as.numeric(factor(temp$species)))[1])), collapse = ""),
-                                                   "Total")
-  for (i in 1:length(cat)) {
-    if (sum(grepl(x = names(temp.v), pattern = paste0("V", cat[i], "_"))) == 1) {
-      temp.v$temp<-temp.v[,grepl(x = names(temp.v), pattern = paste0("V", cat[i], "_")) ]
-    } else {
-      temp.v$temp<-rowSums(temp.v[,grepl(x = names(temp.v), pattern = paste0("V", cat[i], "_")) ], na.rm = T)
-    }
-    names(temp.v)[names(temp.v) %in% "temp"]<-paste0("VE", cat[i], "_",
-                                                     paste(rep_len(x = 0,
-                                                                   length.out = nchar(numbers0(x = as.numeric(factor(temp$species)))[1])), collapse = ""),
-                                                     gsub(pattern = " ", replacement = "", x = cat0[i]))
-  }
-
-
-
-  temp<-cbind.data.frame(temp.q, temp.v)
-
-  return(list(temp, spp.list, tsn.list))
-}
-
-numbers0<-function(x) {
-  xx<-rep_len(x = NA, length.out = length(x))
-  for (i in 1:length(x)){
-    xx[i]<-paste0(paste(rep_len(x = 0,
-                                length.out = nchar(max(x))-nchar(x[i])),
-                        collapse = ""),
-                  as.character(x[i]))
-  }
-  return(xx)
-}
-
-```
-
-```{r, echo = T}
-category0<-"category.tax"
-temp00<-EditCommData(dat = landings.data, category0)
-temp<-temp00[[1]]
-
-head(temp) %>%
-    knitr::kable(row.names = T, booktabs = T)
-```
-
-# File Organization
-
-Main fuctions of interest are:
-
- - PriceMethodOutput
- 
- - PriceMethodOutput_Category
-
- - PriceMethodOutput_Plots
- 
- - QuantityMethodOutput
- 
- - QuantityMethodOutput_Category
-
- - QuantityMethodOutput_Plots
- 
- - PriceIndex
- 
- - PriceChange
- 
- - EditCommData
- 
- - lmCheck
- 
- - numbers0
- 
- - xunits
- 
- - plotnlines
- 
- - ReplaceFirst
- 
- - ReplaceMid
- 
-
-# Theoretical Framework: Törnqvist index
-
-A Flexible Function and Superlative Quantity Index (Diewert 1976) 
-
-**Math Theory: General Total Factor Productivity ($TFP$) Equation**
-
-The general form of the $TFP$ can be measured as aggregate output ($Y$) divided by real total inputs ($X$). Rates of TFP growth are constructed using the Törnqvist index approach. The TFP growth over two time periods is defined as:
-
-$$ln(TFP_t/TFP_{t-1}) = \sum_{i=1}^n((\frac{R_{t,i} + R_{t-1,i}}{2}) * ln(\frac{Y_{t,i}}{Y_{t-1,i}}))) - \sum_{j=1}^m((\frac{W_{j,t} + W_{j,t-1}}{2}) * ln(\frac{X_{j,t}}{X_{j,t-1}})))$$
-
-Such that:
- 
- - Output represents $\sum_{i=1}^n((\frac{R_{it} + R_{it-1}}{2}) * ln(\frac{Y_{it}}{Y_{it-1}}))$
-
- - Input represents $\sum_{j=1}^n((\frac{W_{jt} + W_{jt-1}}{2}) * ln(\frac{X_{jt}}{X_{jt-1}}))$
-
-where: 
-
- - $Y_i$ = individual outputs. This will later be refered to as $Q_i$ in the following equations. 
- 
- - $X_j$ = individual inputs
- 
- - $R_i$ = output revenue shares
- 
- - $W_j$ = input cost shares
- 
- - $t$ and $t-1$ = time, where 1 is the minimum year in the dataset
- 
- - $i$ = fishery category, e.g., Finfish (=1), Shellfish (=2)
-
- - $s$ = species, e.g., Salmon, Alewife, Surf Clams
-
-
-# Output Method: From Quantity to Quantity Measures
-
-###Variable Summary
-
-Variables
-
- - $Q$ = individual quantity outputs in pounds (lbs). 
- 
- - $V$ = individual value outputs in dollars ($)
- 
- - $QE$ and $VE$ = simple sum of Quantity (Q) and Value (V)
-
- - $R$ = output revenue shares
- 
- - $baseyr$ is the year to base all indicides from
- 
-Subscript Inidicies
- 
- - $t$ and $t-1$ are time subscripts, where 1 is the minimum year in the dataset
- 
- - $i$ is category, e.g., Finfish (=1), Shellfish (=2)
-
- - $s$ is species, e.g., Salmon, Alewife, Surf Clams
- 

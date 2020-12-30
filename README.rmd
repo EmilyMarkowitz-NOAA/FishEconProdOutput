@@ -58,7 +58,11 @@ You can find Vignettes here
 browseVignettes()
 ```
 
-Or directly view the outputs here: 
+Or directly view the vignettes here: 
+
+ - [How to create the tables used in FEUS](https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput/blob/FishEconProdOutput/vignettes/FEUS-tables.pdf)
+ - [How to use this analysis for a collection of sub fisheries, such as in the Northeast US](https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput/blob/FishEconProdOutput/vignettes/NEFSC-Fishery.pdf)
+
 
 
 # Publications

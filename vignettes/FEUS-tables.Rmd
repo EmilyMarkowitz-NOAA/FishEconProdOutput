@@ -33,6 +33,8 @@ knitr::opts_chunk$set(message = FALSE, echo = TRUE, warning = FALSE,
   collapse = TRUE,
   comment = "#>"
 )
+
+TF<-FALSE
 ```
 
 # Create Tables from the Fisheries Economics of the US (FEUS) Report
@@ -136,7 +138,7 @@ out <- OutputAnalysis(landings_data = landings_data,
                skipplots = TRUE, 
                reg_order = reg_order, 
                reg_order_abbrv = reg_order_abbrv, 
-               save_outputs_to_file = FALSE)
+               save_outputs_to_file = TF)
 names(out)
 
 for (jjj in 1:length(out)) {
@@ -146,7 +148,7 @@ for (jjj in 1:length(out)) {
 
 ## 5. Create FEUS Tables 
 
-### Table 5. Regional Törnqvist Price Index, `r minyr`-`r maxyr` (`r baseyr` = 1) 
+### Table 5. Regional Törnqvist Price Index, `r minyr.data`-`r maxyr` (`r baseyr` = 1) 
 
 ```{r, results='asis'}
 result <- lapply(index_list, "[", , c("Year", "cat", "PI_CB"))
@@ -170,10 +172,14 @@ a[,reg_order]<-round(x = a[,reg_order], digits = 2)
 temp_print <- a
 
 ProdOutputPI_Raw<-temp_code
-write_csv(x = ProdOutputPI_Raw, file = paste0(dir_analyses, "/ProdOutputPI_Raw.csv"))
+if (TF) {
+  write_csv(x = ProdOutputPI_Raw, file = paste0(dir_analyses, "/ProdOutputPI_Raw.csv"))
+}
 
 ProdOutputPI_Print<-temp_print
-write_csv(x = ProdOutputPI_Print, file = paste0(dir_analyses, "/ProdOutputPI_Print.csv"))
+if (TF) {
+  write_csv(x = ProdOutputPI_Print, file = paste0(dir_analyses, "/ProdOutputPI_Print.csv"))
+}
 
 ProdOutputPI_Print$Footnotes<-NULL
 knitr::kable(ProdOutputPI_Print, booktabs = T) %>%
@@ -207,10 +213,14 @@ for (i in 2:length(reg_order)){
 temp_print <- a
 
 ProdOutputQ_Raw<-temp_code
-write_csv(x = ProdOutputQ_Raw, file = paste0(dir_analyses, "/ProdOutputQ_Raw.csv"))
+if (TF) {
+  write_csv(x = ProdOutputQ_Raw, file = paste0(dir_analyses, "/ProdOutputQ_Raw.csv"))
+}
 
 ProdOutputQ_Print<-temp_print
-write_csv(x = ProdOutputQ_Print, file = paste0(dir_analyses, "/ProdOutputQ_Print.csv"))
+if (TF) {
+  write_csv(x = ProdOutputQ_Print, file = paste0(dir_analyses, "/ProdOutputQ_Print.csv"))
+}
 
 ProdOutputQ_Print$Footnotes<-NULL
 knitr::kable(ProdOutputQ_Print, booktabs = T) %>%
@@ -292,10 +302,14 @@ temp_print<-b
 temp_print$Footnotes<-NA
 
 ProdOutputUS_Raw<-temp_code
-write_csv(x = ProdOutputUS_Raw, file = paste0(dir_analyses, "/ProdOutputUS_Raw.csv"))
+if (TF) {
+  write_csv(x = ProdOutputUS_Raw, file = paste0(dir_analyses, "/ProdOutputUS_Raw.csv"))
+}
 
 ProdOutputUS_Print<-temp_print
-write_csv(x = ProdOutputUS_Print, file = paste0(dir_analyses, "/ProdOutputUS_Print.csv"))
+if (TF) {
+  write_csv(x = ProdOutputUS_Print, file = paste0(dir_analyses, "/ProdOutputUS_Print.csv"))
+}
 
 ProdOutputUS_Print$Footnotes<-NULL
 knitr::kable(ProdOutputUS_Print, booktabs = T) %>%

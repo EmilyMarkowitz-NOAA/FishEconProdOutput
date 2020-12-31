@@ -34,6 +34,8 @@ knitr::opts_chunk$set(message = FALSE, echo = TRUE, warning = FALSE,
   collapse = TRUE,
   comment = "#>"
 )
+
+TF<-FALSE
 ```
 
 ```{r setup}
@@ -295,7 +297,7 @@ out <- OutputAnalysis(landings_data = landings_data,
                skipplots = TRUE, 
                reg_order = "Northeast", 
                reg_order_abbrv = "NorE",
-               save_outputs_to_file = FALSE)
+               save_outputs_to_file = TF)
 names(out)
 
 for (jjj in 1:length(out)) {
@@ -377,10 +379,14 @@ temp_print<-b
 temp_print$Footnotes<-NA
 
 ProdOutputUS_Raw<-temp_code
-write_csv(x = ProdOutputUS_Raw, file = paste0(dir_analyses, "/ProdOutputUS_Raw.csv"))
+if (TF) {
+  write_csv(x = ProdOutputUS_Raw, file = paste0(dir_analyses, "/ProdOutputNorE_Raw.csv"))
+}
 
 ProdOutputUS_Print<-temp_print
-write_csv(x = ProdOutputUS_Print, file = paste0(dir_analyses, "/ProdOutputUS_Print.csv"))
+if (TF) {
+  write_csv(x = ProdOutputUS_Print, file = paste0(dir_analyses, "/ProdOutputNorE_Print.csv"))
+}
 
 ProdOutputUS_Print$Footnotes<-NULL
 knitr::kable(ProdOutputUS_Print, booktabs = T) %>%

@@ -910,9 +910,6 @@ OutputAnalysis<-function(landings_data,
 
   if (save_outputs_to_file) {
 
-  save(editeddata_list, index_list, spp_list,
-       file = paste0(dir_outputtables, "AllOutputs.rdata"))
-
   # write.csv(x = spptable, file = paste0(dir_outputtables, "000_All", title000,"_Species.csv"))
 
   for (r in 1:length(reg_order)){
@@ -940,11 +937,6 @@ OutputAnalysis<-function(landings_data,
   ######PLOTS##########
 
   print("Create plots")
-
-  if (save_outputs_to_file) {
-  save(figures_list,
-       file = paste0(dir_figures, "AllFigures.rdata"))
-  }
 
   #Side by Side graphs
   figs<-unique(paste0(lapply(X = strsplit(x = names(figures_list),
@@ -976,8 +968,8 @@ OutputAnalysis<-function(landings_data,
 
   if (save_outputs_to_file) {
 
-  save(gridfigures_list,
-       file = paste0(dir_figures, "AllFiguresGrid.rdata"))
+  # save(gridfigures_list,
+  #      file = paste0(dir_figures, "AllFiguresGrid.rdata"))
 
      #make single plots
     for (i in 1:length(figures_list)) {
@@ -991,7 +983,7 @@ OutputAnalysis<-function(landings_data,
     }
 }
 
-    data<-list("warnings_list" = warnings_list,
+    out<-list("warnings_list" = warnings_list,
                "editeddata_list" = editeddata_list,
                "index_list" = index_list,
                "spp_list" = spp_list,
@@ -999,11 +991,18 @@ OutputAnalysis<-function(landings_data,
                "gridfigures_list" = gridfigures_list)
 
     if (save_outputs_to_file) {
-      save(list = data,
-           file = paste0(dir_analyses1, "AllOutputs.rdata"))
+      save(warnings_list,
+           file = paste0(dir_analyses, "/OutputWarnings.rdata"))
+
+      save(editeddata_list, index_list, spp_list,
+           file = paste0(dir_analyses, "/OutputTables.rdata"))
+
+      save(figures_list, gridfigures_list,
+           file = paste0(dir_analyses, "/OutputFigures.rdata"))
+
     }
 
-  return(data)
+  return(out)
 
 }
 

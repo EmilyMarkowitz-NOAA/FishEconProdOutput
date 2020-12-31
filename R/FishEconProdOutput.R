@@ -233,7 +233,7 @@ tornc <- function(dat,
 #' @param baseyr Numeric year (YYYY). The base year you are assessing the anaylsis with. Typically this is the earliest year in the data set, but it can be any year you choose.
 #' @param maxyr The maxium year to assess in the dataset.
 #' @param minyr The minium year to assess in the dataset.
-#' @param warnings.list A list where warnings are stored. If using this function in the PriceMethodOutput it will be inherited. If using outside of that function, put ls().
+#' @param warnings_list A list where warnings are stored. If using this function in the PriceMethodOutput it will be inherited. If using outside of that function, put ls().
 #' @export
 #' @examples
 #' PriceMethodOutput_Category()
@@ -244,7 +244,7 @@ PriceMethodOutput_Category <- function(temp,
                                        baseyr,
                                        maxyr,
                                        minyr,
-                                       warnings.list = ls()) {
+                                       warnings_list = ls()) {
 
   temp.cat <- temp[temp[, category0] %in% category,]
 
@@ -291,8 +291,8 @@ PriceMethodOutput_Category <- function(temp,
     # temp.cat <-
     #   ReplaceMid(colnames = c("p", "q", "v"), temp = temp.cat)
 
-    warnings.list <-
-      c(warnings.list, list(
+    warnings_list <-
+      c(warnings_list, list(
         paste0(
           'Warning: ',
           category,
@@ -307,7 +307,7 @@ PriceMethodOutput_Category <- function(temp,
   temp.ind <- data.frame("Year" = minyr:maxyr)
 
   if ((sum(minyr:maxyr %in% unique(temp.cat$Year)) != length(minyr:maxyr))) {
-    warnings.list <- c(warnings.list,
+    warnings_list <- c(warnings_list,
                        list(paste0(category, ' with chained: ', warnings())))
   }
 
@@ -371,7 +371,7 @@ PriceMethodOutput_Category <- function(temp,
   return(list(
     "Index" = temp.ind,
     "Species Level" = temp.cat,
-    "warnings.list" = warnings.list
+    "warnings_list" = warnings_list
   ))
 }
 
@@ -396,7 +396,7 @@ PriceMethodOutput <-function(temp,
   maxyr <- max(temp$Year)
   minyr <- min(temp$Year)
 
-  warnings.list <- figures.list <- list()
+  warnings_list <- figures_list <- list()
   spp.level <- index.data <- data.frame()
 
   category_name <- sort(unique(temp[, category0]))
@@ -413,7 +413,7 @@ PriceMethodOutput <-function(temp,
       baseyr = baseyr,
       maxyr = maxyr,
       minyr = minyr,
-      warnings.list = warnings.list)
+      warnings_list = warnings_list)
 
     index.data <- rbind.data.frame(index.data,
                                    temp00$Index)
@@ -421,7 +421,7 @@ PriceMethodOutput <-function(temp,
     spp.level <- rbind.data.frame(spp.level,
                                   temp00$`Species Level`)
 
-    warnings.list <- c(warnings.list, unique(temp00$warnings.list))
+    warnings_list <- c(warnings_list, unique(temp00$warnings_list))
 
   }
 
@@ -541,8 +541,8 @@ PriceMethodOutput <-function(temp,
 
     g <- plotnlines(dat = a, title00, place)
 
-    figures.list[[length(figures.list) + 1]] <- g
-    names(figures.list)[length(figures.list)] <- paste0(place,"_",title00)
+    figures_list[[length(figures_list) + 1]] <- g
+    names(figures_list)[length(figures_list)] <- paste0(place,"_",title00)
 
   }
 
@@ -557,8 +557,8 @@ PriceMethodOutput <-function(temp,
 
     g <- plotnlines(dat = a, title00, place)
 
-    figures.list[[length(figures.list) + 1]] <- g
-    names(figures.list)[length(figures.list)] <- paste0(place,"_",title00, "_PI")
+    figures_list[[length(figures_list) + 1]] <- g
+    names(figures_list)[length(figures_list)] <- paste0(place,"_",title00, "_PI")
 
   }
 
@@ -574,8 +574,8 @@ PriceMethodOutput <-function(temp,
 
     g <- plotnlines(dat = a, title00, place)
 
-    figures.list[[length(figures.list) + 1]] <- g
-    names(figures.list)[length(figures.list)] <- paste0(place,"_",title00, "_Q")
+    figures_list[[length(figures_list) + 1]] <- g
+    names(figures_list)[length(figures_list)] <- paste0(place,"_",title00, "_Q")
 
   }
 
@@ -588,8 +588,8 @@ PriceMethodOutput <-function(temp,
 
     g <- plotnlines(dat = a, title00, place)
 
-    figures.list[[length(figures.list) + 1]] <- g
-    names(figures.list)[length(figures.list)] <- paste0(place,"_",title00, "_QCatTot")
+    figures_list[[length(figures_list) + 1]] <- g
+    names(figures_list)[length(figures_list)] <- paste0(place,"_",title00, "_QCatTot")
   }
 
   #############Plot Category and Total V
@@ -601,8 +601,8 @@ PriceMethodOutput <-function(temp,
 
     g <- plotnlines(dat = a, title00, place)
 
-    figures.list[[length(figures.list) + 1]] <- g
-    names(figures.list)[length(figures.list)] <-paste0(place,"_",title00, "_VCatTot")
+    figures_list[[length(figures_list) + 1]] <- g
+    names(figures_list)[length(figures_list)] <-paste0(place,"_",title00, "_VCatTot")
   }
 
   #############Save Wrok
@@ -610,8 +610,8 @@ PriceMethodOutput <-function(temp,
     list(
       "Index" = index.data,
       "Species Level" = spp.level,
-      "warnings.list" = warnings.list,
-      "figures.list" = figures.list
+      "warnings_list" = warnings_list,
+      "figures_list" = figures_list
     )
   )
 
@@ -823,20 +823,23 @@ OutputAnalysis<-function(landings_data,
                                        "Western Pacific (Hawai`i)", "New England",
                                        "Mid-Atlantic", "Northeast", "South Atlantic", "Gulf of Mexico"),
                          reg_order_abbrv = c("US", "NP", "Pac", "WP", "NE", "MA", "NorE", "SA", "GOM"),
-                         skipplots = F) {
+                         skipplots = FALSE,
+                         save_outputs_to_file = TRUE) {
 
-  dir_analyses1<-paste0(dir_analyses, "/",titleadd, "_", #analysisby, "_",
-                        gsub(pattern = "\\.", replacement = "", x = category0), "/")
-  dir.create(dir_analyses1)
-  # dir_reports<-paste0(dir_analyses1, "/reports/")
-  dir.create(paste0(dir_analyses1, "/reports/"))
-  dir_figures<-paste0(dir_analyses1, "/figures/")
-  dir.create(paste0(dir_analyses1, "/figures/"))
-  dir_outputtables<-paste0(dir_analyses1, "/outputtables/")
-  dir.create(paste0(dir_analyses1, "/outputtables/"))
+  if (save_outputs_to_file) {
+    dir_analyses1<-paste0(dir_analyses, "/",titleadd, "_", #analysisby, "_",
+                          gsub(pattern = "\\.", replacement = "", x = category0), "/")
+    dir.create(dir_analyses1)
+    # dir_reports<-paste0(dir_analyses1, "/reports/")
+    dir.create(paste0(dir_analyses1, "/reports/"))
+    dir_figures<-paste0(dir_analyses1, "/figures/")
+    dir.create(paste0(dir_analyses1, "/figures/"))
+    dir_outputtables<-paste0(dir_analyses1, "/outputtables/")
+    dir.create(paste0(dir_analyses1, "/outputtables/"))
+  }
 
   #Save Stuff
-  editeddata.list <- index.list <- spp.list <- finaltable.list <- warnings.list <- figures.list<-list()
+  editeddata_list <- index_list <- spp_list <- finaltable_list <- warnings_list <- figures_list<-list()
   counter<-0
   for (r in 1:length(reg_order)) {
 
@@ -848,7 +851,6 @@ OutputAnalysis<-function(landings_data,
     place<-reg_order[r]
     print(place)
     counter<-funct_counter(counter)
-
 
     title000<-paste0("_","byr",baseyr)
     title0<-paste0(counter, "_", gsub(pattern = "\\(", replacement = "", x =
@@ -867,136 +869,143 @@ OutputAnalysis<-function(landings_data,
     temp_orig<-landings_data[idx,
                              c(category0, "Year", "Pounds", "Dollars", "Tsn")]
 
-    ### B. Enter base year
-
-    ### C. Run the function
-    # if (analysisby == "P") {
     temp00<-PriceMethodOutput(temp = temp_orig,
                               baseyr = baseyr,
                               title0 = title0,
                               place = place,
                               category0 = category0)
-    # } else if (analysisby == "Q") {
-    #   temp00<-QuantityMethodOutput(temp = temp_orig, baseyr,
-    #                                title0 = title0, place = place,
-    #                                category0 = category0)
-    # }
 
-    warnings.list<-c(warnings.list, temp00$warnings.list)
-    figures.list<-c(figures.list, temp00$figures.list)
+    warnings_list<-c(warnings_list, temp00$warnings_list)
+    figures_list<-c(figures_list, temp00$figures_list)
 
-    ### D. Obtain the implicit quantity estimates
+    # Obtain the implicit quantity estimates
 
-    #EditedData
-    editeddata.list[[r]]<-temp_orig
-    names(editeddata.list)[r]<-place
-    write.csv(x = editeddata.list[[r]],
-              file = paste0(dir_outputtables, title0,"_EditedData.csv"))
+    # EditedData
+    editeddata_list[[r]]<-temp_orig
+    names(editeddata_list)[r]<-place
+    if (save_outputs_to_file) {
+      write.csv(x = editeddata_list[[r]],
+                file = paste0(dir_outputtables, title0,"_EditedData.csv"))
+    }
+    #Raw
+    if (save_outputs_to_file) {
+      write.csv(x = temp00$Index,
+                file = paste0(dir_outputtables, title0,"_AllData.csv"))
+    }
+    index_list[[r]]<-temp00$Index
+    names(index_list)[r]<-place
 
     #Raw
-    write.csv(x = temp00$Index, file = paste0(dir_outputtables, title0,"_AllData.csv"))
-    index.list[[r]]<-temp00$Index
-    names(index.list)[r]<-place
-
-    #Raw
-    write.csv(x = temp00$`Species Level`,
+    if (save_outputs_to_file) {
+      write.csv(x = temp00$`Species Level`,
               file = paste0(dir_outputtables, title0,"_AllDataSpp.csv"))
-    spp.list[[r]]<-temp00$`Species Level`
-    names(spp.list)[r]<-place
+    }
+    spp_list[[r]]<-temp00$`Species Level`
+    names(spp_list)[r]<-place
 
   }
 
   ########SPREADSHEETS########
   print("Create spreadsheets")
 
-  save(editeddata.list, index.list, spp.list,
+  if (save_outputs_to_file) {
+
+  save(editeddata_list, index_list, spp_list,
        file = paste0(dir_outputtables, "AllOutputs.rdata"))
 
   # write.csv(x = spptable, file = paste0(dir_outputtables, "000_All", title000,"_Species.csv"))
 
-
   for (r in 1:length(reg_order)){
 
     # #Print
-    # write.xlsx2(x = editeddata.list[[r]],
+    # write.xlsx2(x = editeddata_list[[r]],
     #             file = paste0(dir_outputtables, "000_All", title000, "_", titleadd, "_EditedData.xlsx"),
     #             sheetName = reg_order[r],
     #             col.names = T, row.names = T, append = T)
 
     #Review
-    write.xlsx2(x = index.list[[r]],
+    write.xlsx2(x = index_list[[r]],
                 file = paste0(dir_outputtables, "000_All", title000, "_", titleadd, "_AllData.xlsx"),
                 sheetName = reg_order[r],
                 col.names = T, row.names = T, append = T)
 
     # #All Data
-    # write.xlsx2(x = spp.list[[r]],
+    # write.xlsx2(x = spp_list[[r]],
     #             file = paste0(dir_outputtables, "000_All", title000, "_", titleadd, "_AllDataSpp.xlsx"),
     #             sheetName = reg_order[r],
     #             col.names = T, row.names = T, append = T)
 
   }
-
+}
   ######PLOTS##########
 
   print("Create plots")
 
-  save(figures.list,
+  if (save_outputs_to_file) {
+  save(figures_list,
        file = paste0(dir_figures, "AllFigures.rdata"))
+  }
 
   #Side by Side graphs
-  figs<-unique(paste0(lapply(X = strsplit(x = names(figures.list),
+  figs<-unique(paste0(lapply(X = strsplit(x = names(figures_list),
                                           split = "__"),
                              function(x) x[2])))
-  gridfigures.list<-list()
+  gridfigures_list<-list()
 
-  # if (length(r)>1){
   for (i in 1:length(figs)){
 
-    a<-strsplit(x = names(figures.list)[i], split = "_")[[1]][length(strsplit(x = names(figures.list)[i], split = "_")[[1]])]
-
-    dir.create(paste0(dir_figures, "/", a, "/"))
+    a<-strsplit(x = names(figures_list)[i],
+                split = "_")[[1]][length(strsplit(x = names(figures_list)[i], split = "_")[[1]])]
 
     fig<-figs[i]
-    list0<-figures.list[grep(pattern = fig, x = names(figures.list))]
-
-    # g<-ggarrange(list0[[1]],
-    #                 list0[[2]],
-    #                 list0[[3]],
-    #                 list0[[4]],
-    #                 list0[[5]],
-    #                 list0[[6]],
-    #                 list0[[7]],
-    #                 nrow=3, ncol = 3)
+    list0<-figures_list[grep(pattern = fig, x = names(figures_list))]
 
     g<-ggarrange(plotlist = list0,
                  nrow=3, ncol = 3)
-
-    ggsave(filename = paste0(dir_figures, "/", a, "/", "000_All_byr",baseyr,
-                             "_",gsub(pattern = "\\.", replacement = "", x = category0), fig, ".png"),
-           plot = g,
-           width = 11, height = 8.5)
-
-    gridfigures.list<-c(gridfigures.list, list(g))
-    names(gridfigures.list)[length(gridfigures.list)]<-paste0("000_All_byr",baseyr,
+    if (save_outputs_to_file) {
+      dir.create(paste0(dir_figures, "/", a, "/"))
+      ggsave(filename = paste0(dir_figures, "/", a, "/", "000_All_byr",baseyr,
+                               "_",gsub(pattern = "\\.", replacement = "", x = category0), fig, ".png"),
+             plot = g,
+             width = 11, height = 8.5)
+    }
+    gridfigures_list<-c(gridfigures_list, list(g))
+    names(gridfigures_list)[length(gridfigures_list)]<-paste0("000_All_byr",baseyr,
                                                               "_",gsub(pattern = "\\.", replacement = "", x = category0), fig)
   }
-  save(gridfigures.list,
+
+  if (save_outputs_to_file) {
+
+  save(gridfigures_list,
        file = paste0(dir_figures, "AllFiguresGrid.rdata"))
 
-  #    #make single plots
-  #   for (i in 1:length(figures.list)) {
-  #
-  #     a<-strsplit(x = names(figures.list)[i], split = "_")[[1]][length(strsplit(x = names(figures.list)[i], split = "_")[[1]])]
-  #     dir.create(paste0(dir_figures, "/", a, "/"))
-  #
-  #     ggsave(filename = paste0(dir_figures, "/", a, "/", names(figures.list)[i], ".png"),
-  #            plot = figures.list[[i]],
-  #            width = 11, height = 8.5)
-  # }
+     #make single plots
+    for (i in 1:length(figures_list)) {
+
+      a<-strsplit(x = names(figures_list)[i], split = "_")[[1]][length(strsplit(x = names(figures_list)[i], split = "_")[[1]])]
+      dir.create(paste0(dir_figures, "/", a, "/"))
+
+      ggsave(filename = paste0(dir_figures, "/", a, "/", names(figures_list)[i], ".png"),
+             plot = figures_list[[i]],
+             width = 11, height = 8.5)
+    }
 }
 
+    data<-list("warnings_list" = warnings_list,
+               "editeddata_list" = editeddata_list,
+               "index_list" = index_list,
+               "spp_list" = spp_list,
+               "figures_list" = figures_list,
+               "gridfigures_list" = gridfigures_list)
 
+    if (save_outputs_to_file) {
+      save(list = data,
+           file = paste0(dir_analyses1, "AllOutputs.rdata"))
+    }
+
+  return(data)
+
+}
 
 
 
@@ -1004,19 +1013,19 @@ OutputAnalysis<-function(landings_data,
 #'
 #' @param tsn A vector of Taxonomic Serial Numbers to be evaluated.
 #' @param categories A list of the categories and associated TSN values.
-#' @param missing.name A string of what to call the missing value.
+#' @param missing_name A string of what to call the missing value.
 #'
 #' @return
 #' @export
 #'
 #' @examples
 #'
-itis_reclassify<-function(tsn, categories, missing.name){
+itis_reclassify<-function(tsn, categories, missing_name){
 
   # Find which codes are in which categories
   tsn0<-as.numeric(tsn)[!(is.na(tsn))]
-  tsn.indata<-classification(sci_id = tsn0, db = 'itis')
-  tsn.indata<-tsn.indata[!(names(tsn.indata) %in% 0)]
+  tsn_indata<-classification(sci_id = tsn0, db = 'itis')
+  tsn_indata<-tsn_indata[!(names(tsn_indata) %in% 0)]
   valid0<- sciname<-category0<-bottomrank<-sppname<- TSN<-c()
 
   TSN<-c()
@@ -1028,10 +1037,10 @@ itis_reclassify<-function(tsn, categories, missing.name){
 
   for (i in 1:length(categories)) {
 
-    a<-list.search(lapply(X = tsn.indata, '[', 3), categories[i][[1]] %in% . )
+    a<-list.search(lapply(X = tsn_indata, '[', 3), categories[i][[1]] %in% . )
 
     # for (ii in 1:length(categories[i][[1]])) {
-    # a<-c(a, list.search(lapply(X = tsn.indata, '[', 3), categories[i][[1]][[ii]] %in% . ))
+    # a<-c(a, list.search(lapply(X = tsn_indata, '[', 3), categories[i][[1]][[ii]] %in% . ))
     # }
 
     if (length(a)!=0) {
@@ -1043,29 +1052,29 @@ itis_reclassify<-function(tsn, categories, missing.name){
       for (ii in 1:length(sppcode)) {
         TSN<-c(TSN, sppcode[ii])
 
-        bottomrank<-c(bottomrank, tsn.indata[names(tsn.indata) %in% sppcode[ii]][[1]]$rank[
-          nrow(tsn.indata[names(tsn.indata) %in% sppcode[ii]][[1]])])
+        bottomrank<-c(bottomrank, tsn_indata[names(tsn_indata) %in% sppcode[ii]][[1]]$rank[
+          nrow(tsn_indata[names(tsn_indata) %in% sppcode[ii]][[1]])])
 
         category0<-c(category0, names(categories[i]))
 
-        sciname<-c(sciname, tsn.indata[names(tsn.indata) %in% sppcode[ii]][[1]]$name[
-          nrow(tsn.indata[names(tsn.indata) %in% sppcode[ii]][[1]])])
+        sciname<-c(sciname, tsn_indata[names(tsn_indata) %in% sppcode[ii]][[1]]$name[
+          nrow(tsn_indata[names(tsn_indata) %in% sppcode[ii]][[1]])])
 
         valid0<-c(valid0,
-                  ifelse(nrow(tsn.indata[names(tsn.indata) %in% sppcode[ii]][[1]])>1,
+                  ifelse(nrow(tsn_indata[names(tsn_indata) %in% sppcode[ii]][[1]])>1,
                          "valid", "invalid"))
       }
     }
   }
 
-  df.out<-data.frame(TSN = TSN,
+  df_out<-data.frame(TSN = TSN,
                      category = category0,
                      valid = valid0,
                      rank = bottomrank,
                      sciname = sciname )
 
-  return(list("df.out" = df.out,
-              "tsn.indata" = tsn.indata))
+  return(list("df_out" = df_out,
+              "tsn_indata" = tsn_indata))
 }
 
 

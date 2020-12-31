@@ -4,14 +4,14 @@
 \alias{itis_reclassify}
 \title{Title}
 \usage{
-itis_reclassify(tsn, categories, missing.name)
+itis_reclassify(tsn, categories, missing_name)
 }
 \arguments{
 \item{tsn}{A vector of Taxonomic Serial Numbers to be evaluated.}
 
 \item{categories}{A list of the categories and associated TSN values.}
 
-\item{missing.name}{A string of what to call the missing value.}
+\item{missing_name}{A string of what to call the missing value.}
 }
 \value{
 

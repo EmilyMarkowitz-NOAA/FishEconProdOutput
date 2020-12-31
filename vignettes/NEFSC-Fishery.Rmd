@@ -102,8 +102,6 @@ counter<-0
 # Define Directories
 dir_analyses = paste0(dir_outputtables, folder)
 dir.create(dir_analyses)
-# dir.nore<-paste0(dir.out,"/analyses/",minyr,"To",maxyr0,"_Fisheries_Northeast/")
-# create_dir(dir.nore)
 ```
 
 ## 3. Load example data
@@ -251,23 +249,23 @@ for (i in 1:length(unique(ne_spp$plan))) {
 
 temp<-itis_reclassify(tsn = unique(landings_data$Tsn), 
                          categories = categories, 
-                         missing.name="Uncategorized")
+                         missing_name="Uncategorized")
 
 
-tsn.id<-temp[1][[1]]
+tsn_id<-temp[1][[1]]
 
-if (sum(tsn.id$category %in% c("Other", "Uncategorized"))>0) {
-  tsn.id<-tsn.id[!(tsn.id$category %in% c("Other", "Uncategorized")), 
+if (sum(tsn_id$category %in% c("Other", "Uncategorized"))>0) {
+  tsn_id<-tsn_id[!(tsn_id$category %in% c("Other", "Uncategorized")), 
                  c("TSN", "category")]
 }
 
 landings_data<-dplyr::rename(landings_data, 
                  TSN = Tsn)
 
-tsn.id$TSN<-as.numeric(tsn.id$TSN)
+tsn_id$TSN<-as.numeric(tsn_id$TSN)
 
 landings_data<-dplyr::left_join(x = landings_data, 
-                    y = tsn.id, 
+                    y = tsn_id, 
                     by = "TSN")
 
 landings_data<-dplyr::rename(landings_data, 
@@ -289,31 +287,103 @@ knitr::kable(head(landings_data), booktabs = T) %>%
 ## 4. Run Analysis
 
 ```{r}
-OutputAnalysis(landings_data = landings_data, 
+out <- OutputAnalysis(landings_data = landings_data, 
                category0 = "category", 
                baseyr = baseyr, 
                titleadd = titleadd, 
                dir_analyses = dir_analyses, 
-               skipplots = T, 
+               skipplots = TRUE, 
                reg_order = "Northeast", 
-               reg_order_abbrv = "NorE")
+               reg_order_abbrv = "NorE",
+               save_outputs_to_file = FALSE)
+names(out)
+
+for (jjj in 1:length(out)) {
+  assign(names(out)[jjj], out[[jjj]])
+}
 ```
 
 ## 5. Show Tables 
 
 ```{r, results='asis'}
-aa<-list.files(path = paste0(dir_analyses), 
-               pattern = paste0(minyr, "To", maxyr, "_NorE_category"), 
-               full.names = TRUE)
+result <- lapply(index_list, "[", , c("Year", "cat", "PI_CB", "Q_CB", "v"))
+a<-result$Northeast
+a<-a[a$Year %in% minyr:maxyr, ]
 
-bb<-list.files(path = paste0(aa, "/outputtables/"), full.names = TRUE, pattern = "000_All")
-bb<-bb[grep(pattern = gsub(pattern = "\\.", replacement = "", x = category0), x = bb)]
-temp<-read.xlsx(bb[grep(pattern = "_AllData", x = bb)], reg_order[1])
+a<-dplyr::rename(a, 
+                 PI = PI_CB, 
+                 Q = Q_CB, 
+                 V = v)
 
-temp <- temp %>% 
-  select(c(cat, Year, v, PI_CB, Q_CB, QI_CB)) 
+# temp_code
+a.pi<-spread(a[!(names(a) %in% c("V", "Q"))], cat, PI)
+names(a.pi)[-1]<-paste0(names(a.pi)[-1], "_PI")
+a.q<-spread(a[!(names(a) %in% c("PI", "V"))], cat, Q)
+names(a.q)[-1]<-paste0(names(a.q)[-1], "_Q")
+a.v<-spread(a[!(names(a) %in% c("PI", "Q"))], cat, V)
+names(a.v)[-1]<-paste0(names(a.v)[-1], "_V")
 
-knitr::kable(head(temp), booktabs = T) %>%
+b<-left_join(a.pi, a.q, by = c("Year"))
+b<-left_join(b, a.v, by = c("Year"))
+
+
+b<-b[,match(x = c("Year", 
+                  names(b)[grep(pattern = "_V", x = names(b), ignore.case = T)], 
+                  names(b)[grep(pattern = "_PI", x = names(b), ignore.case = T)], 
+                  names(b)[grep(pattern = "_Q", x = names(b), ignore.case = T)]), 
+            names(b))]
+
+b<-b[,match(x = c("Year", 
+                  names(b)[grep(pattern = "fin", x = names(b), ignore.case = T)], 
+                  names(b)[grep(pattern = "Shell", x = names(b), ignore.case = T)], 
+                  names(b)[grep(pattern = "Total", x = names(b))]), 
+            names(b))]
+
+b<-b[b$Year %in% minyr:maxyr, ]
+temp_code<-b
+temp_code$Footnotes<-NA
+
+
+# temp_print
+b<-a
+b$PI<-round(x = b$PI, digits = 2)
+b$Q<-prettyNum(x = round(x = b$Q/1e6), digits = 2, big.mark = ",")
+b$V<-prettyNum(x = round(x = b$V/1e6), digits = 2, big.mark = ",")
+
+b.pi<-spread(b[!(names(b) %in% c("V", "Q"))], cat, PI)
+names(b.pi)[-1]<-paste0(names(b.pi)[-1], "_PI")
+b.q<-spread(b[!(names(b) %in% c("PI", "V"))], cat, Q)
+names(b.q)[-1]<-paste0(names(b.q)[-1], "_Q")
+b.v<-spread(b[!(names(b) %in% c("PI", "Q"))], cat, V)
+names(b.v)[-1]<-paste0(names(b.v)[-1], "_V")
+
+b<-left_join(b.pi, b.q, by = c("Year"))
+b<-left_join(b, b.v, by = c("Year"))
+
+b<-b[,match(x = c("Year", 
+                  names(b)[grep(pattern = "_V", x = names(b), ignore.case = T)], 
+                  names(b)[grep(pattern = "_PI", x = names(b), ignore.case = T)], 
+                  names(b)[grep(pattern = "_Q", x = names(b), ignore.case = T)]), 
+            names(b))]
+
+b<-b[,match(x = c("Year", 
+                  names(b)[grep(pattern = "fin", x = names(b), ignore.case = T)], 
+                  names(b)[grep(pattern = "Shell", x = names(b), ignore.case = T)], 
+                  names(b)[grep(pattern = "Total", x = names(b))]), 
+            names(b))]
+
+b<-b[b$Year %in% minyr:maxyr, ]
+temp_print<-b
+temp_print$Footnotes<-NA
+
+ProdOutputUS_Raw<-temp_code
+write_csv(x = ProdOutputUS_Raw, file = paste0(dir_analyses, "/ProdOutputUS_Raw.csv"))
+
+ProdOutputUS_Print<-temp_print
+write_csv(x = ProdOutputUS_Print, file = paste0(dir_analyses, "/ProdOutputUS_Print.csv"))
+
+ProdOutputUS_Print$Footnotes<-NULL
+knitr::kable(ProdOutputUS_Print, booktabs = T) %>%
   kable_styling(latex_options = "striped")
 ```
 
@@ -322,12 +392,7 @@ knitr::kable(head(temp), booktabs = T) %>%
 Here are a few figures that come out of this analysis!
 
 ```{r, fig.width=8}
-bb<-list.files(path = paste0(aa, "/figures/"), full.names = TRUE, pattern = "AllFigures.rdata")
+figures_list$Northeast__PI_CB_PI
 
-load(bb)
-
-figures.list$Northeast__PI_CB_PI
-
-figures.list$Northeast__Q_CB_CatTot_QCatTot
-
+figures_list$Northeast__Q_CB_CatTot_QCatTot
 ```

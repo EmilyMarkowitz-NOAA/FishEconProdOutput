@@ -12,7 +12,7 @@ PriceMethodOutput_Category(
   baseyr,
   maxyr,
   minyr,
-  warnings.list = ls()
+  warnings_list = ls()
 )
 }
 \arguments{
@@ -30,7 +30,7 @@ PriceMethodOutput_Category(
 
 \item{minyr}{The minium year to assess in the dataset.}
 
-\item{warnings.list}{A list where warnings are stored. If using this function in the PriceMethodOutput it will be inherited. If using outside of that function, put ls().}
+\item{warnings_list}{A list where warnings are stored. If using this function in the PriceMethodOutput it will be inherited. If using outside of that function, put ls().}
 }
 \description{
 This function systematically runs the Price Method Productivity Output analysis for all species of a cateorgy.

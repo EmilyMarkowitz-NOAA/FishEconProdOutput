@@ -13,7 +13,8 @@ OutputAnalysis(
   reg_order = c("National", "North Pacific", "Pacific", "Western Pacific (Hawai`i)",
     "New England", "Mid-Atlantic", "Northeast", "South Atlantic", "Gulf of Mexico"),
   reg_order_abbrv = c("US", "NP", "Pac", "WP", "NE", "MA", "NorE", "SA", "GOM"),
-  skipplots = F
+  skipplots = FALSE,
+  save_outputs_to_file = TRUE
 )
 }
 \arguments{

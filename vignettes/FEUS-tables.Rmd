@@ -39,7 +39,6 @@ knitr::opts_chunk$set(message = FALSE, echo = TRUE, warning = FALSE,
 
 Purpose: Construct the FEUS Commerical Fisheries state and national tables and output them to csv files
 
-
 ```{r setup}
 PKG <- c(# devtools::install_github("emilymarkowitz-NOAA/FishEconProdOutput", force = TRUE)
          "FishEconProdOutput",
@@ -129,42 +128,39 @@ knitr::kable(head(landings_data), booktabs = T) %>%
 ## 4. Run Analysis
 
 ```{r}
-OutputAnalysis(landings_data = landings_data, 
+out <- OutputAnalysis(landings_data = landings_data, 
                category0 = category0, 
                baseyr = baseyr, 
                titleadd = titleadd, 
                dir_analyses = dir_analyses, 
-               skipplots = T, 
+               skipplots = TRUE, 
                reg_order = reg_order, 
-               reg_order_abbrv = reg_order_abbrv)
+               reg_order_abbrv = reg_order_abbrv, 
+               save_outputs_to_file = FALSE)
+names(out)
+
+for (jjj in 1:length(out)) {
+  assign(names(out)[jjj], out[[jjj]])
+}
 ```
 
 ## 5. Create FEUS Tables 
 
-```{r}
-# divideby = 1e6
-# folderpattern = "FSFEUS"
-aa<-list.files(path = paste0(dir_analyses), 
-               pattern = paste0(minyr.ProdOut, "To", maxyr, "_FSFEUS"), 
-               full.names = TRUE)
-
-bb<-list.files(path = paste0(aa, "/outputtables/"), full.names = TRUE, pattern = "000_All")
-bb<-bb[grep(pattern = gsub(pattern = "\\.", replacement = "", x = category0), x = bb)]
-
-```
-
-### 5.1: Table 5. Regional Törnqvist Price Index, `r minyr`-`r maxyr` (`r baseyr` = 1) 
+### Table 5. Regional Törnqvist Price Index, `r minyr`-`r maxyr` (`r baseyr` = 1) 
 
 ```{r, results='asis'}
-a<-data.frame(Year = minyr.ProdOut:maxyr)
-for (i in 1:length(reg_order)){
-  temp<-read.xlsx(bb[grep(pattern = "_AllData", x = bb)], reg_order[i])
-  temp<-temp[temp$Year %in% c(minyr.ProdOut:maxyr) &
-               temp$cat %in% "Total", ]
-  a0<-data.frame(temp[,names(temp) %in% "PI_CB"])
-  names(a0)<-reg_order[i]
-  a<-cbind.data.frame(a, a0)
+result <- lapply(index_list, "[", , c("Year", "cat", "PI_CB"))
+
+a<-data.frame(result[1][[1]]$Year, 
+              result[1][[1]]$cat)
+for (i in 1:length(result)) {
+  a<-cbind.data.frame(a, result[i][[1]]$PI_CB)
 }
+names(a)<-c("Year", "cat", names(result))
+a <- a[a$Year %in% minyr.ProdOut:maxyr & 
+         a$cat %in% "Total", ]
+
+a$cat<-NULL
 
 a$Footnotes<-NA
 temp_code<-a
@@ -174,8 +170,10 @@ a[,reg_order]<-round(x = a[,reg_order], digits = 2)
 temp_print <- a
 
 ProdOutputPI_Raw<-temp_code
+write_csv(x = ProdOutputPI_Raw, file = paste0(dir_analyses, "/ProdOutputPI_Raw.csv"))
 
 ProdOutputPI_Print<-temp_print
+write_csv(x = ProdOutputPI_Print, file = paste0(dir_analyses, "/ProdOutputPI_Print.csv"))
 
 ProdOutputPI_Print$Footnotes<-NULL
 knitr::kable(ProdOutputPI_Print, booktabs = T) %>%
@@ -183,54 +181,54 @@ knitr::kable(ProdOutputPI_Print, booktabs = T) %>%
 
 ```
 
-### 5.2: Table 6. Regional Real Landing Törnqvist Values, `r minyr.data`-`r maxyr` (`r baseyr` $ Million) 
+### Table 6. Regional Real Landing Törnqvist Values, `r minyr.data`-`r maxyr` (`r baseyr` $ Million) 
 
 ```{r, results='asis'}
+result <- lapply(index_list, "[", , c("Year", "cat", "Q_CB"))
 
-a<-data.frame(Year = minyr.ProdOut:maxyr)
-for (i in 1:length(reg_order)){
-  temp<-read.xlsx(bb[grep(pattern = "_AllData", x = bb)], reg_order[i])
-  temp<-temp[temp$Year %in% c(minyr.ProdOut:maxyr) &
-               temp$cat %in% "Total", ]
-  a0<-data.frame(temp[,names(temp) %in% "Q_CB"])
-  names(a0)<-reg_order[i]
-  a<-cbind.data.frame(a, a0)
+a<-data.frame(result[1][[1]]$Year, 
+              result[1][[1]]$cat)
+for (i in 1:length(result)) {
+  a<-cbind.data.frame(a, result[i][[1]]$Q_CB)
 }
+names(a)<-c("Year", "cat", names(result))
+a <- a[a$Year %in% minyr.ProdOut:maxyr & 
+         a$cat %in% "Total", ]
+
+a$cat<-NULL
 
 a$Footnotes<-NA
 temp_code<-a
 
 a[,reg_order]<-round(x = a[,reg_order]/1e6, digits = 2)
-for (i in 1:length(reg_order)){
+for (i in 2:length(reg_order)){
   a[,i]<-prettyNum(x = a[,i], big.mark = ",")
 }
 temp_print <- a
 
 ProdOutputQ_Raw<-temp_code
+write_csv(x = ProdOutputQ_Raw, file = paste0(dir_analyses, "/ProdOutputQ_Raw.csv"))
 
 ProdOutputQ_Print<-temp_print
+write_csv(x = ProdOutputQ_Print, file = paste0(dir_analyses, "/ProdOutputQ_Print.csv"))
 
 ProdOutputQ_Print$Footnotes<-NULL
 knitr::kable(ProdOutputQ_Print, booktabs = T) %>%
   kable_styling(latex_options = "striped")
 ```
 
-### 5.3: Table 7. National Nominal Landing Values ($ Million), Törnqvist Price Index, (`r baseyr` = 1), and Real Landing Törnqvist Values (`r baseyr` $ Million), `r minyr.data`-`r maxyr` 
+### Table 7. National Nominal Landing Values ($ Million), Törnqvist Price Index, (`r baseyr` = 1), and Real Landing Törnqvist Values (`r baseyr` $ Million), `r minyr.data`-`r maxyr` 
 
 ```{r, results='asis'}
 
-######******Table 7###############
-
-a<-data.frame(Year = minyr.ProdOut:maxyr)
-temp<-read.xlsx(bb[grep(pattern = "_AllData", x = bb)], 
-                reg_order[1])
-temp<-temp[temp$Year %in% c(minyr.ProdOut:maxyr), ]
-a<-data.frame(temp[,names(temp) %in% c("Year", "cat", "PI_CB", "Q_CB", "v")])
+result <- lapply(index_list, "[", , c("Year", "cat", "PI_CB", "Q_CB", "v"))
+a<-result$National
+a<-a[a$Year %in% minyr.ProdOut:maxyr, ]
 
 a<-dplyr::rename(a, 
-                 PI = paste0("PI_CB"), 
-                 Q = paste0("Q_CB"), 
-                 V = "v")
+                 PI = PI_CB, 
+                 Q = Q_CB, 
+                 V = v)
 
 # temp_code
 a.pi<-spread(a[!(names(a) %in% c("V", "Q"))], cat, PI)
@@ -256,9 +254,9 @@ b<-b[,match(x = c("Year",
                   names(b)[grep(pattern = "Total", x = names(b))]), 
             names(b))]
 
+b<-b[b$Year %in% minyr:maxyr, ]
 temp_code<-b
 temp_code$Footnotes<-NA
-
 
 # temp_print
 b<-a
@@ -289,18 +287,19 @@ b<-b[,match(x = c("Year",
                   names(b)[grep(pattern = "Total", x = names(b))]), 
             names(b))]
 
+b<-b[b$Year %in% minyr:maxyr, ]
 temp_print<-b
 temp_print$Footnotes<-NA
 
 ProdOutputUS_Raw<-temp_code
+write_csv(x = ProdOutputUS_Raw, file = paste0(dir_analyses, "/ProdOutputUS_Raw.csv"))
 
 ProdOutputUS_Print<-temp_print
+write_csv(x = ProdOutputUS_Print, file = paste0(dir_analyses, "/ProdOutputUS_Print.csv"))
 
 ProdOutputUS_Print$Footnotes<-NULL
 knitr::kable(ProdOutputUS_Print, booktabs = T) %>%
   kable_styling(latex_options = "striped")
-
-# kbl(dt, booktabs = T)
 
 ```
 
@@ -311,26 +310,16 @@ Here are a few figures that come out of this analysis!
 Some come already in convient grids...
 
 ```{r, fig.width=8}
-bb<-list.files(path = paste0(aa, "/figures/"), full.names = TRUE, pattern = "AllFiguresGrid")
+gridfigures_list$`000_All_byr2015_categoryPI_Total`
 
-load(bb)
-
-gridfigures.list$`000_All_byr2015_categoryPI_Total`
-
-gridfigures.list$`000_All_byr2015_categoryQ_CB_Q`
-
+gridfigures_list$`000_All_byr2015_categoryQ_CB_Q`
 ```
 
 And in single plots!
 
 ```{r, fig.width=8}
-bb<-list.files(path = paste0(aa, "/figures/"), full.names = TRUE, pattern = "AllFigures.rdata")
+figures_list$National__PI_Finfish
 
-load(bb)
-
-figures.list$National__PI_Finfish
-
-figures.list$National__Q_CB_CatTot_QCatTot
-
+figures_list$National__Q_CB_CatTot_QCatTot
 ```
 

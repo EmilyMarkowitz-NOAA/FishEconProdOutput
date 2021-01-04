@@ -6,6 +6,7 @@ Authors@R: person("Emily", "Markowitz", email = "Emily.Markowitz@noaa.gov", role
 Maintainer: Emily Markowitz <emily.markowitz@noaa.gov>
 Description: The Tornqvist quantity index requires data on quantity and revenue shares. We employ landings quantity (pounds) and landings value ($USD) data by year, state, and species. Study Purpose: 1) Develop alternative approaches to measure national and regional fishery outputs for productivity measurements. 2) Evaluate the impacts of missing data and other issues on output estimates.
 Year: 2021
+Depends: R (>= 3.5.0)
 License: Software code created by U.S. Government employees is not subject to copyright in the United States (17 U.S.C. 105). The United States/Department of Commerce reserve all rights to seek and obtain copyright protection in countries other than the United States for Software authored in its entirety by the Department of Commerce. To this end, the Department of Commerce hereby grants to Recipient a royalty-free, nonexclusive license to use, copy, and create derivative works of the Software outside of the United States.
 Encoding: UTF-8
 LazyData: true

@@ -1,8 +1,22 @@
 Package: FishEconProdOutput
 Type: Package
-Title: Quantity and Price Method Fisheries Economics Productivity Outputs
+Title: Price Method Fisheries Economics Total Factor Productivity Outputs for the U.S. Fisheries
 Version: 0.1.0
-Authors@R: person("Emily", "Markowitz", email = "Emily.Markowitz@noaa.gov", role = c("aut", "cre"))
+Authors@R: 
+  c(person(given = "Sun Ling",
+           family = "Wang",
+           role = "ctb",
+           email = "sunling.wang@usda.gov"),
+    person(given = "John",
+           family = "Walden",
+           email = "John.Walden AT noaa.gov", 
+           role = "ctb",
+           comment = c(ORCID = "0000-0001-6290-0360")),
+    person(given = "Emily",
+           family = "Markowitz", 
+           role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-5757-4230"),
+           email = "Emily.Markowitz@noaa.gov"))
 Maintainer: Emily Markowitz <emily.markowitz@noaa.gov>
 Description: The Tornqvist quantity index requires data on quantity and revenue shares. We employ landings quantity (pounds) and landings value ($USD) data by year, state, and species. Study Purpose: 1) Develop alternative approaches to measure national and regional fishery outputs for productivity measurements. 2) Evaluate the impacts of missing data and other issues on output estimates.
 Year: 2021

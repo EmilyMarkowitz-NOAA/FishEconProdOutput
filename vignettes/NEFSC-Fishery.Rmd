@@ -120,7 +120,7 @@ knitr::kable(head(landings_data), booktabs = T) %>%
   kable_styling(latex_options = "striped")
 ```
 
-### Northeast Data
+### Northeast Fisheries Codes
 ```{r, results='asis', echo=FALSE}
 
 ne_spp<-data.frame(

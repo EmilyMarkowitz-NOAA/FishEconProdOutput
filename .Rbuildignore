@@ -3,3 +3,6 @@
 ^data-raw$
 ^\.httr-oauth$
 ^CRAN-RELEASE$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

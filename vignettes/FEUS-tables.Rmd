@@ -148,7 +148,7 @@ for (jjj in 1:length(out)) {
 
 ## 5. Create FEUS Tables 
 
-### Table 5. Regional Törnqvist Price Index, `r minyr.data`-`r maxyr` (`r baseyr` = 1) 
+### ***Table 5.*** Regional Törnqvist Price Index, `r minyr.data`-`r maxyr` (`r baseyr` = 1) 
 
 ```{r, results='asis'}
 result <- lapply(index_list, "[", , c("Year", "cat", "PI_CB"))
@@ -187,7 +187,7 @@ knitr::kable(ProdOutputPI_Print, booktabs = T) %>%
 
 ```
 
-### Table 6. Regional Real Landing Törnqvist Values, `r minyr.data`-`r maxyr` (`r baseyr` $ Million) 
+### ***Table 6.*** Regional Real Landing Törnqvist Values, `r minyr.data`-`r maxyr` (`r baseyr` $ Million) 
 
 ```{r, results='asis'}
 result <- lapply(index_list, "[", , c("Year", "cat", "Q_CB"))
@@ -227,7 +227,7 @@ knitr::kable(ProdOutputQ_Print, booktabs = T) %>%
   kable_styling(latex_options = "striped")
 ```
 
-### Table 7. National Nominal Landing Values ($ Million), Törnqvist Price Index, (`r baseyr` = 1), and Real Landing Törnqvist Values (`r baseyr` $ Million), `r minyr.data`-`r maxyr` 
+### ***Table 7.*** National Nominal Landing Values ($ Million), Törnqvist Price Index, (`r baseyr` = 1), and Real Landing Törnqvist Values (`r baseyr` $ Million), `r minyr.data`-`r maxyr` 
 
 ```{r, results='asis'}
 

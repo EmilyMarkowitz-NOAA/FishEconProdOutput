@@ -643,9 +643,11 @@ numbers0 <- function(x) {
 #'
 #' This funciton advances a value of 'counter0' +1 each time it is used.
 #' @param counter0 value to be advanced by 1.
+#'
+#' @return
 #' @export
-#' @examples counter<-0; counter<-funct_counter(counter); counter; [1] "001"
-#' funct_counter()
+#'
+#' @examples
 funct_counter <- function(counter0) {
   counter0 <- as.numeric(counter0) + 1
   counter <- formatC(x = counter0, width = 3)

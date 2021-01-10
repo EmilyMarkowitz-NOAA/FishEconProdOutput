@@ -11,14 +11,15 @@ funct_counter(counter0)
 \arguments{
 \item{counter0}{value to be advanced by 1.}
 }
+\value{
+
+}
 \description{
 This funciton advances a value of 'counter0' +1 each time it is used.
 
 This funciton advances a value of 'counter0' +1 each time it is used.
 }
 \examples{
-counter<-0; counter<-funct_counter(counter); counter; [1] "001"
-funct_counter()
 counter<-0; counter<-funct_counter(counter); counter; [1] "001"
 funct_counter()
 }

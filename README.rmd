@@ -8,9 +8,7 @@ output: md_document
 knitr::opts_chunk$set(echo = FALSE, error = FALSE, message = FALSE, warning = FALSE)
 ```
 
-# **PRELIMINARY**: Measuring Output for U.S. Commercial Fisheries From Theory to Practice
-
-> Code is still in Development
+# Measuring Output for U.S. Commercial Fisheries From Theory to Practice
 
 **Emily Markowitz**^1^ (Emily.Markowitz AT noaa.gov)
 
@@ -18,13 +16,13 @@ knitr::opts_chunk$set(echo = FALSE, error = FALSE, message = FALSE, warning = FA
 
 **John Walden**^3^ (John.Walden AT noaa.gov)
 
-^1^Alaska Fisheries Science Center, 
-National Marine Fisheries Service, National Oceanic and Atmospheric Administration,
-Seattle, WA 98195. 
-Work completed as a contractor with ECS in the NOAA Fisheries Office of Science and Technology Economics & Social Analysis Division
+^1^Alaska Fisheries Science Center, National Marine Fisheries Service, National Oceanic and Atmospheric Administration, Seattle, WA 98195
 
-^2^On detail with the NOAA Fisheries Office of Science and Technology Economics & Social Analysis Division. 
-United States Department of Agriculture, Economic Research Service 
+ - Work completed as a contractor with ECS in the NOAA Fisheries Office of Science and Technology Economics & Social Analysis Division. 
+
+^2^ United States Department of Agriculture, Economic Research Service 
+
+ - Work completed while on detail with the NOAA Fisheries Office of Science and Technology Economics & Social Analysis Division. 
 
 ^3^Northeast Fisheries Science Center, 
 National Marine Fisheries Service, National Oceanic and Atmospheric Administration,

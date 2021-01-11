@@ -9,8 +9,8 @@
 #' @keywords cats
 #' @export
 #' @examples
-#' funct_list()
-funct_list <- function(x) {
+#' listABandC()
+listABandC <- function(x) {
   x <- x[which(x != "")]
   # x<-x[which(!is.null(x))]
   x <- x[which(!is.na(x))]
@@ -648,12 +648,15 @@ numbers0 <- function(x) {
 #' @export
 #'
 #' @examples
-funct_counter <- function(counter0) {
+#' counter00X(1)
+#'  "002"
+counter00X <- function(counter0) {
   counter0 <- as.numeric(counter0) + 1
   counter <- formatC(x = counter0, width = 3)
   counter <- gsub(counter, pattern = " ", replacement = "0")
   return(counter)
 }
+
 
 #' Standardize Units
 #'
@@ -703,20 +706,6 @@ xunits <- function(val, combine = T) {
   out <- ifelse(combine == T, paste0(x, unit), list(x, unit))
 
   return(out)
-}
-
-#' Counter
-#'
-#' This funciton advances a value of 'counter0' +1 each time it is used.
-#' @param counter0 value to be advanced by 1.
-#' @export
-#' @examples counter<-0; counter<-funct_counter(counter); counter; [1] "001"
-#' funct_counter()
-funct_counter<-function(counter0) {
-  counter0<-as.numeric(counter0)+1
-  counter<-formatC(x = counter0, width = 3)
-  counter<-gsub(counter, pattern = " ", replacement = "0")
-  return(counter)
 }
 
 #' Plot n lines in ggplot
@@ -852,7 +841,7 @@ OutputAnalysis<-function(landings_data,
 
     place<-reg_order[r]
     print(place)
-    counter<-funct_counter(counter)
+    counter<-counter00X(counter)
 
     title000<-paste0("_","byr",baseyr)
     title0<-paste0(counter, "_", gsub(pattern = "\\(", replacement = "", x =

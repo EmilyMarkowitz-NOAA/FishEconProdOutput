@@ -27,8 +27,11 @@ Woods Hole, MA
 > \*The views expressed are those of the author and should not be
 > attributed to the NOAA, ECS or ERS
 
-**GitHub:**
+**GitHub Repository:**
 [https://github.com/emilyhmarkowitz/FishEconProdOutput](https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput)
+
+**Documentation GitHub Pages:**
+<https://emilymarkowitz-noaa.github.io/FishEconProdOutput/>
 
 Download this package
 =====================
@@ -56,15 +59,15 @@ You can find Vignettes here
 Or directly view the vignettes here:
 
 -   [How to create the tables used in
-    FEUS](https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput/blob/FishEconProdOutput/vignettes/FEUS-tables.pdf)
+    FEUS](https://emilymarkowitz-noaa.github.io/FishEconProdOutput/docs/articles/FEUS-tables.pdf)
 -   [How to use this analysis for a collection of sub fisheries, such as
     in the Northeast
-    US](https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput/blob/FishEconProdOutput/vignettes/NEFSC-Fishery.pdf)
+    US](https://emilymarkowitz-noaa.github.io/FishEconProdOutput/docs/articles/NEFSC-Fishery.pdf)
 
 Publications
 ============
 
-A publication on this work in forthcoming.
+*A publication on this work in forthcoming.*
 
 NOAA README
 ===========

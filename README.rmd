@@ -13,7 +13,7 @@ library(here)
 
 :::::: {.cols data-latex=""}
 
-::: {.col data-latex="{0.55\textwidth}"}
+::: {.col data-latex="{0.65\textwidth}"}
 
 
 **Emily Markowitz**^1^ (Emily.Markowitz AT noaa.gov)
@@ -30,9 +30,9 @@ library(here)
 
 :::
 
-::: {.col data-latex="{0.4\textwidth}"}
+::: {.col data-latex="{0.3\textwidth}"}
 
-![NOAA logo](./docs/www/noaa_logo.gif)
+![NOAA logo](./docs/www/noaa_logo.gif){width=25%}
 
 :::
 ::::::

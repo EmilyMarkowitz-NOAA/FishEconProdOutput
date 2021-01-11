@@ -6,21 +6,37 @@ output: md_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, error = FALSE, message = FALSE, warning = FALSE)
+library(here)
 ```
 
-  title: "<p><img id=\"logo\" style=\"width: 20px;\" src=\"Noaa_logo.png\" /> R Workshop for AFSC RACE GAP </p>"    
-
-
-[]
-
-
 # Measuring Output for U.S. Commercial Fisheries From Theory to Practice
+
+:::::: {.cols data-latex=""}
+
+::: {.col data-latex="{0.55\textwidth}"}
+
 
 **Emily Markowitz**^1^ (Emily.Markowitz AT noaa.gov)
 
 **Sun Ling Wang**^2^ (sunling.wang AT usda.gov)
 
 **John Walden**^3^ (John.Walden AT noaa.gov)
+
+
+:::
+
+::: {.col data-latex="{0.05\textwidth}"}
+
+
+:::
+
+::: {.col data-latex="{0.4\textwidth}"}
+
+![NOAA logo](./docs/www/noaa_logo.gif)
+
+:::
+::::::
+
 
 ^1^Alaska Fisheries Science Center, National Marine Fisheries Service, National Oceanic and Atmospheric Administration, Seattle, WA 98195
 
@@ -66,8 +82,8 @@ browseVignettes()
 
 Or directly view the vignettes here: 
 
- - [How to create the tables used in FEUS](https://emilymarkowitz-noaa.github.io/FishEconProdOutput/docs/articles/FEUS-tables.pdf)
- - [How to use this analysis for a collection of sub fisheries, such as in the Northeast US](https://emilymarkowitz-noaa.github.io/FishEconProdOutput/docs/articles/NEFSC-Fishery.pdf)
+ - [How to create the tables used in FEUS](https://emilymarkowitz-noaa.github.io/FishEconProdOutput/articles/FEUS-tables.html)
+ - [How to use this analysis for a collection of sub fisheries, such as in the Northeast US](https://emilymarkowitz-noaa.github.io/FishEconProdOutput/articles/NEFSC-Fishery.html)
 
 # Publications
 

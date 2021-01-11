@@ -7,6 +7,8 @@ Measuring Output for U.S. Commercial Fisheries From Theory to Practice
 
 **John Walden**<sup>3</sup> (John.Walden AT noaa.gov)
 
+![NOAA logo](./docs/www/noaa_logo.gif)
+
 <sup>1</sup>Alaska Fisheries Science Center, National Marine Fisheries
 Service, National Oceanic and Atmospheric Administration, Seattle, WA
 98195
@@ -59,10 +61,10 @@ You can find Vignettes here
 Or directly view the vignettes here:
 
 -   [How to create the tables used in
-    FEUS](https://emilymarkowitz-noaa.github.io/FishEconProdOutput/docs/articles/FEUS-tables.pdf)
+    FEUS](https://emilymarkowitz-noaa.github.io/FishEconProdOutput/articles/FEUS-tables.html)
 -   [How to use this analysis for a collection of sub fisheries, such as
     in the Northeast
-    US](https://emilymarkowitz-noaa.github.io/FishEconProdOutput/docs/articles/NEFSC-Fishery.pdf)
+    US](https://emilymarkowitz-noaa.github.io/FishEconProdOutput/articles/NEFSC-Fishery.html)
 
 Publications
 ============

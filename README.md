@@ -7,10 +7,6 @@ Measuring Output for U.S. Commercial Fisheries From Theory to Practice
 
 **John Walden**<sup>3</sup> (John.Walden AT noaa.gov)
 
-<figure>
-<img src="./docs/www/noaa_logo.gif" alt="NOAA logo" style="width:5.0%" /><figcaption>NOAA logo</figcaption>
-</figure>
-
 <sup>1</sup>Alaska Fisheries Science Center, National Marine Fisheries
 Service, National Oceanic and Atmospheric Administration, Seattle, WA
 98195

@@ -1,6 +1,6 @@
 ---
 title: "Measuring Output for U.S. Commercial Fisheries — From Theory to Practice"
-author: 'Emily Markowitz^1^ (Emily.Markowitz@noaa.gov) Sun Ling Wang^2^ (Sun-Ling.Wang@noaa.gov) \n\n ^1^Contractor, ECS Federal in support of NOAA Fisheries Office of Science and Technology Economics & Social Analysis Division \n\n ^2^On detail with the NOAA Fisheries Office of Science and Technology Economics & Social Analysis Division \n\n >*The views expressed are those of the author and should not be attributed to the NOAA, ECS or ERS'
+author: 'Emily Markowitz, Sun Ling Wang, and John Walden'
 output: md_document
 ---
 
@@ -11,32 +11,11 @@ library(here)
 
 # Measuring Output for U.S. Commercial Fisheries From Theory to Practice
 
-:::::: {.cols data-latex=""}
-
-::: {.col data-latex="{0.65\textwidth}"}
-
-
 **Emily Markowitz**^1^ (Emily.Markowitz AT noaa.gov)
 
-**Sun Ling Wang**^2^ (sunling.wang AT usda.gov)
+**Sun Ling Wang**^2^ (SunLing.Wang AT usda.gov)
 
 **John Walden**^3^ (John.Walden AT noaa.gov)
-
-
-:::
-
-::: {.col data-latex="{0.05\textwidth}"}
-
-
-:::
-
-::: {.col data-latex="{0.3\textwidth}"}
-
-![NOAA logo](./docs/www/noaa_logo.gif){width=5%}
-
-:::
-::::::
-
 
 ^1^Alaska Fisheries Science Center, National Marine Fisheries Service, National Oceanic and Atmospheric Administration, Seattle, WA 98195
 
@@ -50,7 +29,7 @@ library(here)
 National Marine Fisheries Service, National Oceanic and Atmospheric Administration,
 Woods Hole, MA
 
-> *The views expressed are those of the author and should not be attributed to the NOAA, ECS or ERS
+*The views expressed are those of the author and should not be attributed to the NOAA, ECS or ERS
 
 **GitHub Repository:** [https://github.com/emilyhmarkowitz/FishEconProdOutput](https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput)  
 

@@ -70,12 +70,12 @@ tornb <- function(dat,
   t=1
 
   for(i in min(years):(max(years)-1)){
-    base <- data.table::subset(data1, (Year == baseyr &
+    base <- subset(data1, (Year == baseyr &
                              p > 0 & v > 0))    #only keep observations with positive p,v
-    year2 <- data.table::subset(data1, (Year == i &
+    year2 <- subset(data1, (Year == i &
                               p > 0 & v > 0))        #only keep observations with positive p,v
 
-    year1_2 <- data.table::merge(base, year2, by = "prod", all.x = TRUE, all.y = TRUE, no.dups = TRUE) #merge two data frames
+    year1_2 <- merge(base, year2, by = "prod", all.x = TRUE, all.y = TRUE, no.dups = TRUE) #merge two data frames
     year1_2 <- na.omit(year1_2)  #Any rows with "NA" values are deleted.
     year1_2 <- year1_2[!(is.infinite(year1_2$p.y) | is.infinite(year1_2$p.x)),]
 
@@ -144,10 +144,10 @@ tornc <- function(dat,
 
   for(i in min(years):(max(years)-1)){
 
-    year1<-data.table::subset(data1, (Year==i & p>0 & v>0))    #only keep observations with positive p,v
-    year2<-data.table::subset(data1, (Year==(i+1) & p>0 & v>0))#only keep observations with positive p,v
+    year1<-subset(data1, (Year==i & p>0 & v>0))    #only keep observations with positive p,v
+    year2<-subset(data1, (Year==(i+1) & p>0 & v>0))#only keep observations with positive p,v
 
-    year1_2<-data.table::merge(year1, year2, by="prod", all.x=TRUE, all.y=TRUE, no.dups=TRUE) #merge two data frames
+    year1_2<-merge(year1, year2, by="prod", all.x=TRUE, all.y=TRUE, no.dups=TRUE) #merge two data frames
     year1_2<-na.omit(year1_2)  #Any rows with "NA" values are deleted.
     year1_2 <- year1_2[!(is.infinite(year1_2$p.y) | is.infinite(year1_2$p.x)),]
 

@@ -26,13 +26,13 @@ OutputAnalysis(
 
 \item{titleadd}{A string to add to the file with the outputs to remind you why this particular analysis was interesting.}
 
+\item{dir_analyses}{A directory that your analyses will be saved to (e.g., "./output/").}
+
 \item{reg_order}{The US and each region that you would like to assess. Default = c("National", "North Pacific", "Pacific", "Western Pacific (Hawai`i)", "New England", "Mid-Atlantic", "Northeast", "South Atlantic", "Gulf of Mexico").}
 
 \item{reg_order_abbrv}{Acronym of the US and each region listed in reg_order. Default = c("US", "NP", "Pac", "WP", "NE", "MA", "NorE", "SA", "GOM").}
 
 \item{skipplots}{TRUE (create and save plots) or don't FALSE.}
-
-\item{dir-analyses}{A directory that your analyses will be saved to (e.g., "./output/").}
 }
 \value{
 
@@ -41,5 +41,5 @@ OutputAnalysis(
 Run Analysis for the US and several regions.
 }
 \examples{
-vignette(FEUS-tables)
+vignette('FEUS-tables')
 }

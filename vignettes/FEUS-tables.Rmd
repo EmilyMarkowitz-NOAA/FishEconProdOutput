@@ -1,8 +1,8 @@
 ---
 title: "FEUS-tables"
 author: Emily Markowitz (Emily.Markowitz AT NOAA.gov / EmilyMarkowitz-NOAA)
-date: "`r Sys.Date() `"
-output: 
+date: "`r format(Sys.Date(), format='%B %d %Y') `"
+output:
   html_document:
     standalone: true
     smart: true

@@ -1,7 +1,7 @@
 ---
 title: "NEFSC-Fishery"
 author: Emily Markowitz (Emily.Markowitz AT NOAA.gov / EmilyMarkowitz-NOAA)
-date: "`r Sys.Date() `"
+date: "`r format(Sys.Date(), format='%B %d %Y') `"
 output: 
   html_document:
     standalone: true

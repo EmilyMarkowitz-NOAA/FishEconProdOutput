@@ -2,7 +2,7 @@
 % Please edit documentation in R/FishEconProdOutput.R
 \name{itis_reclassify}
 \alias{itis_reclassify}
-\title{Title}
+\title{Reclassify ITIS species based off a list of higher taxonomic groupings}
 \usage{
 itis_reclassify(tsn, categories, missing_name)
 }
@@ -17,7 +17,7 @@ itis_reclassify(tsn, categories, missing_name)
 
 }
 \description{
-Title
+Reclassify ITIS species based off a list of higher taxonomic groupings
 }
 \examples{
 

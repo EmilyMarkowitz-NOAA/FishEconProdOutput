@@ -3,8 +3,6 @@
 export(OutputAnalysis)
 export(PriceMethodOutput)
 export(PriceMethodOutput_Category)
-export(ReplaceFirst)
-export(ReplaceMid)
 export(counter00X)
 export(itis_reclassify)
 export(listABandC)

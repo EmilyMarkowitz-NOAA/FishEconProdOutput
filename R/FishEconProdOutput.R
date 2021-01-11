@@ -27,57 +27,10 @@ listABandC <- function(x) {
 }
 
 
-#'Replace the first value, if missing, with the next nearest value.
-#'
-#' If the first value of the timeseries of this column (c) is 0/NaN/NA. Change the first value (and subsequent 0/NaN/NA values) to the first available non-0/NaN/NA value. Then, used in before with 'ReplaceMid'.
-#' @param colnames Names of columns to apply this action to.
-#' @param temp Name of dataset to apply this action to.
-#' @keywords Replace, First
-#' @export
-#' @examples
-#' ReplaceFirst()
-ReplaceFirst <- function(colnames, temp) {
-  for (c0 in 1:length(colnames)) {
-    if (temp[1, colnames[c0]] %in% c(0, NA, NaN, NULL)) {
-      findfirstvalue <-
-        temp[which(!(temp[, colnames[c0]]  %in% c(0, NA, NaN, NULL))),
-             colnames[c0]][1]
-      temp[1, colnames[c0]] <- findfirstvalue
-    }
-  }
-  return(temp)
-}
-
-
-#'Replace the first value, if missing, with the next nearest value.
-#'
-#' If a middle value of the timeseries of this column (c) is 0/NaN/NA. Change the currently 0/NaN/NA value to the previous available non-0/NaN/NA value. Then, used after with 'ReplaceFirst'.
-#' @param colnames Names of columns to apply this action to.
-#' @param temp Name of dataset to apply this action to.
-#' @keywords Replace, Mid, Middle
-#' @export
-#' @examples
-#' ReplaceMid()
-ReplaceMid <- function(colnames, temp) {
-  for (c0 in 1:length(colnames)) {
-    #If a middle value of the timeseries of this column (c) is 0/NaN/NA
-    #Change the currently 0/NaN/NA value to the previous available non-0/NaN/NA value
-    if (sum(temp[, colnames[c0]] %in% c(0, NA, NaN, NULL)) > 0) {
-      troublenumber <- which(temp[, colnames[c0]] %in% c(0, NA, NaN, NULL))
-      for (r in 1:length(troublenumber)) {
-        findlastvalue <- temp[troublenumber[r] - 1, colnames[c0]][1]
-        temp[troublenumber[r], colnames[c0]] <- findlastvalue
-      }
-    }
-  }
-  return(temp)
-}
-
-
 #' Tornqvist Price Index Base Year Function
 #'
 #' Tornqvist Price Index Base Year Function
-#' @param data1 The dataset you would like to use.
+#' @param dat The dataset you would like to use.
 #' @param Year Name of the column holding year data.
 #' @param pvar Name of the column holding price data.
 #' @param vvar Name of the column holding value data.
@@ -117,12 +70,12 @@ tornb <- function(dat,
   t=1
 
   for(i in min(years):(max(years)-1)){
-    base <- subset(data1, (Year == baseyr &
+    base <- data.table::subset(data1, (Year == baseyr &
                              p > 0 & v > 0))    #only keep observations with positive p,v
-    year2 <- subset(data1, (Year == i &
+    year2 <- data.table::subset(data1, (Year == i &
                               p > 0 & v > 0))        #only keep observations with positive p,v
 
-    year1_2 <- merge(base, year2, by = "prod", all.x = TRUE, all.y = TRUE, no.dups = TRUE) #merge two data frames
+    year1_2 <- data.table::merge(base, year2, by = "prod", all.x = TRUE, all.y = TRUE, no.dups = TRUE) #merge two data frames
     year1_2 <- na.omit(year1_2)  #Any rows with "NA" values are deleted.
     year1_2 <- year1_2[!(is.infinite(year1_2$p.y) | is.infinite(year1_2$p.x)),]
 
@@ -149,7 +102,7 @@ tornb <- function(dat,
 #' Tornqvist Price Index Base Year chain Function
 #'
 #' Tornqvist Price Index Base Year chain Function
-#' @param data1 The dataset you would like to use.
+#' @param dat The dataset you would like to use.
 #' @param Year Name of the column holding year data.
 #' @param pvar Name of the column holding price data.
 #' @param vvar Name of the column holding value data.
@@ -191,10 +144,10 @@ tornc <- function(dat,
 
   for(i in min(years):(max(years)-1)){
 
-    year1<-subset(data1, (Year==i & p>0 & v>0))    #only keep observations with positive p,v
-    year2<-subset(data1, (Year==(i+1) & p>0 & v>0))#only keep observations with positive p,v
+    year1<-data.table::subset(data1, (Year==i & p>0 & v>0))    #only keep observations with positive p,v
+    year2<-data.table::subset(data1, (Year==(i+1) & p>0 & v>0))#only keep observations with positive p,v
 
-    year1_2<-merge(year1, year2, by="prod", all.x=TRUE, all.y=TRUE, no.dups=TRUE) #merge two data frames
+    year1_2<-data.table::merge(year1, year2, by="prod", all.x=TRUE, all.y=TRUE, no.dups=TRUE) #merge two data frames
     year1_2<-na.omit(year1_2)  #Any rows with "NA" values are deleted.
     year1_2 <- year1_2[!(is.infinite(year1_2$p.y) | is.infinite(year1_2$p.x)),]
 
@@ -722,7 +675,7 @@ plotnlines <- function(dat, titleyaxis, title0) {
   NOAADarkBlue <- "#0098A6"
   NOAADarkGrey <- "#56575A" #text
   NOAABlueScale <-
-    colorRampPalette(colors = c(NOAALightBlue, NOAADarkBlue))
+    grDevices::colorRampPalette(colors = c(NOAALightBlue, NOAADarkBlue))
 
   xnames <- as.numeric(paste0(dat$Year))
   xnames[!(xnames %in% seq(
@@ -752,7 +705,7 @@ plotnlines <- function(dat, titleyaxis, title0) {
   # ynames<-as.numeric(paste0(val))
 
   g <-
-    ggplot(data = dat, aes(
+    ggplot2::ggplot(data = dat, aes(
       x = factor(Year),
       y = val,
       color = cat
@@ -795,7 +748,7 @@ plotnlines <- function(dat, titleyaxis, title0) {
 #' @param category0 A character string. The column where the category is defined.
 #' @param baseyr Numeric year (YYYY). The base year you are assessing the anaylsis with. Typically this is the earliest year in the data set, but it can be any year you choose.
 #' @param titleadd A string to add to the file with the outputs to remind you why this particular analysis was interesting.
-#' @param dir-analyses A directory that your analyses will be saved to (e.g., "./output/").
+#' @param dir_analyses A directory that your analyses will be saved to (e.g., "./output/").
 #' @param reg_order The US and each region that you would like to assess. Default = c("National", "North Pacific", "Pacific", "Western Pacific (Hawai`i)", "New England", "Mid-Atlantic", "Northeast", "South Atlantic", "Gulf of Mexico").
 #' @param reg_order_abbrv Acronym of the US and each region listed in reg_order. Default = c("US", "NP", "Pac", "WP", "NE", "MA", "NorE", "SA", "GOM").
 #' @param skipplots TRUE (create and save plots) or don't FALSE.
@@ -804,7 +757,7 @@ plotnlines <- function(dat, titleyaxis, title0) {
 #' @export
 #'
 #' @examples
-#' vignette(FEUS-tables)
+#' vignette('FEUS-tables')
 OutputAnalysis<-function(landings_data,
                          category0,
                          baseyr,
@@ -896,7 +849,7 @@ OutputAnalysis<-function(landings_data,
 
   }
 
-  ########SPREADSHEETS########
+  ########SPREADSHEETS
   print("Create spreadsheets")
 
   if (save_outputs_to_file) {
@@ -906,26 +859,26 @@ OutputAnalysis<-function(landings_data,
   for (r in 1:length(reg_order)){
 
     # #Print
-    # write.xlsx2(x = editeddata_list[[r]],
+    # xlsx::write.xlsx2(x = editeddata_list[[r]],
     #             file = paste0(dir_outputtables, "000_All", title000, "_", titleadd, "_EditedData.xlsx"),
     #             sheetName = reg_order[r],
     #             col.names = T, row.names = T, append = T)
 
     #Review
-    write.xlsx2(x = index_list[[r]],
+    xlsx::write.xlsx2(x = index_list[[r]],
                 file = paste0(dir_outputtables, "000_All", title000, "_", titleadd, "_AllData.xlsx"),
                 sheetName = reg_order[r],
                 col.names = T, row.names = T, append = T)
 
     # #All Data
-    # write.xlsx2(x = spp_list[[r]],
+    # xlsx::write.xlsx2(x = spp_list[[r]],
     #             file = paste0(dir_outputtables, "000_All", title000, "_", titleadd, "_AllDataSpp.xlsx"),
     #             sheetName = reg_order[r],
     #             col.names = T, row.names = T, append = T)
 
   }
 }
-  ######PLOTS##########
+  ######PLOTS
 
   print("Create plots")
 
@@ -943,7 +896,7 @@ OutputAnalysis<-function(landings_data,
     fig<-figs[i]
     list0<-figures_list[grep(pattern = fig, x = names(figures_list))]
 
-    g<-ggarrange(plotlist = list0,
+    g<-ggpubr::ggarrange(plotlist = list0,
                  nrow=3, ncol = 3)
     if (save_outputs_to_file) {
       dir.create(paste0(dir_figures, "/", a, "/"))
@@ -999,7 +952,7 @@ OutputAnalysis<-function(landings_data,
 
 
 
-#' Title
+#' Reclassify ITIS species based off a list of higher taxonomic groupings
 #'
 #' @param tsn A vector of Taxonomic Serial Numbers to be evaluated.
 #' @param categories A list of the categories and associated TSN values.
@@ -1014,7 +967,7 @@ itis_reclassify<-function(tsn, categories, missing_name){
 
   # Find which codes are in which categories
   tsn0<-as.numeric(tsn)[!(is.na(tsn))]
-  tsn_indata<-classification(sci_id = tsn0, db = 'itis')
+  tsn_indata<-taxize::classification(sci_id = tsn0, db = 'itis')
   tsn_indata<-tsn_indata[!(names(tsn_indata) %in% 0)]
   valid0<- sciname<-category0<-bottomrank<-sppname<- TSN<-c()
 
@@ -1024,14 +977,9 @@ itis_reclassify<-function(tsn, categories, missing_name){
   sciname<-c()
   valid0<-c()
 
-
   for (i in 1:length(categories)) {
 
-    a<-list.search(lapply(X = tsn_indata, '[', 3), categories[i][[1]] %in% . )
-
-    # for (ii in 1:length(categories[i][[1]])) {
-    # a<-c(a, list.search(lapply(X = tsn_indata, '[', 3), categories[i][[1]][[ii]] %in% . ))
-    # }
+    a<-rlist::list.search(lapply(X = tsn_indata, '[', 3), categories[i][[1]] %in% . )
 
     if (length(a)!=0) {
 

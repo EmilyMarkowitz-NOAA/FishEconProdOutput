@@ -1,6 +1,6 @@
 Package: FishEconProdOutput
 Type: Package
-Title: Price Method Fisheries Economics Total Factor Productivity Outputs for the U.S. Fisheries
+Title: Price Method Fisheries Economics Total Factor Productivity Outputs
 Version: 0.1.0
 Authors@R: 
   c(person(given = "Sun Ling",
@@ -17,27 +17,28 @@ Authors@R:
            role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-5757-4230"),
            email = "Emily.Markowitz@noaa.gov"))
-Maintainer: Emily Markowitz <emily.markowitz@noaa.gov>
-Description: The Tornqvist quantity index requires data on quantity and revenue shares. We employ landings quantity (pounds) and landings value ($USD) data by year, state, and species. Study Purpose: 1) Develop alternative approaches to measure national and regional fishery outputs for productivity measurements. 2) Evaluate the impacts of missing data and other issues on output estimates.
-Year: 2021
-Depends: R (>= 3.5.0)
-License: Software code created by U.S. Government employees is not subject to copyright in the United States (17 U.S.C. 105). The United States/Department of Commerce reserve all rights to seek and obtain copyright protection in countries other than the United States for Software authored in its entirety by the Department of Commerce. To this end, the Department of Commerce hereby grants to Recipient a royalty-free, nonexclusive license to use, copy, and create derivative works of the Software outside of the United States.
+URL: https://EmilyMarkowitz-NOAA.github.io/FishEconProdOutput/, https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput
+BugReports: https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput/issues/
+License: MIT
+Depends:
+    R (>= 3.6.0)
+Description: This package provides guidelines on fishery productivity measurement at the individual fishery and aggregate sector levels. Attention is given to the constructions of output and total factor productivity based on available data and a bottom-up approach. Given that there is no nation-wide standard cost survey, we recommend starting with measuring TFP at the fishery level based on a translog gross output production possibility frontier using index number techniques. Special attention is given to measuring quality-adjusted physical capital inputs in the bottom-up approach. 
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
 Imports:
-    reshape2, 
+    data.table,
+    grDevices, 
     tidyverse, 
-    data.table, 
     plyr, 
-    rlist, 
-    knitr
-VignetteBuilder: knitr
-Suggests: 
-    rmarkdown,
+    rlist,
     taxize,
     filesstrings, 
     ggpubr,
     xlsx,
-    readxl
-    
+    readxl, 
+    knitr
+VignetteBuilder: knitr
+Suggests: 
+    rmarkdown
+

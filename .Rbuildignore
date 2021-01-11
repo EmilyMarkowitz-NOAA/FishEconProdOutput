@@ -3,6 +3,6 @@
 ^data-raw$
 ^\.httr-oauth$
 ^CRAN-RELEASE$
-^README.Rmd
+^README\.Rmd
 ^cran-comments\.md$
-^notes.R
+^notes\.R

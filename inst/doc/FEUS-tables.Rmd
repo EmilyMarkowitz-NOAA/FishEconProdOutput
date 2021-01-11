@@ -16,8 +16,12 @@ output:
     highlight: tango
 vignette: >
   %\VignetteIndexEntry{FEUS-tables}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{R.rsp::asis}
+  %\VignetteKeyword{PDF}
+  %\VignetteKeyword{HTML}
+  %\VignetteKeyword{vignette}
+  %\VignetteKeyword{package}
+  %\VignetteKeyword{TreeBUGS}
 ---
 
 ```{r, include = FALSE}

@@ -183,8 +183,45 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>itis_reclassify</span><span class='op'>(</span>tsn <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>83677</span>, <span class='fl'>172746</span><span class='op'>)</span>,
+categories <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"Finfish"</span> <span class='op'>=</span> <span class='fl'>914179</span>, <span class='co'># Infraphylum  Gnathostomata</span>
+<span class='st'>"Shellfish"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>82696</span>, <span class='co'># Phylum  Arthropoda  â€“ ArtrÃ³pode, arthropodes, arthropods</span>
+<span class='fl'>69458</span><span class='op'>)</span><span class='op'>)</span>, <span class='co'># Phylum  Mollusca  â€“ mollusques, molusco, molluscs, mollusks</span>
+missing_name <span class='op'>=</span> <span class='st'>"uncategorized"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $df_out
+#&gt;      TSN  category valid      rank              sciname
+#&gt; 1 172746   Finfish valid   species Scophthalmus aquosus
+#&gt; 2  83677 Shellfish valid subphylum            Crustacea
+#&gt; 3 172746 Shellfish valid   species Scophthalmus aquosus
+#&gt; 
+#&gt; $tsn_indata
+#&gt; $tsn_indata$`83677`
+#&gt;          name         rank     id
+#&gt; 1    Animalia      kingdom 202423
+#&gt; 2   Bilateria   subkingdom 914154
+#&gt; 3 Protostomia infrakingdom 914155
+#&gt; 4   Ecdysozoa  superphylum 914158
+#&gt; 5  Arthropoda       phylum  82696
+#&gt; 6   Crustacea    subphylum  83677
+#&gt; 
+#&gt; $tsn_indata$`172746`
+#&gt;                    name         rank     id
+#&gt; 1              Animalia      kingdom 202423
+#&gt; 2             Bilateria   subkingdom 914154
+#&gt; 3         Deuterostomia infrakingdom 914156
+#&gt; 4              Chordata       phylum 158852
+#&gt; 5            Vertebrata    subphylum 331030
+#&gt; 6         Gnathostomata  infraphylum 914179
+#&gt; 7        Actinopterygii   superclass 161061
+#&gt; 8             Teleostei        class 161105
+#&gt; 9       Acanthopterygii   superorder 166082
+#&gt; 10    Pleuronectiformes        order 172702
+#&gt; 11      Pleuronectoidei     suborder 172707
+#&gt; 12       Scophthalmidae       family 172713
+#&gt; 13         Scophthalmus        genus 172745
+#&gt; 14 Scophthalmus aquosus      species 172746
+#&gt; 
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -16,8 +16,13 @@ output:
     highlight: tango
 vignette: >
   %\VignetteIndexEntry{NEFSC-Fishery}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{R.rsp}
+  %\VignetteEngine{R.rsp::asis}
+  %\VignetteKeyword{PDF}
+  %\VignetteKeyword{HTML}
+  %\VignetteKeyword{vignette}
+  %\VignetteKeyword{package}
+  %\VignetteKeyword{TreeBUGS}
 ---
 
 ```{r, include = FALSE}

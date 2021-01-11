@@ -76,7 +76,7 @@ tornb <- function(dat,
                               p > 0 & v > 0))        #only keep observations with positive p,v
 
     year1_2 <- merge(base, year2, by = "prod", all.x = TRUE, all.y = TRUE, no.dups = TRUE) #merge two data frames
-    year1_2 <- na.omit(year1_2)  #Any rows with "NA" values are deleted.
+    year1_2 <- stats::na.omit(year1_2)  #Any rows with "NA" values are deleted.
     year1_2 <- year1_2[!(is.infinite(year1_2$p.y) | is.infinite(year1_2$p.x)),]
 
     yr1tval = sum(year1_2$v.x, na.rm = T)   #Calculate total value for year 1
@@ -148,7 +148,7 @@ tornc <- function(dat,
     year2<-subset(data1, (Year==(i+1) & p>0 & v>0))#only keep observations with positive p,v
 
     year1_2<-merge(year1, year2, by="prod", all.x=TRUE, all.y=TRUE, no.dups=TRUE) #merge two data frames
-    year1_2<-na.omit(year1_2)  #Any rows with "NA" values are deleted.
+    year1_2<-stats::na.omit(year1_2)  #Any rows with "NA" values are deleted.
     year1_2 <- year1_2[!(is.infinite(year1_2$p.y) | is.infinite(year1_2$p.x)),]
 
     yr1tval=sum(year1_2$v.x, na.rm = T)   #Calculate total value for year 1
@@ -208,7 +208,7 @@ PriceMethodOutput_Category <- function(temp,
   temp.cat <- subset(temp.cat, p > 0 &  v > 0) # & q > 0)  #only keep observations with positive p,v,q
 
   temp.cat <-
-    aggregate.data.frame(
+    stats::aggregate.data.frame(
       x = temp.cat[, c("q", "v")],
       by = list("Year" = temp.cat$Year,
                 "prod" = temp.cat$Tsn,
@@ -295,7 +295,7 @@ PriceMethodOutput_Category <- function(temp,
 
   temp.ind$tyear<-((temp.ind$Year-minyr)+1)
 
-  temp.cat0 <- aggregate.data.frame(
+  temp.cat0 <- stats::aggregate.data.frame(
     x = temp.cat[, c("v", "q")],
     by = list("Year" = temp.cat$Year),
     FUN = sum,
@@ -303,9 +303,9 @@ PriceMethodOutput_Category <- function(temp,
 
   temp.cat0$p <- temp.cat0$v / temp.cat0$q
 
-  temp.ind<-join(temp.cat0,
-                 temp.ind,by="Year",
-                 type="inner")
+  temp.ind<-dplyr::inner_join(temp.cat0,
+                              temp.ind,
+                              by="Year")
 
   #Implicit Q
   temp.ind$Q_CB <- temp.ind$v / temp.ind$PI_CB
@@ -345,7 +345,7 @@ PriceMethodOutput <-function(temp,
                              place = "",
                              category0) {
 
-  temp<-data.frame(na.omit(temp))
+  temp<-data.frame(stats::na.omit(temp))
   maxyr <- max(temp$Year)
   minyr <- min(temp$Year)
 
@@ -392,7 +392,7 @@ PriceMethodOutput <-function(temp,
   temp.ind0$cat <- "Total"
   temp.ind0$cat0 <- 0
 
-  temp.ind00 <- aggregate.data.frame(
+  temp.ind00 <- stats::aggregate.data.frame(
     x = index.data[, c("v", "q")],
     by = list("Year" = index.data$Year),
     FUN = sum,
@@ -478,7 +478,7 @@ PriceMethodOutput <-function(temp,
   NOAALightBlue <- "#C9E1E6"
   NOAADarkBlue <- "#0098A6"
   NOAADarkGrey <- "#56575A" #text
-  NOAABlueScale <- colorRampPalette(colors = c(NOAALightBlue, NOAADarkBlue))
+  NOAABlueScale <- grDevices::colorRampPalette(colors = c(NOAALightBlue, NOAADarkBlue))
 
   #############Compare Price Indexes for Total and Each Category
   for (i in 1:length(unique(index.data$cat))) {
@@ -488,7 +488,7 @@ PriceMethodOutput <-function(temp,
                      c("Year",
                        names(index.data)[grep(pattern = "PI_", x = names(index.data))])]
 
-    a <- gather(a0, cat, val,
+    a <- tidyr::gather(a0, cat, val,
                 names(index.data)[grep(pattern = "PI_", x = names(index.data))],
                 factor_key = TRUE)
 
@@ -705,25 +705,25 @@ plotnlines <- function(dat, titleyaxis, title0) {
   # ynames<-as.numeric(paste0(val))
 
   g <-
-    ggplot2::ggplot(data = dat, aes(
+    ggplot2::ggplot(data = dat, ggplot2::aes(
       x = factor(Year),
       y = val,
       color = cat
     )) +
-    geom_line(aes(group = cat), size = 3) +
-    geom_point() +
-    theme(
+    ggplot2::geom_line(ggplot2::aes(group = cat), size = 3) +
+    ggplot2::geom_point() +
+    ggplot2::theme(
       # legend.position = c(0.9, 0.2),
-      panel.grid.major.y = element_line(color = NOAALightBlue, size = .1),
-      panel.grid.minor.y = element_blank(),
-      panel.grid.major.x = element_blank(),
-      panel.grid.minor.x = element_blank(),
-      axis.line = element_line(color = NOAALightBlue, size = .1),
-      axis.ticks = element_blank(),
+      panel.grid.major.y = ggplot2::element_line(color = NOAALightBlue, size = .1),
+      panel.grid.minor.y = ggplot2::element_blank(),
+      panel.grid.major.x = ggplot2::element_blank(),
+      panel.grid.minor.x = ggplot2::element_blank(),
+      axis.line = ggplot2::element_line(color = NOAALightBlue, size = .1),
+      axis.ticks = ggplot2::element_blank(),
       # remove ticks
-      panel.background = element_blank()
+      panel.background = ggplot2::element_blank()
     )  +
-    ylab(paste0(
+    ggplot2::ylab(paste0(
       gsub(
         pattern = "_",
         replacement = "",
@@ -732,11 +732,11 @@ plotnlines <- function(dat, titleyaxis, title0) {
       " ",
       divideby
     )) +
-    xlab("Year") +
-    scale_x_discrete(labels = xnames) +
+    ggplot2::xlab("Year") +
+    ggplot2::scale_x_discrete(labels = xnames) +
     # scale_y_discrete(labels= ynames) +
-    guides(fill = FALSE) +
-    ggtitle(paste0(title0))
+    ggplot2::guides(fill = FALSE) +
+    ggplot2::ggtitle(paste0(title0))
 
   return(g)
 }
@@ -752,6 +752,7 @@ plotnlines <- function(dat, titleyaxis, title0) {
 #' @param reg_order The US and each region that you would like to assess. Default = c("National", "North Pacific", "Pacific", "Western Pacific (Hawai`i)", "New England", "Mid-Atlantic", "Northeast", "South Atlantic", "Gulf of Mexico").
 #' @param reg_order_abbrv Acronym of the US and each region listed in reg_order. Default = c("US", "NP", "Pac", "WP", "NE", "MA", "NorE", "SA", "GOM").
 #' @param skipplots TRUE (create and save plots) or don't FALSE.
+#' @param save_outputs_to_file TRUE (save outputs from analysis within function) or don't FALSE.
 #'
 #' @return
 #' @export
@@ -828,12 +829,12 @@ OutputAnalysis<-function(landings_data,
     editeddata_list[[r]]<-temp_orig
     names(editeddata_list)[r]<-place
     if (save_outputs_to_file) {
-      write.csv(x = editeddata_list[[r]],
+      utils::write.csv(x = editeddata_list[[r]],
                 file = paste0(dir_outputtables, title0,"_EditedData.csv"))
     }
     #Raw
     if (save_outputs_to_file) {
-      write.csv(x = temp00$Index,
+      utils::write.csv(x = temp00$Index,
                 file = paste0(dir_outputtables, title0,"_AllData.csv"))
     }
     index_list[[r]]<-temp00$Index
@@ -841,7 +842,7 @@ OutputAnalysis<-function(landings_data,
 
     #Raw
     if (save_outputs_to_file) {
-      write.csv(x = temp00$`Species Level`,
+      utils::write.csv(x = temp00$`Species Level`,
               file = paste0(dir_outputtables, title0,"_AllDataSpp.csv"))
     }
     spp_list[[r]]<-temp00$`Species Level`
@@ -854,7 +855,7 @@ OutputAnalysis<-function(landings_data,
 
   if (save_outputs_to_file) {
 
-  # write.csv(x = spptable, file = paste0(dir_outputtables, "000_All", title000,"_Species.csv"))
+  # utils::write.csv(x = spptable, file = paste0(dir_outputtables, "000_All", title000,"_Species.csv"))
 
   for (r in 1:length(reg_order)){
 
@@ -900,7 +901,7 @@ OutputAnalysis<-function(landings_data,
                  nrow=3, ncol = 3)
     if (save_outputs_to_file) {
       dir.create(paste0(dir_figures, "/", a, "/"))
-      ggsave(filename = paste0(dir_figures, "/", a, "/", "000_All_byr",baseyr,
+      ggplot2::ggsave(filename = paste0(dir_figures, "/", a, "/", "000_All_byr",baseyr,
                                "_",gsub(pattern = "\\.", replacement = "", x = category0), fig, ".png"),
              plot = g,
              width = 11, height = 8.5)
@@ -921,7 +922,7 @@ OutputAnalysis<-function(landings_data,
       a<-strsplit(x = names(figures_list)[i], split = "_")[[1]][length(strsplit(x = names(figures_list)[i], split = "_")[[1]])]
       dir.create(paste0(dir_figures, "/", a, "/"))
 
-      ggsave(filename = paste0(dir_figures, "/", a, "/", names(figures_list)[i], ".png"),
+      ggplot2::ggsave(filename = paste0(dir_figures, "/", a, "/", names(figures_list)[i], ".png"),
              plot = figures_list[[i]],
              width = 11, height = 8.5)
     }
@@ -962,7 +963,11 @@ OutputAnalysis<-function(landings_data,
 #' @export
 #'
 #' @examples
-#'
+#' itis_reclassify(tsn = c(83677, 172746),
+#' categories = list("Finfish" = 914179, # Infraphylum	Gnathostomata
+#' "Shellfish" = c(82696, # Phylum	Arthropoda  – Artrópode, arthropodes, arthropods
+#' 69458)), # Phylum	Mollusca  – mollusques, molusco, molluscs, mollusks
+#'missing_name = "uncategorized")
 itis_reclassify<-function(tsn, categories, missing_name){
 
   # Find which codes are in which categories
@@ -1015,4 +1020,33 @@ itis_reclassify<-function(tsn, categories, missing_name){
               "tsn_indata" = tsn_indata))
 }
 
+
+
+#' Modified Landings Data
+#'
+#' Modified and cleaned data from NOAA Fisheries Office of Science and Technology’s Fisheries Statistics Division’s Commercial Landings Query, Available at: https://foss.nmfs.noaa.gov/apexfoss/f?p=215:200:::::: for all coastal states combined with state and regional data.
+#'
+#' @docType data
+#'
+#' @usage data(land)
+#'
+#' @format A data frame with 53940 rows and 10 variables:
+#' \describe{
+#'   \item{Year}{four-digit year}
+#'   \item{Pounds}{weight of fish caught, in pounds}
+#'   \item{Dollars}{value of fish caught, in USD}
+#'   \item{category}{category of organism. For our analysis, we aggregated landings and revenue data into two different fisheries: finfish (defined by all organisms in the infraphylum Gnathostomata) and shellfish (defined by all organisms in the phyla Arthropoda and Mollusca)}
+#'   \item{Tsn}{Taxonomic Serial Number (TSN) as defined by the Integrated Taxonomic Information System  Distinguishing species fishery categories was done easily with the R package ‘taxize'}
+#'   \item{State}{The state the fish was caught in, in full name}
+#'   \item{Region}{The region the fish was caught in, in full name}
+#'   \item{abbvreg}{The region the fish was caught in, abbrevated}
+#' }
+#'
+#' @keywords datasets
+#'
+#' @source \href{https://foss.nmfs.noaa.gov/apexfoss/f?p=215:200::::::}{NOAA Fisheries FOSS}
+#'
+#' @examples
+#' data(land)
+"land"
 

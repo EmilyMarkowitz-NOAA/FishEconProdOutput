@@ -33,6 +33,8 @@ OutputAnalysis(
 \item{reg_order_abbrv}{Acronym of the US and each region listed in reg_order. Default = c("US", "NP", "Pac", "WP", "NE", "MA", "NorE", "SA", "GOM").}
 
 \item{skipplots}{TRUE (create and save plots) or don't FALSE.}
+
+\item{save_outputs_to_file}{TRUE (save outputs from analysis within function) or don't FALSE.}
 }
 \value{
 

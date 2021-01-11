@@ -20,5 +20,9 @@ itis_reclassify(tsn, categories, missing_name)
 Reclassify ITIS species based off a list of higher taxonomic groupings
 }
 \examples{
-
+itis_reclassify(tsn = c(83677, 172746),
+categories = list("Finfish" = 914179, # Infraphylum	Gnathostomata
+"Shellfish" = c(82696, # Phylum	Arthropoda  â€“ ArtrÃ³pode, arthropodes, arthropods
+69458)), # Phylum	Mollusca  â€“ mollusques, molusco, molluscs, mollusks
+missing_name = "uncategorized")
 }

@@ -3,4 +3,10 @@
 ^data-raw$
 ^\.httr-oauth$
 ^CRAN-RELEASE$
-notes.R
+^README.Rmd
+^cran-comments\.md$
+^notes.R
+^LICENSE.md
+^\./pkgdown/_pkgdown\.yml$
+^docs$
+^pkgdown$

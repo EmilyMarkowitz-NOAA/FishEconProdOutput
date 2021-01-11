@@ -3,7 +3,7 @@ Measuring Output for U.S. Commercial Fisheries From Theory to Practice
 
 **Emily Markowitz**<sup>1</sup> (Emily.Markowitz AT noaa.gov)
 
-**Sun Ling Wang**<sup>2</sup> (sunling.wang AT usda.gov)
+**Sun Ling Wang**<sup>2</sup> (SunLing.Wang AT usda.gov)
 
 **John Walden**<sup>3</sup> (John.Walden AT noaa.gov)
 
@@ -24,8 +24,8 @@ Service
 Fisheries Service, National Oceanic and Atmospheric Administration,
 Woods Hole, MA
 
-> \*The views expressed are those of the author and should not be
-> attributed to the NOAA, ECS or ERS
+\*The views expressed are those of the author and should not be
+attributed to the NOAA, ECS or ERS
 
 **GitHub Repository:**
 [https://github.com/emilyhmarkowitz/FishEconProdOutput](https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput)
@@ -43,11 +43,15 @@ Download this package
 Study Purpose
 =============
 
--   Develop alternative approaches to measure national and regional
-    fishery outputs for productivity measurements.
-
--   Evaluate the impacts of missing data and other issues on output
-    estimates.
+This package provides guidelines on fishery productivity measurement at
+the individual fishery and aggregate sector levels. Attention is given
+to the constructions of output and total factor productivity based on
+available data and a bottom-up approach. Given that there is no
+nation-wide standard cost survey, we recommend starting with measuring
+TFP at the fishery level based on a translog gross output production
+possibility frontier using index number techniques. Special attention is
+given to measuring quality-adjusted physical capital inputs in the
+bottom-up approach.
 
 Documentation
 =============

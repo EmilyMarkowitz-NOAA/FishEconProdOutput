@@ -3,9 +3,4 @@
 ^data-raw$
 ^\.httr-oauth$
 ^CRAN-RELEASE$
-^_pkgdown\.yml$
-^docs$
-^pkgdown$
-^\./pkgdown$
-^\./pkgdown/_pkgdown\.yml$
 notes.R

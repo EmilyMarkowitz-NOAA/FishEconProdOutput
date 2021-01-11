@@ -35,16 +35,16 @@ listABandC <- function(x) {
 #' @param pvar Name of the column holding price data.
 #' @param vvar Name of the column holding value data.
 #' @param prodID Name of the column holding prodID data.
-#' @param base.year The year dollar values need to be in.
+#' @param baseyr The year dollar values need to be in.
 #' @export
 #' @examples
 #' tornb()
 tornb <- function(dat,
-                  Year,
-                  pvar,
-                  vvar,
-                  prodID,
-                  base.year) {
+                  Year = "Year",
+                  pvar = "p",
+                  vvar = "v",
+                  prodID = "prod",
+                  baseyr) {
 
   data1<-dat
   data1<-data1[order(data1$Year), ]
@@ -54,7 +54,7 @@ tornb <- function(dat,
   names(data1)[names(data1) %in% vvar] <- "v"
   names(data1)[names(data1) %in% prodID] <- "prod"
   data1 <- data1[, c("Year", "p", "v", "prod")]
-  # tornc<-function(data1,base.year){
+  # tornc<-function(data1,baseyr){
   #
   years<-unique(data1$Year)
   N=length(years)
@@ -107,16 +107,16 @@ tornb <- function(dat,
 #' @param pvar Name of the column holding price data.
 #' @param vvar Name of the column holding value data.
 #' @param prodID Name of the column holding prodID data.
-#' @param base.year The year dollar values need to be in.
+#' @param baseyr The year dollar values need to be in.
 #' @export
 #' @examples
 #' tornc()
 tornc <- function(dat,
-                  Year,
-                  pvar,
-                  vvar,
-                  prodID,
-                  base.year) {
+                  Year = "Year",
+                  pvar = "p",
+                  vvar = "v",
+                  prodID = "prod",
+                  baseyr) {
 
   data1<-dat
   data1<-data1[order(data1$Year), ]
@@ -169,7 +169,7 @@ tornc <- function(dat,
     t=t+1
   }
 
-  baseval=CPI[CPI$Year == base.year,2]
+  baseval=CPI[CPI$Year == baseyr,2]
   CPI$BPI=CPI$CPI/baseval
 
 
@@ -179,7 +179,7 @@ tornc <- function(dat,
 #' Price Methods - Category Level
 #'
 #' This function systematically runs the Price Method Productivity Output analysis for all species of a cateorgy.
-#' @param temp Default dataset.
+#' @param dat00 Default dataset.
 #' @param ii Category number.
 #' @param category A character string. A unique string from the 'category0' column of the group being evaluated.
 #' @param category0 A character string. The column where the category is defined.
@@ -190,7 +190,7 @@ tornc <- function(dat,
 #' @export
 #' @examples
 #' PriceMethodOutput_Category()
-PriceMethodOutput_Category <- function(temp,
+PriceMethodOutput_Category <- function(dat00,
                                        ii,
                                        category,
                                        category0,
@@ -199,131 +199,131 @@ PriceMethodOutput_Category <- function(temp,
                                        minyr,
                                        warnings_list = ls()) {
 
-  temp.cat <- temp[temp[, category0] %in% category,]
+  temp_cat <- dat00[dat00[, category0] %in% category,]
 
-  temp.cat<-dplyr::rename(temp.cat,
+  temp_cat<-dplyr::rename(temp_cat,
                           q = Pounds,
                           v = Dollars)
 
-  temp.cat <- subset(temp.cat, p > 0 &  v > 0) # & q > 0)  #only keep observations with positive p,v,q
+  temp_cat <- subset(temp_cat, p > 0 &  v > 0) # & q > 0)  #only keep observations with positive p,v,q
 
-  temp.cat <-
+  temp_cat <-
     stats::aggregate.data.frame(
-      x = temp.cat[, c("q", "v")],
-      by = list("Year" = temp.cat$Year,
-                "prod" = temp.cat$Tsn,
-                "cat" = temp.cat[, category0]),
+      x = temp_cat[, c("q", "v")],
+      by = list("Year" = temp_cat$Year,
+                "prod" = temp_cat$Tsn,
+                "cat" = temp_cat[, category0]),
       FUN = sum,
       na.rm = T
     )
 
-  # temp.cat<-temp.cat[order(temp.cat$Year),]
+  # temp_cat<-temp_cat[order(temp_cat$Year),]
 
-  temp.cat$p <- temp.cat$v / temp.cat$q
+  temp_cat$p <- temp_cat$v / temp_cat$q
 
-  if (sum(minyr:maxyr %in% unique(temp.cat$Year)) != length(minyr:maxyr)) {
+  if (sum(minyr:maxyr %in% unique(temp_cat$Year)) != length(minyr:maxyr)) {
     temp0 <- data.frame(matrix(
       data = NA,
       nrow = length(setdiff(
-        x = minyr:maxyr, y = unique(temp.cat$Year)
+        x = minyr:maxyr, y = unique(temp_cat$Year)
       )),
-      ncol = ncol(temp.cat)
+      ncol = ncol(temp_cat)
     ))
-    names(temp0) <- names(temp.cat)
-    temp0$Year <- setdiff(x = minyr:maxyr, y = unique(temp.cat$Year))
+    names(temp0) <- names(temp_cat)
+    temp0$Year <- setdiff(x = minyr:maxyr, y = unique(temp_cat$Year))
     temp0$cat <- category
-    # temp0$time <- setdiff(x = ((minyr:maxyr) - (minyr - 1)), y = unique(temp.cat$time))
+    # temp0$time <- setdiff(x = ((minyr:maxyr) - (minyr - 1)), y = unique(temp_cat$time))
     temp0$prod <- 0
 
-    temp.cat <- rbind.data.frame(temp.cat, temp0)
-    temp.cat <- temp.cat[order(temp.cat$Year), ]
+    temp_cat <- rbind.data.frame(temp_cat, temp0)
+    temp_cat <- temp_cat[order(temp_cat$Year), ]
 
     # #imputed
-    # temp.cat <-
-    #   ReplaceFirst(colnames = c("p", "q", "v"), temp = temp.cat)
-    # temp.cat <-
-    #   ReplaceMid(colnames = c("p", "q", "v"), temp = temp.cat)
+    # temp_cat <-
+    #   ReplaceFirst(colnames = c("p", "q", "v"), dat00 = temp_cat)
+    # temp_cat <-
+    #   ReplaceMid(colnames = c("p", "q", "v"), dat00 = temp_cat)
 
     warnings_list <-
       c(warnings_list, list(
         paste0(
           'Warning: ',
           category,
-          ': Error in priceIndex(temp.cat, pvar = "p", qvar = "q", pervar = "time",  : The time period variable is not continuous. '
+          ': Error in priceIndex(temp_cat, pvar = "p", qvar = "q", pervar = "time",  : The time period variable is not continuous. '
         )
       ))
   }
 
-  temp.cat <- temp.cat[order(temp.cat$Year), ]
-  temp.cat$time<-((temp.cat$Year-minyr)+1)
+  temp_cat <- temp_cat[order(temp_cat$Year), ]
+  temp_cat$time<-((temp_cat$Year-minyr)+1)
 
-  temp.ind <- data.frame("Year" = minyr:maxyr)
+  temp_ind <- data.frame("Year" = minyr:maxyr)
 
-  if ((sum(minyr:maxyr %in% unique(temp.cat$Year)) != length(minyr:maxyr))) {
+  if ((sum(minyr:maxyr %in% unique(temp_cat$Year)) != length(minyr:maxyr))) {
     warnings_list <- c(warnings_list,
                        list(paste0(category, ' with chained: ', warnings())))
   }
 
   #Chain
   a <- tornc(
-    dat = temp.cat,
+    dat = temp_cat,
     Year = "Year",
     pvar = "p",
     vvar = "v",
     prodID = "prod",
-    base.year = baseyr)
+    baseyr = baseyr)
 
 
   names(a)[names(a) %in% "CPI"] <- "PI_C"
   names(a)[names(a) %in% "BPI"] <- "PI_CB"
 
-  temp.ind <- merge.data.frame(x = a, y = temp.ind, by = "Year")
+  temp_ind <- merge.data.frame(x = a, y = temp_ind, by = "Year")
 
   #Base
   a <- tornb(
-    dat = temp.cat,
+    dat = temp_cat,
     Year = "Year",
     pvar = "p",
     vvar = "v",
     prodID = "prod",
-    base.year = baseyr)
+    baseyr = baseyr)
 
 
   names(a)[names(a) %in% "BPI"] <- "PI_B"
 
-  temp.ind <- merge.data.frame(x = temp.ind, y = a, by = "Year")
+  temp_ind <- merge.data.frame(x = temp_ind, y = a, by = "Year")
 
-  temp.ind$tyear<-((temp.ind$Year-minyr)+1)
+  temp_ind$tyear<-((temp_ind$Year-minyr)+1)
 
-  temp.cat0 <- stats::aggregate.data.frame(
-    x = temp.cat[, c("v", "q")],
-    by = list("Year" = temp.cat$Year),
+  temp_cat0 <- stats::aggregate.data.frame(
+    x = temp_cat[, c("v", "q")],
+    by = list("Year" = temp_cat$Year),
     FUN = sum,
     na.rm = T)
 
-  temp.cat0$p <- temp.cat0$v / temp.cat0$q
+  temp_cat0$p <- temp_cat0$v / temp_cat0$q
 
-  temp.ind<-dplyr::inner_join(temp.cat0,
-                              temp.ind,
+  temp_ind<-dplyr::inner_join(temp_cat0,
+                              temp_ind,
                               by="Year")
 
   #Implicit Q
-  temp.ind$Q_CB <- temp.ind$v / temp.ind$PI_CB
-  temp.ind$Q_B <- temp.ind$v / temp.ind$PI_B
-  temp.ind$Q_C <- temp.ind$v / temp.ind$PI_C
+  temp_ind$Q_CB <- temp_ind$v / temp_ind$PI_CB
+  temp_ind$Q_B <- temp_ind$v / temp_ind$PI_B
+  temp_ind$Q_C <- temp_ind$v / temp_ind$PI_C
 
   #Quantity Index
-  temp.ind$QI_CB <- temp.ind$Q_CB / temp.ind$Q_CB[temp.ind$Year %in% baseyr]
-  temp.ind$QI_B <- temp.ind$Q_B / temp.ind$Q_B[temp.ind$Year %in% baseyr]
-  temp.ind$QI_C <- temp.ind$Q_C / temp.ind$Q_C[temp.ind$Year %in% baseyr]
+  temp_ind$QI_CB <- temp_ind$Q_CB / temp_ind$Q_CB[temp_ind$Year %in% baseyr]
+  temp_ind$QI_B <- temp_ind$Q_B / temp_ind$Q_B[temp_ind$Year %in% baseyr]
+  temp_ind$QI_C <- temp_ind$Q_C / temp_ind$Q_C[temp_ind$Year %in% baseyr]
 
-  temp.ind <- cbind.data.frame(cat = category,
+  temp_ind <- cbind.data.frame(cat = category,
                                cat0 = ii,
-                               temp.ind)
+                               temp_ind)
 
   return(list(
-    "Index" = temp.ind,
-    "Species Level" = temp.cat,
+    "Index" = temp_ind,
+    "Species Level" = temp_cat,
     "warnings_list" = warnings_list
   ))
 }
@@ -331,7 +331,7 @@ PriceMethodOutput_Category <- function(temp,
 #' Price Method
 #'
 #' This function calculates the Implicit Quanity Output at Fishery Level by systematically runing the Price Method Productivity Output analysis for all species of each cateorgy.
-#' @param temp Default dataset.
+#' @param dat00 Dataset.
 #' @param baseyr Numeric year (YYYY). The base year you are assessing the anaylsis with. Typically this is the earliest year in the data set, but it can be any year you choose.
 #' @param title0 Title of analysis
 #' @param place Area you are assessing the analysis for. This can also be used as a title.
@@ -339,27 +339,27 @@ PriceMethodOutput_Category <- function(temp,
 #' @export
 #' @examples
 #' PriceMethodOutput()
-PriceMethodOutput <-function(temp,
+PriceMethodOutput <- function(dat00 = NULL,
                              baseyr,
                              title0 = "",
                              place = "",
                              category0) {
 
-  temp<-data.frame(stats::na.omit(object = temp))
-  maxyr <- max(temp$Year)
-  minyr <- min(temp$Year)
+  dat00<-data.frame(stats::na.omit(object = dat00))
+  maxyr <- max(dat00$Year)
+  minyr <- min(dat00$Year)
 
   warnings_list <- figures_list <- list()
   spp.level <- index.data <- data.frame()
 
-  category_name <- sort(unique(temp[, category0]))
+  category_name <- sort(unique(dat00[, category0]))
 
   for (ii in 1:length(category_name)) {
 
     category <- category_name[ii]
 
     temp00 <- PriceMethodOutput_Category(
-      temp = temp,
+      dat00 = dat00,
       ii = ii,
       category = category,
       category0 = category0,
@@ -380,35 +380,35 @@ PriceMethodOutput <-function(temp,
 
   #Whole fishery
 
-  temp.ind0 <- data.frame(matrix(
+  temp_ind0 <- data.frame(matrix(
     data = NA,
     nrow = length(minyr:maxyr),
     ncol = ncol(index.data)
   ))
 
-  names(temp.ind0) <- names(index.data)
-  temp.ind0$Year <- minyr:maxyr
-  temp.ind0$time <- ((minyr:maxyr) - (minyr - 1))
-  temp.ind0$cat <- "Total"
-  temp.ind0$cat0 <- 0
+  names(temp_ind0) <- names(index.data)
+  temp_ind0$Year <- minyr:maxyr
+  temp_ind0$time <- ((minyr:maxyr) - (minyr - 1))
+  temp_ind0$cat <- "Total"
+  temp_ind0$cat0 <- 0
 
-  temp.ind00 <- stats::aggregate.data.frame(
+  temp_ind00 <- stats::aggregate.data.frame(
     x = index.data[, c("v", "q")],
     by = list("Year" = index.data$Year),
     FUN = sum,
     na.rm = T
   )
 
-  temp.ind00$p <- temp.ind00$v / temp.ind00$q
+  temp_ind00$p <- temp_ind00$v / temp_ind00$q
 
-  temp.ind0$v <- temp.ind00$v
-  temp.ind0$q <- temp.ind00$q
-  temp.ind0$p0 <- temp.ind00$p
+  temp_ind0$v <- temp_ind00$v
+  temp_ind0$q <- temp_ind00$q
+  temp_ind0$p0 <- temp_ind00$p
 
-  temp.ind0 <- temp.ind0[order(temp.ind0$Year, decreasing = F), ]
+  temp_ind0 <- temp_ind0[order(temp_ind0$Year, decreasing = F), ]
   index.data <- index.data[order(index.data$Year, decreasing = F), ]
 
-  # temp.ind0$PI_B_cran<-priceIndex(index.data,
+  # temp_ind0$PI_B_cran<-priceIndex(index.data,
   #                                     pvar='PI_B_cran',
   #                                     qvar='q', # this might just need to be "Q_B_cran"
   #                                     pervar='time',
@@ -418,7 +418,7 @@ PriceMethodOutput <-function(temp,
   #                                     indexMethod='Tornqvist')  #This is a fixed base index
   #
   #
-  # temp.ind0$PI_C_cran<-priceIndex(index.data,
+  # temp_ind0$PI_C_cran<-priceIndex(index.data,
   #                                        pvar='PI_C_cran',
   #                                        qvar='q', # this might just need to be "Q_C"
   #                                        pervar='time',
@@ -435,11 +435,11 @@ PriceMethodOutput <-function(temp,
     pvar = "PI_C",
     vvar = "v",
     prodID = "cat",
-    base.year = baseyr
+    baseyr = baseyr
   )
 
-  temp.ind0$PI_C <- a$CPI
-  temp.ind0$PI_CB <- a$BPI
+  temp_ind0$PI_C <- a$CPI
+  temp_ind0$PI_CB <- a$BPI
 
   a <- tornb(
     dat = index.data,
@@ -447,38 +447,34 @@ PriceMethodOutput <-function(temp,
     pvar = "PI_B",
     vvar = "v",
     prodID = "cat",
-    base.year = baseyr
+    baseyr = baseyr
   )
 
-  temp.ind0$PI_B <- a$BPI
-  temp.ind0$p <- NULL
+  temp_ind0$PI_B <- a$BPI
+  temp_ind0$p <- NULL
 
   #Implicit Q
-  temp.ind0$Q_CB <- temp.ind0$v / temp.ind0$PI_CB
-  temp.ind0$Q_B <- temp.ind0$v / temp.ind0$PI_B
-  temp.ind0$Q_C <- temp.ind0$v / temp.ind0$PI_C
-  # temp.ind0$Q_B_cran<-temp.ind0$v*temp.ind0$PI_B_cran
-  # temp.ind0$Q_C_cran<-temp.ind0$v*temp.ind0$PI_C_cran
+  temp_ind0$Q_CB <- temp_ind0$v / temp_ind0$PI_CB
+  temp_ind0$Q_B <- temp_ind0$v / temp_ind0$PI_B
+  temp_ind0$Q_C <- temp_ind0$v / temp_ind0$PI_C
+  # temp_ind0$Q_B_cran<-temp_ind0$v*temp_ind0$PI_B_cran
+  # temp_ind0$Q_C_cran<-temp_ind0$v*temp_ind0$PI_C_cran
 
   #Quantity Index
-  temp.ind0$QI_CB <- temp.ind0$Q_CB / temp.ind0$Q_CB[temp.ind0$Year %in% baseyr]
-  temp.ind0$QI_B <- temp.ind0$Q_B   / temp.ind0$Q_B[temp.ind0$Year %in% baseyr]
-  temp.ind0$QI_C <- temp.ind0$Q_C   / temp.ind0$Q_C[temp.ind0$Year %in% baseyr]
-  # temp.ind0$QI_B_cran<-temp.ind0$Q_B_cran/
-  #   temp.ind0$Q_B_cran[temp.ind0$Year %in% baseyr]
-  # temp.ind0$QI_C_cran<-temp.ind0$Q_C_cran/
-  #   temp.ind0$Q_C_cran[temp.ind0$Year %in% baseyr]
+  temp_ind0$QI_CB <- temp_ind0$Q_CB / temp_ind0$Q_CB[temp_ind0$Year %in% baseyr]
+  temp_ind0$QI_B <- temp_ind0$Q_B   / temp_ind0$Q_B[temp_ind0$Year %in% baseyr]
+  temp_ind0$QI_C <- temp_ind0$Q_C   / temp_ind0$Q_C[temp_ind0$Year %in% baseyr]
+  # temp_ind0$QI_B_cran<-temp_ind0$Q_B_cran/
+  #   temp_ind0$Q_B_cran[temp_ind0$Year %in% baseyr]
+  # temp_ind0$QI_C_cran<-temp_ind0$Q_C_cran/
+  #   temp_ind0$Q_C_cran[temp_ind0$Year %in% baseyr]
 
   #Combine
-  temp.ind0 <- temp.ind0[, match(table = names(temp.ind0),
+  temp_ind0 <- temp_ind0[, match(table = names(temp_ind0),
                                  x = names(index.data))]
-  index.data <- rbind.data.frame(index.data, temp.ind0)
+  index.data <- rbind.data.frame(index.data, temp_ind0)
 
   ##########Make plots
-  NOAALightBlue <- "#C9E1E6"
-  NOAADarkBlue <- "#0098A6"
-  NOAADarkGrey <- "#56575A" #text
-  NOAABlueScale <- grDevices::colorRampPalette(colors = c(NOAALightBlue, NOAADarkBlue))
 
   #############Compare Price Indexes for Total and Each Category
   for (i in 1:length(unique(index.data$cat))) {
@@ -596,13 +592,10 @@ numbers0 <- function(x) {
 #'
 #' This funciton advances a value of 'counter0' +1 each time it is used.
 #' @param counter0 value to be advanced by 1.
-#'
-#' @return
+#' @return counter
 #' @export
-#'
-#' @examples
-#' counter00X(1)
-#'  "002"
+#' @examples counter00X(1)
+#' "002"
 counter00X <- function(counter0) {
   counter0 <- as.numeric(counter0) + 1
   counter <- formatC(x = counter0, width = 3)
@@ -671,11 +664,6 @@ xunits <- function(val, combine = T) {
 #' @examples xunits(1234567890); "1.2 billion"
 #' plotnlines()
 plotnlines <- function(dat, titleyaxis, title0) {
-  NOAALightBlue <- "#C9E1E6"
-  NOAADarkBlue <- "#0098A6"
-  NOAADarkGrey <- "#56575A" #text
-  NOAABlueScale <-
-    grDevices::colorRampPalette(colors = c(NOAALightBlue, NOAADarkBlue))
 
   xnames <- as.numeric(paste0(dat$Year))
   xnames[!(xnames %in% seq(
@@ -753,10 +741,8 @@ plotnlines <- function(dat, titleyaxis, title0) {
 #' @param reg_order_abbrv Acronym of the US and each region listed in reg_order. Default = c("US", "NP", "Pac", "WP", "NE", "MA", "NorE", "SA", "GOM").
 #' @param skipplots TRUE (create and save plots) or don't FALSE.
 #' @param save_outputs_to_file TRUE (save outputs from analysis within function) or don't FALSE.
-#'
-#' @return
+#' @return warnings_list, editeddata_list, index_list, spp_list, figures_list, gridfigures_list
 #' @export
-#'
 #' @examples
 #' vignette('FEUS-tables')
 OutputAnalysis<-function(landings_data,
@@ -814,7 +800,7 @@ OutputAnalysis<-function(landings_data,
     temp_orig<-landings_data[idx,
                              c(category0, "Year", "Pounds", "Dollars", "Tsn")]
 
-    temp00<-PriceMethodOutput(temp = temp_orig,
+    temp00<-PriceMethodOutput(dat00 = temp_orig,
                               baseyr = baseyr,
                               title0 = title0,
                               place = place,
@@ -958,16 +944,14 @@ OutputAnalysis<-function(landings_data,
 #' @param tsn A vector of Taxonomic Serial Numbers to be evaluated.
 #' @param categories A list of the categories and associated TSN values.
 #' @param missing_name A string of what to call the missing value.
-#'
-#' @return
+#' @return df_out, tsn_indata
 #' @export
-#'
 #' @examples
 #' itis_reclassify(tsn = c(83677, 172746),
 #' categories = list("Finfish" = 914179, # Infraphylum	Gnathostomata
 #' "Shellfish" = c(82696, # Phylum	Arthropoda  – Artrópode, arthropodes, arthropods
 #' 69458)), # Phylum	Mollusca  – mollusques, molusco, molluscs, mollusks
-#'missing_name = "uncategorized")
+#' missing_name = "uncategorized")
 itis_reclassify<-function(tsn, categories, missing_name){
 
   # Find which codes are in which categories
@@ -1050,3 +1034,7 @@ itis_reclassify<-function(tsn, categories, missing_name){
 #' data(land)
 "land"
 
+
+
+## quiets concerns of R CMD check re: the .'s that appear in pipelines
+if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))

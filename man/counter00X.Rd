@@ -10,12 +10,12 @@ counter00X(counter0)
 \item{counter0}{value to be advanced by 1.}
 }
 \value{
-
+counter
 }
 \description{
 This funciton advances a value of 'counter0' +1 each time it is used.
 }
 \examples{
 counter00X(1)
- "002"
+"002"
 }

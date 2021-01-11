@@ -4,7 +4,7 @@
 \alias{tornb}
 \title{Tornqvist Price Index Base Year Function}
 \usage{
-tornb(dat, Year, pvar, vvar, prodID, base.year)
+tornb(dat, Year = "Year", pvar = "p", vvar = "v", prodID = "prod", baseyr)
 }
 \arguments{
 \item{dat}{The dataset you would like to use.}
@@ -17,7 +17,7 @@ tornb(dat, Year, pvar, vvar, prodID, base.year)
 
 \item{prodID}{Name of the column holding prodID data.}
 
-\item{base.year}{The year dollar values need to be in.}
+\item{baseyr}{The year dollar values need to be in.}
 }
 \description{
 Tornqvist Price Index Base Year Function

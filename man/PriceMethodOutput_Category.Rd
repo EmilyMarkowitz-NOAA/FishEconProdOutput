@@ -5,7 +5,7 @@
 \title{Price Methods - Category Level}
 \usage{
 PriceMethodOutput_Category(
-  temp,
+  dat00,
   ii,
   category,
   category0,
@@ -16,7 +16,7 @@ PriceMethodOutput_Category(
 )
 }
 \arguments{
-\item{temp}{Default dataset.}
+\item{dat00}{Default dataset.}
 
 \item{ii}{Category number.}
 

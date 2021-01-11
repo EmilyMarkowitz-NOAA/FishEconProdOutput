@@ -4,10 +4,10 @@
 \alias{PriceMethodOutput}
 \title{Price Method}
 \usage{
-PriceMethodOutput(temp, baseyr, title0 = "", place = "", category0)
+PriceMethodOutput(dat00 = NULL, baseyr, title0 = "", place = "", category0)
 }
 \arguments{
-\item{temp}{Default dataset.}
+\item{dat00}{Dataset.}
 
 \item{baseyr}{Numeric year (YYYY). The base year you are assessing the anaylsis with. Typically this is the earliest year in the data set, but it can be any year you choose.}
 

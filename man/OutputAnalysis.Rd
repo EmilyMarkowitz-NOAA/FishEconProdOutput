@@ -37,7 +37,7 @@ OutputAnalysis(
 \item{save_outputs_to_file}{TRUE (save outputs from analysis within function) or don't FALSE.}
 }
 \value{
-
+warnings_list, editeddata_list, index_list, spp_list, figures_list, gridfigures_list
 }
 \description{
 Run Analysis for the US and several regions.

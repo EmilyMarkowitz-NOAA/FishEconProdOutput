@@ -14,7 +14,7 @@ itis_reclassify(tsn, categories, missing_name)
 \item{missing_name}{A string of what to call the missing value.}
 }
 \value{
-
+df_out, tsn_indata
 }
 \description{
 Reclassify ITIS species based off a list of higher taxonomic groupings

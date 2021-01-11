@@ -345,7 +345,7 @@ PriceMethodOutput <-function(temp,
                              place = "",
                              category0) {
 
-  temp<-data.frame(stats::na.omit(temp))
+  temp<-data.frame(stats::na.omit(object = temp))
   maxyr <- max(temp$Year)
   minyr <- min(temp$Year)
 

@@ -45,6 +45,7 @@ PKG <- c(# devtools::install_github("emilymarkowitz-NOAA/FishEconProdOutput", fo
          "filesstrings", 
          "data.table", 
          "plyr",  
+         "dplyr",
          "rlist",
          
          # #RMarkdown

@@ -16,5 +16,4 @@ This funciton standardizes units of a value. For example, 1,000,000 would become
 }
 \examples{
 xunits(1234567890)
-"1.2 billion"
 }

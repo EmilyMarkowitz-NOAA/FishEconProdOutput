@@ -190,8 +190,36 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>tornb</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in tornb(): argument "dat" is missing, with no default</span></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>tornb</span><span class='op'>(</span>dat <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='st'>"Year"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2001</span><span class='op'>:</span><span class='fl'>2020</span>, <span class='fl'>2001</span><span class='op'>:</span><span class='fl'>2020</span>, <span class='fl'>2001</span><span class='op'>:</span><span class='fl'>2020</span>, <span class='fl'>2001</span><span class='op'>:</span><span class='fl'>2020</span><span class='op'>)</span>,
+                       <span class='st'>"p"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>80</span>, mean <span class='op'>=</span> <span class='fl'>1</span>, sd <span class='op'>=</span> <span class='fl'>.1</span><span class='op'>)</span>,
+                       <span class='st'>"v"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>80</span>, mean <span class='op'>=</span> <span class='fl'>500</span>, sd <span class='op'>=</span> <span class='fl'>300</span><span class='op'>)</span>,
+                       <span class='st'>"prod"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep_len</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='fl'>20</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep_len</a></span><span class='op'>(</span><span class='st'>"B"</span>, <span class='fl'>20</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep_len</a></span><span class='op'>(</span><span class='st'>"C"</span>, <span class='fl'>20</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep_len</a></span><span class='op'>(</span><span class='st'>"D"</span>, <span class='fl'>20</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
+     Year <span class='op'>=</span> <span class='st'>"Year"</span>,
+     pvar <span class='op'>=</span> <span class='st'>"p"</span>,
+     vvar <span class='op'>=</span> <span class='st'>"v"</span>,
+     prodID <span class='op'>=</span> <span class='st'>"prod"</span>,
+     baseyr <span class='op'>=</span> <span class='fl'>2015</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    Year       BPI
+#&gt; 1  2001 1.1226994
+#&gt; 2  2002 1.0715985
+#&gt; 3  2003 1.0482602
+#&gt; 4  2004 1.1222190
+#&gt; 5  2005 1.0359325
+#&gt; 6  2006 1.0574533
+#&gt; 7  2007 0.8174376
+#&gt; 8  2008 1.4375345
+#&gt; 9  2009 1.0207680
+#&gt; 10 2010 1.1068715
+#&gt; 11 2011 1.0838639
+#&gt; 12 2012 0.9643593
+#&gt; 13 2013 1.1163915
+#&gt; 14 2014 1.0276103
+#&gt; 15 2015 1.0000000
+#&gt; 16 2016 1.0943652
+#&gt; 17 2017 1.0685664
+#&gt; 18 2018 1.0925590
+#&gt; 19 2019 1.0428643
+#&gt; 20 2020 0.0000000</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -5,10 +5,9 @@
 #'
 #' This function alows you to take a string of words and combine them into a sentance list. For example, 'apples', 'oranges', 'pears' would become 'apples, oranges, and pears'. This function uses oxford commas.
 #' @param x Character strings you want in your string.
-#' @keywords cats
+#' @keywords list, strings
 #' @export
-#' @examples
-#' listABandC()
+#' @examples listABandC(c(1,2,"hello",4,"world",6))
 listABandC <- function(x) {
   x <- x[which(x != "")]
   # x<-x[which(!is.null(x))]
@@ -37,7 +36,16 @@ listABandC <- function(x) {
 #' @param baseyr The year dollar values need to be in.
 #' @export
 #' @examples
-#' tornb()
+#' tornb(dat = data.frame("Year" = c(2001:2020, 2001:2020, 2001:2020, 2001:2020),
+#'                        "p" = rnorm(n = 80, mean = 1, sd = .1),
+#'                        "v" = rnorm(n = 80, mean = 500, sd = 300),
+#'                        "prod" = c(rep_len("A", 20), rep_len("B", 20),
+#'                                   rep_len("C", 20), rep_len("D", 20))),
+#'      Year = "Year",
+#'      pvar = "p",
+#'      vvar = "v",
+#'      prodID = "prod",
+#'      baseyr = 2015)
 tornb <- function(dat,
                   Year = "Year",
                   pvar = "p",
@@ -109,7 +117,16 @@ tornb <- function(dat,
 #' @param baseyr The year dollar values need to be in.
 #' @export
 #' @examples
-#' tornc()
+#' tornc(dat = data.frame("Year" = c(2001:2020, 2001:2020, 2001:2020, 2001:2020),
+#'                        "p" = rnorm(n = 80, mean = 1, sd = .1),
+#'                        "v" = rnorm(n = 80, mean = 500, sd = 300),
+#'                        "prod" = c(rep_len("A", 20), rep_len("B", 20),
+#'                                   rep_len("C", 20), rep_len("D", 20))),
+#'      Year = "Year",
+#'      pvar = "p",
+#'      vvar = "v",
+#'      prodID = "prod",
+#'      baseyr = 2015)
 tornc <- function(dat,
                   Year = "Year",
                   pvar = "p",
@@ -188,7 +205,6 @@ tornc <- function(dat,
 #' @param warnings_list A list where warnings are stored. If using this function in the PriceMethodOutput it will be inherited. If using outside of that function, put ls().
 #' @export
 #' @examples
-#' PriceMethodOutput_Category()
 PriceMethodOutput_Category <- function(dat00,
                                        ii,
                                        category,
@@ -337,8 +353,7 @@ PriceMethodOutput_Category <- function(dat00,
 #' @param category0 A character string. The column where the category is defined. A character string.
 #' @export
 #' @examples
-#' PriceMethodOutput()
-PriceMethodOutput <- function(dat00 = NULL,
+PriceMethodOutput <- function(dat00,
                               baseyr,
                               title0 = "",
                               place = "",
@@ -572,7 +587,7 @@ PriceMethodOutput <- function(dat00 = NULL,
 #' @param x x is a string of all the numbers you are interested in 'standardizing'.
 #' @export
 #' @examples
-#' numbers0()
+#' numbers0(x = c(1,14,302))
 numbers0 <- function(x) {
   xx <- rep_len(x = NA, length.out = length(x))
   for (i in 1:length(x)) {
@@ -593,7 +608,7 @@ numbers0 <- function(x) {
 #' @param counter0 value to be advanced by 1.
 #' @return counter
 #' @export
-#' @examples counter00X(1)
+#' @examples counter00X(c(1, 2))
 counter00X <- function(counter0) {
   counter0 <- as.numeric(counter0) + 1
   counter <- formatC(x = counter0, width = 3)
@@ -608,9 +623,7 @@ counter00X <- function(counter0) {
 #' @param val Value to be evaluated.
 #' @param combine TRUE/FALSE (Default = TRUE). Asks if you want two strings (FALSE) or 1 concatenated string (TRUE).
 #' @export
-#' @examples
-#' xunits(1234567890)
-#' "1.2 billion"
+#' @examples xunits(1234567890)
 xunits <- function(val, combine = T) {
   val <- sum(as.numeric(val))
   sigfig <- format(val, digits = 3, scientific = TRUE)
@@ -659,8 +672,13 @@ xunits <- function(val, combine = T) {
 #' @param titleyaxis y-axis title.
 #' @param title0 Title of plot.
 #' @export
-#' @examples xunits(1234567890); "1.2 billion"
-#' plotnlines()
+#' @examples
+#' dat<-data.frame(Year = c(2016:2020, 2016:2020),
+#'                 val = rnorm(n = 10, mean = 500, sd = 100),
+#'                 cat = c(rep_len("A", 5), rep_len("B", 5)))
+#' plotnlines(dat = dat,
+#'            titleyaxis = "Normal Distribution of 10 Numbers",
+#'            title0 = "Anywhere")
 plotnlines <- function(dat, titleyaxis, title0) {
 
   xnames <- as.numeric(paste0(dat$Year))
@@ -742,7 +760,7 @@ plotnlines <- function(dat, titleyaxis, title0) {
 #' @return warnings_list, editeddata_list, index_list, spp_list, figures_list, gridfigures_list
 #' @export
 #' @examples
-#' vignette('FEUS-tables')
+#' browseVignettes("FishEconProdOutput")
 OutputAnalysis<-function(landings_data,
                          category0,
                          baseyr,
@@ -946,10 +964,10 @@ OutputAnalysis<-function(landings_data,
 #' @export
 #' @examples
 #' itis_reclassify(tsn = c(83677, 172746),
-#' categories = list("Finfish" = 914179, # Infraphylum	Gnathostomata
-#' "Shellfish" = c(82696, # Phylum	Arthropoda  – Artrópode, arthropodes, arthropods
-#' 69458)), # Phylum	Mollusca  – mollusques, molusco, molluscs, mollusks
-#' missing_name = "uncategorized")
+#'                 categories = list("Finfish" = 914179, # Infraphylum	Gnathostomata
+#'                                   "Shellfish" = c(82696, # Phylum	Arthropoda
+#'                                                   69458)), # Phylum	Mollusca
+#'                 missing_name = "uncategorized")
 itis_reclassify<-function(tsn, categories, missing_name){
 
   # Find which codes are in which categories

@@ -190,8 +190,36 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>tornc</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in tornc(): argument "dat" is missing, with no default</span></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>tornc</span><span class='op'>(</span>dat <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='st'>"Year"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2001</span><span class='op'>:</span><span class='fl'>2020</span>, <span class='fl'>2001</span><span class='op'>:</span><span class='fl'>2020</span>, <span class='fl'>2001</span><span class='op'>:</span><span class='fl'>2020</span>, <span class='fl'>2001</span><span class='op'>:</span><span class='fl'>2020</span><span class='op'>)</span>,
+                       <span class='st'>"p"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>80</span>, mean <span class='op'>=</span> <span class='fl'>1</span>, sd <span class='op'>=</span> <span class='fl'>.1</span><span class='op'>)</span>,
+                       <span class='st'>"v"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>80</span>, mean <span class='op'>=</span> <span class='fl'>500</span>, sd <span class='op'>=</span> <span class='fl'>300</span><span class='op'>)</span>,
+                       <span class='st'>"prod"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep_len</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='fl'>20</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep_len</a></span><span class='op'>(</span><span class='st'>"B"</span>, <span class='fl'>20</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep_len</a></span><span class='op'>(</span><span class='st'>"C"</span>, <span class='fl'>20</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep_len</a></span><span class='op'>(</span><span class='st'>"D"</span>, <span class='fl'>20</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
+     Year <span class='op'>=</span> <span class='st'>"Year"</span>,
+     pvar <span class='op'>=</span> <span class='st'>"p"</span>,
+     vvar <span class='op'>=</span> <span class='st'>"v"</span>,
+     prodID <span class='op'>=</span> <span class='st'>"prod"</span>,
+     baseyr <span class='op'>=</span> <span class='fl'>2015</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    Year       CPI       BPI
+#&gt; 1  2001 1.0000000 0.9367590
+#&gt; 2  2002 0.9715229 0.9100828
+#&gt; 3  2003 1.1646657 1.0910111
+#&gt; 4  2004 1.0907801 1.0217980
+#&gt; 5  2005 1.2532465 1.1739899
+#&gt; 6  2006 1.1631582 1.0895989
+#&gt; 7  2007 1.1405850 1.0684532
+#&gt; 8  2008 1.1947447 1.1191878
+#&gt; 9  2009 1.1451851 1.0727624
+#&gt; 10 2010 1.2519664 1.1727907
+#&gt; 11 2011 1.1120409 1.0417143
+#&gt; 12 2012 1.2805206 1.1995392
+#&gt; 13 2013 1.2271966 1.1495874
+#&gt; 14 2014 1.2995818 1.2173949
+#&gt; 15 2015 1.0675104 1.0000000
+#&gt; 16 2016 1.3963820 1.3080734
+#&gt; 17 2017 1.2517223 1.1725621
+#&gt; 18 2018 1.2995610 1.2173755
+#&gt; 19 2019 1.3000293 1.2178142
+#&gt; 20 2020 1.3997144 1.3111951</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

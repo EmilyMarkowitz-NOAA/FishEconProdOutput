@@ -20,6 +20,3 @@ PriceMethodOutput(dat00 = NULL, baseyr, title0 = "", place = "", category0)
 \description{
 This function calculates the Implicit Quanity Output at Fishery Level by systematically runing the Price Method Productivity Output analysis for all species of each cateorgy.
 }
-\examples{
-PriceMethodOutput()
-}

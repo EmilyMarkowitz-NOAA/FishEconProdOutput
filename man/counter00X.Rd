@@ -16,5 +16,5 @@ counter
 This funciton advances a value of 'counter0' +1 each time it is used.
 }
 \examples{
-counter00X(1)
+counter00X(c(1, 2))
 }

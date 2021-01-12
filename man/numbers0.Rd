@@ -13,5 +13,5 @@ numbers0(x)
 This funciton standardizes the length of the category or species numbers e.g.,(numbers of 33, 440, and 1 are converted to 033, 440, and 001)
 }
 \examples{
-numbers0()
+numbers0(x = c(1,14,302))
 }

@@ -17,6 +17,10 @@ plotnlines(dat, titleyaxis, title0)
 This funciton plots n lines in a ggplot.
 }
 \examples{
-xunits(1234567890); "1.2 billion"
-plotnlines()
+dat<-data.frame(Year = c(2016:2020, 2016:2020),
+                val = rnorm(n = 10, mean = 500, sd = 100),
+                cat = c(rep_len("A", 5), rep_len("B", 5)))
+plotnlines(dat = dat,
+           titleyaxis = "Normal Distribution of 10 Numbers",
+           title0 = "Anywhere")
 }

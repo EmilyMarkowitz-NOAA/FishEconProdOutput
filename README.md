@@ -11,21 +11,22 @@ Measuring Output for U.S. Commercial Fisheries From Theory to Practice
 Service, National Oceanic and Atmospheric Administration, Seattle, WA
 98195
 
--   Work completed as a contractor with ECS in the NOAA Fisheries Office
-    of Science and Technology Economics & Social Analysis Division.
+-   *Work completed as a contractor with ECS in the NOAA Fisheries
+    Office of Science and Technology Economics & Social Analysis
+    Division.*
 
 <sup>2</sup> United States Department of Agriculture, Economic Research
 Service
 
--   Work completed while on detail with the NOAA Fisheries Office of
-    Science and Technology Economics & Social Analysis Division.
+-   *Work completed while on detail with the NOAA Fisheries Office of
+    Science and Technology Economics & Social Analysis Division.*
 
 <sup>3</sup>Northeast Fisheries Science Center, National Marine
 Fisheries Service, National Oceanic and Atmospheric Administration,
 Woods Hole, MA
 
-\*The views expressed are those of the author and should not be
-attributed to the NOAA, ECS or ERS
+*The views expressed are those of the author and should not be
+attributed to the NOAA, ECS or ERS*
 
 Study Purpose
 =============
@@ -44,7 +45,7 @@ Download this package
 =====================
 
     library(devtools)
-    devtools::install_github("EmilyMarkowitz-NOAA/FishEconProdOutput", dependencies = TRUE)
+    devtools::install_github("EmilyMarkowitz-NOAA/FishEconProdOutput", dependencies = TRUE, build_vignettes = T)
     library(FishEconProdOutput)
 
 Documentation
@@ -56,17 +57,17 @@ Documentation
 **Documentation GitHub Pages:**
 <https://emilymarkowitz-noaa.github.io/FishEconProdOutput/>
 
-You can find Vignettes here
+You can find vignettes here
 
-    browseVignettes()
+    browseVignettes("FishEconProdOutput")
 
 Or directly view the vignettes here:
 
--   [How to create the tables used in
-    FEUS](https://emilymarkowitz-noaa.github.io/FishEconProdOutput/articles/FEUS-tables.html)
--   [How to use this analysis for a collection of sub fisheries, such as
-    in the Northeast
-    US](https://emilymarkowitz-noaa.github.io/FishEconProdOutput/articles/NEFSC-Fishery.html)
+-   [FEUS-tables](https://emilymarkowitz-noaa.github.io/FishEconProdOutput/articles/FEUS-tables.html):
+    How to create the tables used in FEUS
+-   [NEFSC-Fishery](https://emilymarkowitz-noaa.github.io/FishEconProdOutput/articles/NEFSC-Fishery.html):
+    How to use this analysis for a collection of sub fisheries, such as
+    in the Northeast US
 
 Publications
 ============

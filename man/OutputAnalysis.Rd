@@ -43,5 +43,5 @@ warnings_list, editeddata_list, index_list, spp_list, figures_list, gridfigures_
 Run Analysis for the US and several regions.
 }
 \examples{
-vignette('FEUS-tables')
+browseVignettes("FishEconProdOutput")
 }

@@ -23,5 +23,13 @@ tornb(dat, Year = "Year", pvar = "p", vvar = "v", prodID = "prod", baseyr)
 Tornqvist Price Index Base Year Function
 }
 \examples{
-tornb()
+tornb(dat = data.frame("Year" = c(2001:2020, 2001:2020, 2001:2020, 2001:2020),
+                       "p" = rnorm(n = 80, mean = 1, sd = .1),
+                       "v" = rnorm(n = 80, mean = 500, sd = 300),
+                       "prod" = c(rep_len("A", 20), rep_len("B", 20), rep_len("C", 20), rep_len("D", 20))),
+     Year = "Year",
+     pvar = "p",
+     vvar = "v",
+     prodID = "prod",
+     baseyr = 2015)
 }

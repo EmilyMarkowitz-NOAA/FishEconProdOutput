@@ -35,6 +35,3 @@ PriceMethodOutput_Category(
 \description{
 This function systematically runs the Price Method Productivity Output analysis for all species of a cateorgy.
 }
-\examples{
-PriceMethodOutput_Category()
-}

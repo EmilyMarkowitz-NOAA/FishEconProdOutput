@@ -594,7 +594,6 @@ numbers0 <- function(x) {
 #' @return counter
 #' @export
 #' @examples counter00X(1)
-#' "002"
 counter00X <- function(counter0) {
   counter0 <- as.numeric(counter0) + 1
   counter <- formatC(x = counter0, width = 3)

@@ -17,5 +17,4 @@ This funciton advances a value of 'counter0' +1 each time it is used.
 }
 \examples{
 counter00X(1)
-"002"
 }

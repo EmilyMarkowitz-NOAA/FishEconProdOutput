@@ -1,6 +1,8 @@
 url: https://emilymarkowitz-noaa.github.io/FishEconProdOutput/
 navbar:
   right:
+    - icon: fa-file
+      href: https://spo.nmfs.noaa.gov/
     - icon: fas fa-paper-plane fa-lg
       href: mailto:emily.markowitz@noaa.gov
     - icon: fas fa-question-circle fa-lg

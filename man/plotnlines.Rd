@@ -4,7 +4,7 @@
 \alias{plotnlines}
 \title{Plot n lines in ggplot}
 \usage{
-plotnlines(dat, titleyaxis, title0)
+plotnlines(dat, titleyaxis = "", title0 = "")
 }
 \arguments{
 \item{dat}{Default data.}

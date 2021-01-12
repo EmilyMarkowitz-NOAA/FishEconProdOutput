@@ -53,6 +53,8 @@ tornb <- function(dat,
                   prodID = "prod",
                   baseyr) {
 
+  p <- v <- NULL #satisfy CRAN
+
   data1<-dat
   data1<-data1[order(data1$Year), ]
 
@@ -134,6 +136,8 @@ tornc <- function(dat,
                   prodID = "prod",
                   baseyr) {
 
+  p <- v <- NULL #satisfy CRAN
+
   data1<-dat
   data1<-data1[order(data1$Year), ]
 
@@ -204,7 +208,6 @@ tornc <- function(dat,
 #' @param minyr The minium year to assess in the dataset.
 #' @param warnings_list A list where warnings are stored. If using this function in the PriceMethodOutput it will be inherited. If using outside of that function, put ls().
 #' @export
-#' @examples
 PriceMethodOutput_Category <- function(dat00,
                                        ii,
                                        category,
@@ -220,7 +223,7 @@ PriceMethodOutput_Category <- function(dat00,
                           "q" = "Pounds",
                           "v" = "Dollars")
 
-  temp_cat <- subset(temp_cat, p > 0 &  v > 0) # & q > 0)  #only keep observations with positive p,v,q
+  temp_cat <- subset(temp_cat, "p" > 0 &  "v" > 0) #only keep observations with positive p,v,q
 
   temp_cat <-
     stats::aggregate.data.frame(
@@ -352,12 +355,13 @@ PriceMethodOutput_Category <- function(dat00,
 #' @param place Area you are assessing the analysis for. This can also be used as a title.
 #' @param category0 A character string. The column where the category is defined. A character string.
 #' @export
-#' @examples
 PriceMethodOutput <- function(dat00,
                               baseyr,
                               title0 = "",
                               place = "",
                               category0) {
+
+ val <- NULL #satisfy CRAN
 
   dat00<-data.frame(stats::na.omit(object = dat00))
   maxyr <- max(dat00$Year)
@@ -679,7 +683,11 @@ xunits <- function(val, combine = T) {
 #' plotnlines(dat = dat,
 #'            titleyaxis = "Normal Distribution of 10 Numbers",
 #'            title0 = "Anywhere")
-plotnlines <- function(dat, titleyaxis, title0) {
+plotnlines <- function(dat,
+                       titleyaxis = "",
+                       title0 = "") {
+
+  Year <- val <- NULL #satisfy CRAN
 
   xnames <- as.numeric(paste0(dat$Year))
   xnames[!(xnames %in% seq(

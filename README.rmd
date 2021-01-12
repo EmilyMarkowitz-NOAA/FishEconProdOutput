@@ -31,9 +31,10 @@ Woods Hole, MA
 
 *The views expressed are those of the author and should not be attributed to the NOAA, ECS or ERS
 
-**GitHub Repository:** [https://github.com/emilyhmarkowitz/FishEconProdOutput](https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput)  
+# Study Purpose
 
-**Documentation GitHub Pages:** [https://emilymarkowitz-noaa.github.io/FishEconProdOutput/](https://emilymarkowitz-noaa.github.io/FishEconProdOutput/)
+This package provides guidelines on fishery productivity measurement at the individual fishery and aggregate sector levels. Attention is given to the constructions of output and total factor productivity based on available data and a bottom-up approach. Given that there is no nation-wide standard cost survey, we recommend starting with measuring TFP at the fishery level based on a translog gross output production possibility frontier using index number techniques. Special attention is given to measuring quality-adjusted physical capital inputs in the bottom-up approach. 
+
 
 # Download this package
 
@@ -44,11 +45,12 @@ library(FishEconProdOutput)
 ```
 
 
-# Study Purpose
-
-This package provides guidelines on fishery productivity measurement at the individual fishery and aggregate sector levels. Attention is given to the constructions of output and total factor productivity based on available data and a bottom-up approach. Given that there is no nation-wide standard cost survey, we recommend starting with measuring TFP at the fishery level based on a translog gross output production possibility frontier using index number techniques. Special attention is given to measuring quality-adjusted physical capital inputs in the bottom-up approach. 
-
 # Documentation
+
+**GitHub Repository:** [https://github.com/emilyhmarkowitz/FishEconProdOutput](https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput)  
+
+**Documentation GitHub Pages:** [https://emilymarkowitz-noaa.github.io/FishEconProdOutput/](https://emilymarkowitz-noaa.github.io/FishEconProdOutput/)
+
 
 You can find Vignettes here
 

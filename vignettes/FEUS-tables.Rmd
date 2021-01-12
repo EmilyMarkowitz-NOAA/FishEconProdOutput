@@ -98,21 +98,25 @@ baseyr<-as.numeric(paste0(floor(maxyr/10),
 ## 2. Set your Directories where you will save everything 
 
 ```{r}
-dir.in<-getwd()
-#Local Directories
-dir_outputtables<-paste0(dir.in, "/output/")
-dir.create(dir_outputtables)
-
+  
 # Folder name for output
 folder<-"T567_ProdOutput"
 titleadd = paste0(minyr.ProdOut, "To", maxyr, "_FSFEUS")
 counter<-0
+  
+dir_in<-getwd()
 
-# Define Directories
-dir_analyses = paste0(dir_outputtables, folder)
-dir.create(dir_analyses)
-# dir.nore<-paste0(dir.out,"/analyses/",minyr,"To",maxyr0,"_Fisheries_Northeast/")
-# create_dir(dir.nore)
+if (TF) {
+  #Local Directories
+  dir_outputtables<-paste0(dir_in, "/output/")
+  dir.create(dir_outputtables)
+
+  # Define Directories
+  dir_analyses = paste0(dir_outputtables, folder)
+  dir.create(dir_analyses)
+} else {
+  dir_analyses<-dir_outputtables<-dir_in
+}
 ```
 
 ## 2. Load example data
@@ -128,14 +132,15 @@ knitr::kable(head(landings_data), booktabs = T) %>%
 
 ```{r}
 out <- OutputAnalysis(landings_data = landings_data, 
-               category0 = category0, 
+               category0 = category0, # the name of the column you are categorizing by
                baseyr = baseyr, 
                titleadd = titleadd, 
                dir_analyses = dir_analyses, 
                skipplots = TRUE, 
-               reg_order = reg_order, 
-               reg_order_abbrv = reg_order_abbrv, 
-               save_outputs_to_file = TF)
+               reg_order = reg_order, # The region(s) you want to assess
+               reg_order_abbrv = reg_order_abbrv, # The region(s) you want to assess
+               save_outputs_to_file = TF) # Here I use the variable TF so I can change it once at the begining of my code, depending on my reporting purposes
+
 names(out)
 
 for (jjj in 1:length(out)) {

@@ -1,7 +1,6 @@
 
 
 
-
 #' Takes a string of words and combines them into a sentance that lists them.
 #'
 #' This function alows you to take a string of words and combine them into a sentance list. For example, 'apples', 'oranges', 'pears' would become 'apples, oranges, and pears'. This function uses oxford commas.
@@ -340,10 +339,10 @@ PriceMethodOutput_Category <- function(dat00,
 #' @examples
 #' PriceMethodOutput()
 PriceMethodOutput <- function(dat00 = NULL,
-                             baseyr,
-                             title0 = "",
-                             place = "",
-                             category0) {
+                              baseyr,
+                              title0 = "",
+                              place = "",
+                              category0) {
 
   dat00<-data.frame(stats::na.omit(object = dat00))
   maxyr <- max(dat00$Year)
@@ -485,8 +484,8 @@ PriceMethodOutput <- function(dat00 = NULL,
                        names(index.data)[grep(pattern = "PI_", x = names(index.data))])]
 
     a <- tidyr::gather(a0, cat, val,
-                names(index.data)[grep(pattern = "PI_", x = names(index.data))],
-                factor_key = TRUE)
+                       names(index.data)[grep(pattern = "PI_", x = names(index.data))],
+                       factor_key = TRUE)
 
     g <- plotnlines(dat = a, title00, place)
 
@@ -702,11 +701,11 @@ plotnlines <- function(dat, titleyaxis, title0) {
     ggplot2::geom_point() +
     ggplot2::theme(
       # legend.position = c(0.9, 0.2),
-      panel.grid.major.y = ggplot2::element_line(color = NOAALightBlue, size = .1),
+      # panel.grid.major.y = ggplot2::element_line(color = NOAALightBlue, size = .1),
       panel.grid.minor.y = ggplot2::element_blank(),
       panel.grid.major.x = ggplot2::element_blank(),
       panel.grid.minor.x = ggplot2::element_blank(),
-      axis.line = ggplot2::element_line(color = NOAALightBlue, size = .1),
+      # axis.line = ggplot2::element_line(color = NOAALightBlue, size = .1),
       axis.ticks = ggplot2::element_blank(),
       # remove ticks
       panel.background = ggplot2::element_blank()
@@ -816,12 +815,12 @@ OutputAnalysis<-function(landings_data,
     names(editeddata_list)[r]<-place
     if (save_outputs_to_file) {
       utils::write.csv(x = editeddata_list[[r]],
-                file = paste0(dir_outputtables, title0,"_EditedData.csv"))
+                       file = paste0(dir_outputtables, title0,"_EditedData.csv"))
     }
     #Raw
     if (save_outputs_to_file) {
       utils::write.csv(x = temp00$Index,
-                file = paste0(dir_outputtables, title0,"_AllData.csv"))
+                       file = paste0(dir_outputtables, title0,"_AllData.csv"))
     }
     index_list[[r]]<-temp00$Index
     names(index_list)[r]<-place
@@ -829,7 +828,7 @@ OutputAnalysis<-function(landings_data,
     #Raw
     if (save_outputs_to_file) {
       utils::write.csv(x = temp00$`Species Level`,
-              file = paste0(dir_outputtables, title0,"_AllDataSpp.csv"))
+                       file = paste0(dir_outputtables, title0,"_AllDataSpp.csv"))
     }
     spp_list[[r]]<-temp00$`Species Level`
     names(spp_list)[r]<-place
@@ -841,30 +840,30 @@ OutputAnalysis<-function(landings_data,
 
   if (save_outputs_to_file) {
 
-  # utils::write.csv(x = spptable, file = paste0(dir_outputtables, "000_All", title000,"_Species.csv"))
+    # utils::write.csv(x = spptable, file = paste0(dir_outputtables, "000_All", title000,"_Species.csv"))
 
-  for (r in 1:length(reg_order)){
+    for (r in 1:length(reg_order)){
 
-    # #Print
-    # xlsx::write.xlsx2(x = editeddata_list[[r]],
-    #             file = paste0(dir_outputtables, "000_All", title000, "_", titleadd, "_EditedData.xlsx"),
-    #             sheetName = reg_order[r],
-    #             col.names = T, row.names = T, append = T)
+      # #Print
+      # xlsx::write.xlsx2(x = editeddata_list[[r]],
+      #             file = paste0(dir_outputtables, "000_All", title000, "_", titleadd, "_EditedData.xlsx"),
+      #             sheetName = reg_order[r],
+      #             col.names = T, row.names = T, append = T)
 
-    #Review
-    xlsx::write.xlsx2(x = index_list[[r]],
-                file = paste0(dir_outputtables, "000_All", title000, "_", titleadd, "_AllData.xlsx"),
-                sheetName = reg_order[r],
-                col.names = T, row.names = T, append = T)
+      #Review
+      xlsx::write.xlsx2(x = index_list[[r]],
+                        file = paste0(dir_outputtables, "000_All", title000, "_", titleadd, "_AllData.xlsx"),
+                        sheetName = reg_order[r],
+                        col.names = T, row.names = T, append = T)
 
-    # #All Data
-    # xlsx::write.xlsx2(x = spp_list[[r]],
-    #             file = paste0(dir_outputtables, "000_All", title000, "_", titleadd, "_AllDataSpp.xlsx"),
-    #             sheetName = reg_order[r],
-    #             col.names = T, row.names = T, append = T)
+      # #All Data
+      # xlsx::write.xlsx2(x = spp_list[[r]],
+      #             file = paste0(dir_outputtables, "000_All", title000, "_", titleadd, "_AllDataSpp.xlsx"),
+      #             sheetName = reg_order[r],
+      #             col.names = T, row.names = T, append = T)
 
+    }
   }
-}
   ######PLOTS
 
   print("Create plots")
@@ -884,13 +883,13 @@ OutputAnalysis<-function(landings_data,
     list0<-figures_list[grep(pattern = fig, x = names(figures_list))]
 
     g<-ggpubr::ggarrange(plotlist = list0,
-                 nrow=3, ncol = 3)
+                         nrow=3, ncol = 3)
     if (save_outputs_to_file) {
       dir.create(paste0(dir_figures, "/", a, "/"))
       ggplot2::ggsave(filename = paste0(dir_figures, "/", a, "/", "000_All_byr",baseyr,
-                               "_",gsub(pattern = "\\.", replacement = "", x = category0), fig, ".png"),
-             plot = g,
-             width = 11, height = 8.5)
+                                        "_",gsub(pattern = "\\.", replacement = "", x = category0), fig, ".png"),
+                      plot = g,
+                      width = 11, height = 8.5)
     }
     gridfigures_list<-c(gridfigures_list, list(g))
     names(gridfigures_list)[length(gridfigures_list)]<-paste0("000_All_byr",baseyr,
@@ -899,39 +898,39 @@ OutputAnalysis<-function(landings_data,
 
   if (save_outputs_to_file) {
 
-  # save(gridfigures_list,
-  #      file = paste0(dir_figures, "AllFiguresGrid.rdata"))
+    # save(gridfigures_list,
+    #      file = paste0(dir_figures, "AllFiguresGrid.rdata"))
 
-     #make single plots
+    #make single plots
     for (i in 1:length(figures_list)) {
 
       a<-strsplit(x = names(figures_list)[i], split = "_")[[1]][length(strsplit(x = names(figures_list)[i], split = "_")[[1]])]
       dir.create(paste0(dir_figures, "/", a, "/"))
 
       ggplot2::ggsave(filename = paste0(dir_figures, "/", a, "/", names(figures_list)[i], ".png"),
-             plot = figures_list[[i]],
-             width = 11, height = 8.5)
+                      plot = figures_list[[i]],
+                      width = 11, height = 8.5)
     }
-}
+  }
 
-    out<-list("warnings_list" = warnings_list,
-               "editeddata_list" = editeddata_list,
-               "index_list" = index_list,
-               "spp_list" = spp_list,
-               "figures_list" = figures_list,
-               "gridfigures_list" = gridfigures_list)
+  out<-list("warnings_list" = warnings_list,
+            "editeddata_list" = editeddata_list,
+            "index_list" = index_list,
+            "spp_list" = spp_list,
+            "figures_list" = figures_list,
+            "gridfigures_list" = gridfigures_list)
 
-    if (save_outputs_to_file) {
-      save(warnings_list,
-           file = paste0(dir_analyses, "/OutputWarnings.rdata"))
+  if (save_outputs_to_file) {
+    save(warnings_list,
+         file = paste0(dir_analyses, "/OutputWarnings.rdata"))
 
-      save(editeddata_list, index_list, spp_list,
-           file = paste0(dir_analyses, "/OutputTables.rdata"))
+    save(editeddata_list, index_list, spp_list,
+         file = paste0(dir_analyses, "/OutputTables.rdata"))
 
-      save(figures_list, gridfigures_list,
-           file = paste0(dir_analyses, "/OutputFigures.rdata"))
+    save(figures_list, gridfigures_list,
+         file = paste0(dir_analyses, "/OutputFigures.rdata"))
 
-    }
+  }
 
   return(out)
 

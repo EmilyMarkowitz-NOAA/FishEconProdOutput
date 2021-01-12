@@ -131,6 +131,7 @@
          <span class="st">"filesstrings"</span>, 
          <span class="st">"data.table"</span>, 
          <span class="st">"plyr"</span>,  
+         <span class="st">"dplyr"</span>,
          <span class="st">"rlist"</span>,
          
          <span class="co"># #RMarkdown</span>
@@ -145,7 +146,7 @@
 
 <span class="kw">for</span> <span class="op">(</span><span class="va">p</span> <span class="kw">in</span> <span class="va">PKG</span><span class="op">)</span> <span class="op">{</span>
   <span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">p</span>,character.only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>  
-    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span>
+    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="va">p</span>, repos <span class="op">=</span> <span class="st">"http://cran.us.r-project.org"</span><span class="op">)</span>
     <span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">p</span>,character.only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">}</span>
 <span class="op">}</span></code></pre></div>
 <div id="northeast-commerical-fisheries-productivity-output-tables" class="section level1">
@@ -171,19 +172,25 @@
 <h2 class="hasAnchor">
 <a href="#set-your-directories-where-you-will-save-everything" class="anchor"></a>2. Set your Directories where you will save everything</h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dir.in</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#Local Directories</span>
-<span class="va">dir_outputtables</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">dir.in</span>, <span class="st">"/output/"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="va">dir_outputtables</span><span class="op">)</span>
-
+<code class="sourceCode R">
 <span class="co"># Folder name for output</span>
 <span class="va">folder</span><span class="op">&lt;-</span><span class="st">"Northeast"</span>
 <span class="va">titleadd</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">minyr</span>, <span class="st">"To"</span>, <span class="va">maxyr</span>, <span class="st">"_NorE"</span><span class="op">)</span>
 <span class="va">counter</span><span class="op">&lt;-</span><span class="fl">0</span>
+  
+<span class="va">dir_in</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="co"># Define Directories</span>
-<span class="va">dir_analyses</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">dir_outputtables</span>, <span class="va">folder</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="va">dir_analyses</span><span class="op">)</span></code></pre></div>
+<span class="kw">if</span> <span class="op">(</span><span class="va">TF</span><span class="op">)</span> <span class="op">{</span>
+  <span class="co">#Local Directories</span>
+  <span class="va">dir_outputtables</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">dir_in</span>, <span class="st">"/output/"</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="va">dir_outputtables</span><span class="op">)</span>
+
+  <span class="co"># Define Directories</span>
+  <span class="va">dir_analyses</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">dir_outputtables</span>, <span class="va">folder</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="va">dir_analyses</span><span class="op">)</span>
+<span class="op">}</span> <span class="kw">else</span> <span class="op">{</span>
+  <span class="va">dir_analyses</span><span class="op">&lt;-</span><span class="va">dir_outputtables</span><span class="op">&lt;-</span><span class="va">dir_in</span>
+<span class="op">}</span></code></pre></div>
 </div>
 <div id="load-example-data" class="section level2">
 <h2 class="hasAnchor">
@@ -197,6 +204,7 @@
 <span class="va">landings_data</span><span class="op">&lt;-</span><span class="va">landings_data</span><span class="op">[</span><span class="va">landings_data</span><span class="op">$</span><span class="va">Region</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"New England"</span>, <span class="st">"Mid-Atlantic"</span><span class="op">)</span>,<span class="op">]</span>
 <span class="va">landings_data</span><span class="op">$</span><span class="va">Region</span><span class="op">&lt;-</span><span class="st">"Northeast"</span>
 
+<span class="co"># so you can see what this data looks like</span>
 <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">landings_data</span><span class="op">)</span>, booktabs <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">kable_styling</span><span class="op">(</span>latex_options <span class="op">=</span> <span class="st">"striped"</span><span class="op">)</span></code></pre></div>
 <table class="table table">
@@ -878,8 +886,12 @@ Golden Tilefish
 <div id="find-tsn-numbers-and-categorize" class="section level4">
 <h4 class="hasAnchor">
 <a href="#find-tsn-numbers-and-categorize" class="anchor"></a>Find TSN numbers and categorize</h4>
+<p>Find TSN values for species of interest with itis.gov</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">spcat.list</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">'Bluefish'</span> <span class="op">=</span> <span class="fl">168559</span>, <span class="co"># Species Pomatomus saltatrix (Linnaeus, 1766) – bluefish, anjova</span>
+<code class="sourceCode R">
+<span class="co"># Find TSN values for species of interest</span>
+
+<span class="va">spcat.list</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">'Bluefish'</span> <span class="op">=</span> <span class="fl">168559</span>, <span class="co"># Species Pomatomus saltatrix (Linnaeus, 1766) – bluefish, anjova</span>
                  <span class="st">'Spiny dogfish'</span> <span class="op">=</span> <span class="fl">160617</span>, <span class="co">#Species Squalus acanthias Linnaeus, 1758 – cazón espinoso común, piked dogfish, spiny dogfish, galludo espinoso, aiguillat commun, dogfish, grayfish, spurdog</span>
                  <span class="st">'Atlantic Cod'</span> <span class="op">=</span> <span class="fl">164712</span>, <span class="co"># Species Gadus morhua Linnaeus, 1758 – morue de l'Atlantique, bacalao del Atlántico, cod, rock cod, morue franche, Atlantic cod </span>
                  <span class="st">'Summer flounder'</span> <span class="op">=</span> <span class="fl">172735</span>, <span class="co">#Species   Paralichthys dentatus (Linnaeus, 1766) – summer flounder, fluke, cardeau d'été, Summer Flounder</span>
@@ -923,8 +935,14 @@ Golden Tilefish
                  <span class="st">'Red Crab'</span> <span class="op">=</span> <span class="fl">620992</span>, <span class="co"># Species Chaceon quinquedens (S. I. Smith, 1879) – red deepsea crab</span>
                  <span class="st">'Sea scallop'</span> <span class="op">=</span> <span class="fl">79718</span>, <span class="co">#Species    Placopecten magellanicus (Gmelin, 1791) – sea scallop</span>
                  <span class="st">'Atlantic halibut'</span> <span class="op">=</span> <span class="fl">172933</span> <span class="co"># Species  Hippoglossus hippoglossus (Linnaeus, 1758) – Atlantic halibut, flétan atlantique, Atlantic Halibut</span>
-<span class="op">)</span>
-
+<span class="op">)</span></code></pre></div>
+</div>
+<div id="use-itis_reclassify-to-categorize-all-of-the-species--this-can-take-a-minute" class="section level4">
+<h4 class="hasAnchor">
+<a href="#use-itis_reclassify-to-categorize-all-of-the-species--this-can-take-a-minute" class="anchor"></a>Use <code>itis_reclassify()</code> to categorize all of the species. This can take a minute!</h4>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="co"># a bit hacky, but I am linking all of the TSN numbers to their respective species here in the northeast fisheries list</span>
 <span class="va">spcat</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">ne_spp</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
@@ -935,12 +953,15 @@ Golden Tilefish
 
 <span class="va">ne_spp</span><span class="op">$</span><span class="va">TSN</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">spcat.list</span><span class="op">[</span><span class="va">spcat</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>
 
+<span class="co"># Now convert the Northeast Fisheires list into a list for the itis_reclassify function</span>
+
 <span class="va">categories</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>
 <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">ne_spp</span><span class="op">$</span><span class="va">plan</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
   <span class="va">categories</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">ne_spp</span><span class="op">$</span><span class="va">TSN</span><span class="op">[</span><span class="va">ne_spp</span><span class="op">$</span><span class="va">plan</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">ne_spp</span><span class="op">$</span><span class="va">plan</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
   <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">categories</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">ne_spp</span><span class="op">$</span><span class="va">plan</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>
 <span class="op">}</span>
 
+<span class="co"># Use the itis_reclassify function to sort each species listed in the FOSS data into each classification group</span>
 
 <span class="va">temp</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/itis_reclassify.html">itis_reclassify</a></span><span class="op">(</span>tsn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">landings_data</span><span class="op">$</span><span class="va">Tsn</span><span class="op">)</span>, 
                          categories <span class="op">=</span> <span class="va">categories</span>, 
@@ -949,31 +970,43 @@ Golden Tilefish
 
 <span class="va">tsn_id</span><span class="op">&lt;-</span><span class="va">temp</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
 
+<span class="co"># Remove anything that wasn't classified</span>
+
 <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">tsn_id</span><span class="op">$</span><span class="va">category</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Other"</span>, <span class="st">"Uncategorized"</span><span class="op">)</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0</span><span class="op">)</span> <span class="op">{</span>
   <span class="va">tsn_id</span><span class="op">&lt;-</span><span class="va">tsn_id</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="va">tsn_id</span><span class="op">$</span><span class="va">category</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Other"</span>, <span class="st">"Uncategorized"</span><span class="op">)</span><span class="op">)</span>, 
                  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"TSN"</span>, <span class="st">"category"</span><span class="op">)</span><span class="op">]</span>
 <span class="op">}</span>
 
+<span class="co"># renaming columns for joining other datasets to this dataset</span>
 <span class="va">landings_data</span><span class="op">&lt;-</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span><span class="va">landings_data</span>, 
                  TSN <span class="op">=</span> <span class="va">Tsn</span><span class="op">)</span>
 
 <span class="va">tsn_id</span><span class="op">$</span><span class="va">TSN</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">tsn_id</span><span class="op">$</span><span class="va">TSN</span><span class="op">)</span>
 
+<span class="co"># Join the FOSS landings data to their respctive categories</span>
+
 <span class="va">landings_data</span><span class="op">&lt;-</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">landings_data</span>, 
                     y <span class="op">=</span> <span class="va">tsn_id</span>, 
                     by <span class="op">=</span> <span class="st">"TSN"</span><span class="op">)</span>
+
+<span class="co"># Rename columns so they match what the funciton uses</span>
 
 <span class="va">landings_data</span><span class="op">&lt;-</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span><span class="va">landings_data</span>, 
                  Tsn <span class="op">=</span> <span class="va">TSN</span>, 
                  category <span class="op">=</span> <span class="va">category.y</span><span class="op">)</span>
 
-<span class="va">landings_data</span><span class="op">&lt;-</span><span class="va">landings_data</span><span class="op">[</span><span class="va">landings_data</span><span class="op">$</span><span class="va">Year</span><span class="op">&gt;=</span><span class="va">minyr</span> <span class="op">&amp;</span> <span class="va">landings_data</span><span class="op">$</span><span class="va">Year</span><span class="op">&lt;=</span><span class="va">maxyr</span>,
-       <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Year"</span>,<span class="st">"Pounds"</span>,<span class="st">"Dollars"</span>,<span class="st">"category"</span>,<span class="st">"Tsn"</span>, <span class="st">"State"</span>, <span class="st">"Region"</span>, <span class="st">"abbvreg"</span><span class="op">)</span><span class="op">]</span>
+<span class="co"># Minor data editing. </span>
 
+<span class="va">landings_data</span><span class="op">&lt;-</span><span class="va">landings_data</span><span class="op">[</span><span class="va">landings_data</span><span class="op">$</span><span class="va">Year</span><span class="op">&gt;=</span><span class="va">minyr</span> <span class="op">&amp;</span> <span class="va">landings_data</span><span class="op">$</span><span class="va">Year</span><span class="op">&lt;=</span><span class="va">maxyr</span>, <span class="co"># Only include years that you intend to assess. </span>
+       <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Year"</span>,<span class="st">"Pounds"</span>,<span class="st">"Dollars"</span>,<span class="st">"category"</span>,<span class="st">"Tsn"</span>, <span class="st">"State"</span>, <span class="st">"Region"</span>, <span class="st">"abbvreg"</span><span class="op">)</span><span class="op">]</span> <span class="co"># These are all of the columns you need</span>
+
+
+<span class="co"># Sometimes negative numbers can be in these columns. They're flags and not real values, so we'll want to remove those here</span>
 
 <span class="va">landings_data</span><span class="op">&lt;-</span><span class="va">landings_data</span><span class="op">[</span><span class="op">(</span><span class="va">landings_data</span><span class="op">$</span><span class="va">Pounds</span><span class="op">&gt;=</span><span class="fl">0</span><span class="op">)</span>, <span class="op">]</span>
 <span class="va">landings_data</span><span class="op">&lt;-</span><span class="va">landings_data</span><span class="op">[</span><span class="op">(</span><span class="va">landings_data</span><span class="op">$</span><span class="va">Dollars</span><span class="op">&gt;=</span><span class="fl">0</span><span class="op">)</span>, <span class="op">]</span>
 
+<span class="co"># Print out the resultant table so we can see our hard work!</span>
 <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">landings_data</span><span class="op">)</span>, booktabs <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">kable_styling</span><span class="op">(</span>latex_options <span class="op">=</span> <span class="st">"striped"</span><span class="op">)</span></code></pre></div>
 <table class="table table">
@@ -1188,16 +1221,17 @@ NE
 <div id="run-analysis" class="section level2">
 <h2 class="hasAnchor">
 <a href="#run-analysis" class="anchor"></a>4. Run Analysis</h2>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/OutputAnalysis.html">OutputAnalysis</a></span><span class="op">(</span>landings_data <span class="op">=</span> <span class="va">landings_data</span>, 
-               category0 <span class="op">=</span> <span class="st">"category"</span>, 
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/OutputAnalysis.html">OutputAnalysis</a></span><span class="op">(</span>landings_data <span class="op">=</span> <span class="va">landings_data</span>, 
+               category0 <span class="op">=</span> <span class="st">"category"</span>, <span class="co"># the name of the column you are categorizing by</span>
                baseyr <span class="op">=</span> <span class="va">baseyr</span>, 
                titleadd <span class="op">=</span> <span class="va">titleadd</span>, 
                dir_analyses <span class="op">=</span> <span class="va">dir_analyses</span>, 
                skipplots <span class="op">=</span> <span class="cn">TRUE</span>, 
-               reg_order <span class="op">=</span> <span class="st">"Northeast"</span>, 
-               reg_order_abbrv <span class="op">=</span> <span class="st">"NorE"</span>,
-               save_outputs_to_file <span class="op">=</span> <span class="va">TF</span><span class="op">)</span>
+               reg_order <span class="op">=</span> <span class="st">"Northeast"</span>, <span class="co"># The region(s) you want to assess</span>
+               reg_order_abbrv <span class="op">=</span> <span class="st">"NorE"</span>, <span class="co"># The region(s) you want to assess</span>
+               save_outputs_to_file <span class="op">=</span> <span class="va">TF</span><span class="op">)</span> <span class="co"># Here I use the variable TF so I can change it once at the begining of my code, depending on my reporting purposes</span>
 <span class="co">#&gt; [1] "Northeast"</span>
 <span class="co">#&gt; [1] "Create spreadsheets"</span>
 <span class="co">#&gt; [1] "Create plots"</span>
@@ -1205,14 +1239,15 @@ NE
 <span class="co">#&gt; [1] "warnings_list"    "editeddata_list"  "index_list"       "spp_list"        </span>
 <span class="co">#&gt; [5] "figures_list"     "gridfigures_list"</span>
 
+<span class="co"># make an object of everything that comes out of this function </span>
 <span class="kw">for</span> <span class="op">(</span><span class="va">jjj</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu"><a href="https://rdrr.io/r/base/assign.html">assign</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span><span class="op">[</span><span class="va">jjj</span><span class="op">]</span>, <span class="va">out</span><span class="op">[[</span><span class="va">jjj</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
 </div>
-<div id="show-tables" class="section level2">
+<div id="create-tables" class="section level2">
 <h2 class="hasAnchor">
-<a href="#show-tables" class="anchor"></a>5. Show Tables</h2>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<a href="#create-tables" class="anchor"></a>5. Create Tables</h2>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">index_list</span>, <span class="st">"["</span>, , <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Year"</span>, <span class="st">"cat"</span>, <span class="st">"PI_CB"</span>, <span class="st">"Q_CB"</span>, <span class="st">"v"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">a</span><span class="op">&lt;-</span><span class="va">result</span><span class="op">$</span><span class="va">Northeast</span>
 <span class="va">a</span><span class="op">&lt;-</span><span class="va">a</span><span class="op">[</span><span class="va">a</span><span class="op">$</span><span class="va">Year</span> <span class="op">%in%</span> <span class="va">minyr</span><span class="op">:</span><span class="va">maxyr</span>, <span class="op">]</span>
@@ -1222,7 +1257,7 @@ NE
                  Q <span class="op">=</span> <span class="va">Q_CB</span>, 
                  V <span class="op">=</span> <span class="va">v</span><span class="op">)</span>
 
-<span class="co"># temp_code</span>
+<span class="co"># Create table of raw values</span>
 <span class="va">a.pi</span><span class="op">&lt;-</span><span class="fu">spread</span><span class="op">(</span><span class="va">a</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"V"</span>, <span class="st">"Q"</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>, <span class="va">cat</span>, <span class="va">PI</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">a.pi</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">a.pi</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="st">"_PI"</span><span class="op">)</span>
 <span class="va">a.q</span><span class="op">&lt;-</span><span class="fu">spread</span><span class="op">(</span><span class="va">a</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"PI"</span>, <span class="st">"V"</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>, <span class="va">cat</span>, <span class="va">Q</span><span class="op">)</span>
@@ -1251,7 +1286,7 @@ NE
 <span class="va">temp_code</span><span class="op">$</span><span class="va">Footnotes</span><span class="op">&lt;-</span><span class="cn">NA</span>
 
 
-<span class="co"># temp_print</span>
+<span class="co"># Create a nice-looking formatted table of values with PrettyNum</span>
 <span class="va">b</span><span class="op">&lt;-</span><span class="va">a</span>
 <span class="va">b</span><span class="op">$</span><span class="va">PI</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">b</span><span class="op">$</span><span class="va">PI</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
 <span class="va">b</span><span class="op">$</span><span class="va">Q</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/formatc.html">prettyNum</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">b</span><span class="op">$</span><span class="va">Q</span><span class="op">/</span><span class="fl">1e6</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">2</span>, big.mark <span class="op">=</span> <span class="st">","</span><span class="op">)</span>
@@ -1283,6 +1318,9 @@ NE
 <span class="va">temp_print</span><span class="op">&lt;-</span><span class="va">b</span>
 <span class="va">temp_print</span><span class="op">$</span><span class="va">Footnotes</span><span class="op">&lt;-</span><span class="cn">NA</span>
 
+<span class="co"># Save Outputs. </span>
+<span class="co"># Here I use the variable TF so I can change it once at the begining of my code, depending on my reporting purposes</span>
+
 <span class="va">ProdOutputUS_Raw</span><span class="op">&lt;-</span><span class="va">temp_code</span>
 <span class="kw">if</span> <span class="op">(</span><span class="va">TF</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu">write_csv</span><span class="op">(</span>x <span class="op">=</span> <span class="va">ProdOutputUS_Raw</span>, file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">dir_analyses</span>, <span class="st">"/ProdOutputNorE_Raw.csv"</span><span class="op">)</span><span class="op">)</span>
@@ -1292,6 +1330,8 @@ NE
 <span class="kw">if</span> <span class="op">(</span><span class="va">TF</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu">write_csv</span><span class="op">(</span>x <span class="op">=</span> <span class="va">ProdOutputUS_Print</span>, file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">dir_analyses</span>, <span class="st">"/ProdOutputNorE_Print.csv"</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span>
+
+<span class="co"># Print out the resultant table so we can see our hard work!</span>
 
 <span class="va">ProdOutputUS_Print</span><span class="op">$</span><span class="va">Footnotes</span><span class="op">&lt;-</span><span class="cn">NULL</span>
 <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">ProdOutputUS_Print</span>, booktabs <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -1487,13 +1527,13 @@ Total_Q
 <h2 class="hasAnchor">
 <a href="#figures" class="anchor"></a>6. Figures</h2>
 <p>Here are a few figures that come out of this analysis!</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">figures_list</span><span class="op">$</span><span class="va">Northeast__PI_CB_PI</span></code></pre></div>
-<p><img src="NEFSC-Fishery_files/figure-html/unnamed-chunk-9-1.png" width="768"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">figures_list</span><span class="op">$</span><span class="va">Northeast__PI_CB_PI</span></code></pre></div>
+<p><img src="NEFSC-Fishery_files/figure-html/unnamed-chunk-10-1.png" width="768"></p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">figures_list</span><span class="op">$</span><span class="va">Northeast__Q_CB_CatTot_QCatTot</span></code></pre></div>
-<p><img src="NEFSC-Fishery_files/figure-html/unnamed-chunk-9-2.png" width="768"></p>
+<p><img src="NEFSC-Fishery_files/figure-html/unnamed-chunk-10-2.png" width="768"></p>
 </div>
 </div>
   </div>

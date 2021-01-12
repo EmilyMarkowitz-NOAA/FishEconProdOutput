@@ -27,19 +27,6 @@ Woods Hole, MA
 \*The views expressed are those of the author and should not be
 attributed to the NOAA, ECS or ERS
 
-**GitHub Repository:**
-[https://github.com/emilyhmarkowitz/FishEconProdOutput](https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput)
-
-**Documentation GitHub Pages:**
-<https://emilymarkowitz-noaa.github.io/FishEconProdOutput/>
-
-Download this package
-=====================
-
-    library(devtools)
-    devtools::install_github("EmilyMarkowitz-NOAA/FishEconProdOutput", dependencies = TRUE)
-    library(FishEconProdOutput)
-
 Study Purpose
 =============
 
@@ -53,8 +40,21 @@ possibility frontier using index number techniques. Special attention is
 given to measuring quality-adjusted physical capital inputs in the
 bottom-up approach.
 
+Download this package
+=====================
+
+    library(devtools)
+    devtools::install_github("EmilyMarkowitz-NOAA/FishEconProdOutput", dependencies = TRUE)
+    library(FishEconProdOutput)
+
 Documentation
 =============
+
+**GitHub Repository:**
+[https://github.com/emilyhmarkowitz/FishEconProdOutput](https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput)
+
+**Documentation GitHub Pages:**
+<https://emilymarkowitz-noaa.github.io/FishEconProdOutput/>
 
 You can find Vignettes here
 

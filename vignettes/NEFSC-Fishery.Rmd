@@ -87,19 +87,27 @@ baseyr <- minyr
 ## 2. Set your Directories where you will save everything 
 
 ```{r}
-dir.in<-getwd()
-#Local Directories
-dir_outputtables<-paste0(dir.in, "/output/")
-dir.create(dir_outputtables)
 
 # Folder name for output
 folder<-"Northeast"
 titleadd = paste0(minyr, "To", maxyr, "_NorE")
 counter<-0
+  
+dir_in<-getwd()
 
-# Define Directories
-dir_analyses = paste0(dir_outputtables, folder)
-dir.create(dir_analyses)
+if (TF) {
+  #Local Directories
+  dir_outputtables<-paste0(dir_in, "/output/")
+  dir.create(dir_outputtables)
+
+  # Define Directories
+  dir_analyses = paste0(dir_outputtables, folder)
+  dir.create(dir_analyses)
+} else {
+  dir_analyses<-dir_outputtables<-dir_in
+}
+
+
 ```
 
 ## 3. Load example data
@@ -112,11 +120,13 @@ landings_data<-FishEconProdOutput::land
 landings_data<-landings_data[landings_data$Region %in% c("New England", "Mid-Atlantic"),]
 landings_data$Region<-"Northeast"
 
+# so you can see what this data looks like
 knitr::kable(head(landings_data), booktabs = T) %>%
   kable_styling(latex_options = "striped")
 ```
 
 ### Northeast Fisheries Codes
+
 ```{r, results='asis', echo=FALSE}
 
 ne_spp<-data.frame(
@@ -181,7 +191,12 @@ knitr::kable((ne_spp), booktabs = T) %>%
 
 #### Find TSN numbers and categorize
 
+Find TSN values for species of interest with itis.gov
+
 ```{r}
+
+# Find TSN values for species of interest
+
 spcat.list<-list('Bluefish' = 168559, # Species	Pomatomus saltatrix (Linnaeus, 1766) – bluefish, anjova
                  'Spiny dogfish' = 160617, #Species	Squalus acanthias Linnaeus, 1758 – cazón espinoso común, piked dogfish, spiny dogfish, galludo espinoso, aiguillat commun, dogfish, grayfish, spurdog
                  'Atlantic Cod' = 164712, # Species	Gadus morhua Linnaeus, 1758 – morue de l'Atlantique, bacalao del Atlántico, cod, rock cod, morue franche, Atlantic cod 
@@ -227,7 +242,13 @@ spcat.list<-list('Bluefish' = 168559, # Species	Pomatomus saltatrix (Linnaeus, 1
                  'Sea scallop' = 79718, #Species	Placopecten magellanicus (Gmelin, 1791) – sea scallop
                  'Atlantic halibut' = 172933 # Species	Hippoglossus hippoglossus (Linnaeus, 1758) – Atlantic halibut, flétan atlantique, Atlantic Halibut
 )
+```
 
+#### Use `itis_reclassify()` to categorize all of the species. This can take a minute!
+
+```{r}
+
+# a bit hacky, but I am linking all of the TSN numbers to their respective species here in the northeast fisheries list
 spcat<-c()
 
 for (i in 1:nrow(ne_spp)) {
@@ -238,12 +259,15 @@ for (i in 1:nrow(ne_spp)) {
 
 ne_spp$TSN<-as.numeric(unlist(spcat.list[spcat]))
 
+# Now convert the Northeast Fisheires list into a list for the itis_reclassify function
+
 categories<-list()
 for (i in 1:length(unique(ne_spp$plan))) {
   categories[i]<-list(ne_spp$TSN[ne_spp$plan %in% unique(ne_spp$plan)[i]])
   names(categories)[i]<-unique(ne_spp$plan)[i]
 }
 
+# Use the itis_reclassify function to sort each species listed in the FOSS data into each classification group
 
 temp<-itis_reclassify(tsn = unique(landings_data$Tsn), 
                          categories = categories, 
@@ -252,31 +276,43 @@ temp<-itis_reclassify(tsn = unique(landings_data$Tsn),
 
 tsn_id<-temp[1][[1]]
 
+# Remove anything that wasn't classified
+
 if (sum(tsn_id$category %in% c("Other", "Uncategorized"))>0) {
   tsn_id<-tsn_id[!(tsn_id$category %in% c("Other", "Uncategorized")), 
                  c("TSN", "category")]
 }
 
+# renaming columns for joining other datasets to this dataset
 landings_data<-dplyr::rename(landings_data, 
                  TSN = Tsn)
 
 tsn_id$TSN<-as.numeric(tsn_id$TSN)
 
+# Join the FOSS landings data to their respctive categories
+
 landings_data<-dplyr::left_join(x = landings_data, 
                     y = tsn_id, 
                     by = "TSN")
+
+# Rename columns so they match what the funciton uses
 
 landings_data<-dplyr::rename(landings_data, 
                  Tsn = TSN, 
                  category = category.y)
 
-landings_data<-landings_data[landings_data$Year>=minyr & landings_data$Year<=maxyr,
-       c("Year","Pounds","Dollars","category","Tsn", "State", "Region", "abbvreg")]
+# Minor data editing. 
 
+landings_data<-landings_data[landings_data$Year>=minyr & landings_data$Year<=maxyr, # Only include years that you intend to assess. 
+       c("Year","Pounds","Dollars","category","Tsn", "State", "Region", "abbvreg")] # These are all of the columns you need
+
+
+# Sometimes negative numbers can be in these columns. They're flags and not real values, so we'll want to remove those here
 
 landings_data<-landings_data[(landings_data$Pounds>=0), ]
 landings_data<-landings_data[(landings_data$Dollars>=0), ]
 
+# Print out the resultant table so we can see our hard work!
 knitr::kable(head(landings_data), booktabs = T) %>%
   kable_styling(latex_options = "striped")
 
@@ -285,23 +321,25 @@ knitr::kable(head(landings_data), booktabs = T) %>%
 ## 4. Run Analysis
 
 ```{r}
+
 out <- OutputAnalysis(landings_data = landings_data, 
-               category0 = "category", 
+               category0 = "category", # the name of the column you are categorizing by
                baseyr = baseyr, 
                titleadd = titleadd, 
                dir_analyses = dir_analyses, 
                skipplots = TRUE, 
-               reg_order = "Northeast", 
-               reg_order_abbrv = "NorE",
-               save_outputs_to_file = TF)
+               reg_order = "Northeast", # The region(s) you want to assess
+               reg_order_abbrv = "NorE", # The region(s) you want to assess
+               save_outputs_to_file = TF) # Here I use the variable TF so I can change it once at the begining of my code, depending on my reporting purposes
 names(out)
 
+# make an object of everything that comes out of this function 
 for (jjj in 1:length(out)) {
   assign(names(out)[jjj], out[[jjj]])
 }
 ```
 
-## 5. Show Tables 
+## 5. Create Tables 
 
 ```{r, results='asis'}
 result <- lapply(index_list, "[", , c("Year", "cat", "PI_CB", "Q_CB", "v"))
@@ -313,7 +351,7 @@ a<-dplyr::rename(a,
                  Q = Q_CB, 
                  V = v)
 
-# temp_code
+# Create table of raw values
 a.pi<-spread(a[!(names(a) %in% c("V", "Q"))], cat, PI)
 names(a.pi)[-1]<-paste0(names(a.pi)[-1], "_PI")
 a.q<-spread(a[!(names(a) %in% c("PI", "V"))], cat, Q)
@@ -342,7 +380,7 @@ temp_code<-b
 temp_code$Footnotes<-NA
 
 
-# temp_print
+# Create a nice-looking formatted table of values with PrettyNum
 b<-a
 b$PI<-round(x = b$PI, digits = 2)
 b$Q<-prettyNum(x = round(x = b$Q/1e6), digits = 2, big.mark = ",")
@@ -374,6 +412,9 @@ b<-b[b$Year %in% minyr:maxyr, ]
 temp_print<-b
 temp_print$Footnotes<-NA
 
+# Save Outputs. 
+# Here I use the variable TF so I can change it once at the begining of my code, depending on my reporting purposes
+
 ProdOutputUS_Raw<-temp_code
 if (TF) {
   write_csv(x = ProdOutputUS_Raw, file = paste0(dir_analyses, "/ProdOutputNorE_Raw.csv"))
@@ -383,6 +424,8 @@ ProdOutputUS_Print<-temp_print
 if (TF) {
   write_csv(x = ProdOutputUS_Print, file = paste0(dir_analyses, "/ProdOutputNorE_Print.csv"))
 }
+
+# Print out the resultant table so we can see our hard work!
 
 ProdOutputUS_Print$Footnotes<-NULL
 knitr::kable(ProdOutputUS_Print, booktabs = T) %>%

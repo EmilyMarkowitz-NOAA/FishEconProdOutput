@@ -135,6 +135,7 @@
          <span class="st">"filesstrings"</span>, 
          <span class="st">"data.table"</span>, 
          <span class="st">"plyr"</span>,  
+         <span class="st">"dplyr"</span>,
          <span class="st">"rlist"</span>,
          
          <span class="co"># #RMarkdown</span>
@@ -149,7 +150,7 @@
 
 <span class="kw">for</span> <span class="op">(</span><span class="va">p</span> <span class="kw">in</span> <span class="va">PKG</span><span class="op">)</span> <span class="op">{</span>
   <span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">p</span>,character.only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>  
-    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span>
+    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="va">p</span>, repos <span class="op">=</span> <span class="st">"http://cran.us.r-project.org"</span><span class="op">)</span>
     <span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">p</span>,character.only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">}</span>
 <span class="op">}</span></code></pre></div>
 <div id="set-knowns" class="section level2">
@@ -180,21 +181,25 @@
 <h2 class="hasAnchor">
 <a href="#set-your-directories-where-you-will-save-everything" class="anchor"></a>2. Set your Directories where you will save everything</h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dir.in</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#Local Directories</span>
-<span class="va">dir_outputtables</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">dir.in</span>, <span class="st">"/output/"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="va">dir_outputtables</span><span class="op">)</span>
-
+<code class="sourceCode R">  
 <span class="co"># Folder name for output</span>
 <span class="va">folder</span><span class="op">&lt;-</span><span class="st">"T567_ProdOutput"</span>
 <span class="va">titleadd</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">minyr.ProdOut</span>, <span class="st">"To"</span>, <span class="va">maxyr</span>, <span class="st">"_FSFEUS"</span><span class="op">)</span>
 <span class="va">counter</span><span class="op">&lt;-</span><span class="fl">0</span>
+  
+<span class="va">dir_in</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="co"># Define Directories</span>
-<span class="va">dir_analyses</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">dir_outputtables</span>, <span class="va">folder</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="va">dir_analyses</span><span class="op">)</span>
-<span class="co"># dir.nore&lt;-paste0(dir.out,"/analyses/",minyr,"To",maxyr0,"_Fisheries_Northeast/")</span>
-<span class="co"># create_dir(dir.nore)</span></code></pre></div>
+<span class="kw">if</span> <span class="op">(</span><span class="va">TF</span><span class="op">)</span> <span class="op">{</span>
+  <span class="co">#Local Directories</span>
+  <span class="va">dir_outputtables</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">dir_in</span>, <span class="st">"/output/"</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="va">dir_outputtables</span><span class="op">)</span>
+
+  <span class="co"># Define Directories</span>
+  <span class="va">dir_analyses</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">dir_outputtables</span>, <span class="va">folder</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="va">dir_analyses</span><span class="op">)</span>
+<span class="op">}</span> <span class="kw">else</span> <span class="op">{</span>
+  <span class="va">dir_analyses</span><span class="op">&lt;-</span><span class="va">dir_outputtables</span><span class="op">&lt;-</span><span class="va">dir_in</span>
+<span class="op">}</span></code></pre></div>
 </div>
 <div id="load-example-data" class="section level2">
 <h2 class="hasAnchor">
@@ -416,14 +421,14 @@ MA
 <a href="#run-analysis" class="anchor"></a>4. Run Analysis</h2>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/OutputAnalysis.html">OutputAnalysis</a></span><span class="op">(</span>landings_data <span class="op">=</span> <span class="va">landings_data</span>, 
-               category0 <span class="op">=</span> <span class="va">category0</span>, 
+               category0 <span class="op">=</span> <span class="va">category0</span>, <span class="co"># the name of the column you are categorizing by</span>
                baseyr <span class="op">=</span> <span class="va">baseyr</span>, 
                titleadd <span class="op">=</span> <span class="va">titleadd</span>, 
                dir_analyses <span class="op">=</span> <span class="va">dir_analyses</span>, 
                skipplots <span class="op">=</span> <span class="cn">TRUE</span>, 
-               reg_order <span class="op">=</span> <span class="va">reg_order</span>, 
-               reg_order_abbrv <span class="op">=</span> <span class="va">reg_order_abbrv</span>, 
-               save_outputs_to_file <span class="op">=</span> <span class="va">TF</span><span class="op">)</span>
+               reg_order <span class="op">=</span> <span class="va">reg_order</span>, <span class="co"># The region(s) you want to assess</span>
+               reg_order_abbrv <span class="op">=</span> <span class="va">reg_order_abbrv</span>, <span class="co"># The region(s) you want to assess</span>
+               save_outputs_to_file <span class="op">=</span> <span class="va">TF</span><span class="op">)</span> <span class="co"># Here I use the variable TF so I can change it once at the begining of my code, depending on my reporting purposes</span>
 <span class="co">#&gt; [1] "National"</span>
 <span class="co">#&gt; [1] "North Pacific"</span>
 <span class="co">#&gt; [1] "Pacific"</span>
@@ -434,6 +439,7 @@ MA
 <span class="co">#&gt; [1] "Gulf of Mexico"</span>
 <span class="co">#&gt; [1] "Create spreadsheets"</span>
 <span class="co">#&gt; [1] "Create plots"</span>
+
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span>
 <span class="co">#&gt; [1] "warnings_list"    "editeddata_list"  "index_list"       "spp_list"        </span>
 <span class="co">#&gt; [5] "figures_list"     "gridfigures_list"</span>

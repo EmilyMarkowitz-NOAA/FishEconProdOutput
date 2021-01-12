@@ -9,6 +9,8 @@ knitr::opts_chunk$set(echo = FALSE, error = FALSE, message = FALSE, warning = FA
 library(here)
 ```
 
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
 # Measuring Output for U.S. Commercial Fisheries From Theory to Practice
 
 **Emily Markowitz**^1^ (Emily.Markowitz AT noaa.gov)

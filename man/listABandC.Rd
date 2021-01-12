@@ -13,7 +13,7 @@ listABandC(x)
 This function alows you to take a string of words and combine them into a sentance list. For example, 'apples', 'oranges', 'pears' would become 'apples, oranges, and pears'. This function uses oxford commas.
 }
 \examples{
-listABandC(c(1,2,3,4,5,6))
+listABandC(c(1,2,"hello",4,"world",6))
 }
 \keyword{list,}
 \keyword{strings}

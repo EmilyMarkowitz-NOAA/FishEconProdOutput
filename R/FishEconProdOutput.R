@@ -217,8 +217,8 @@ PriceMethodOutput_Category <- function(dat00,
   temp_cat <- dat00[dat00[, category0] %in% category,]
 
   temp_cat<-dplyr::rename(temp_cat,
-                          q = Pounds,
-                          v = Dollars)
+                          "q" = "Pounds",
+                          "v" = "Dollars")
 
   temp_cat <- subset(temp_cat, p > 0 &  v > 0) # & q > 0)  #only keep observations with positive p,v,q
 

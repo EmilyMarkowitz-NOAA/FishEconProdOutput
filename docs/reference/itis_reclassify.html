@@ -182,10 +182,10 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>itis_reclassify</span><span class='op'>(</span>tsn <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>83677</span>, <span class='fl'>172746</span><span class='op'>)</span>,
-categories <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"Finfish"</span> <span class='op'>=</span> <span class='fl'>914179</span>, <span class='co'># Infraphylum  Gnathostomata</span>
-<span class='st'>"Shellfish"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>82696</span>, <span class='co'># Phylum  Arthropoda  â€“ ArtrÃ³pode, arthropodes, arthropods</span>
-<span class='fl'>69458</span><span class='op'>)</span><span class='op'>)</span>, <span class='co'># Phylum  Mollusca  â€“ mollusques, molusco, molluscs, mollusks</span>
-missing_name <span class='op'>=</span> <span class='st'>"uncategorized"</span><span class='op'>)</span>
+                categories <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"Finfish"</span> <span class='op'>=</span> <span class='fl'>914179</span>, <span class='co'># Infraphylum  Gnathostomata</span>
+                                  <span class='st'>"Shellfish"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>82696</span>, <span class='co'># Phylum  Arthropoda</span>
+                                                  <span class='fl'>69458</span><span class='op'>)</span><span class='op'>)</span>, <span class='co'># Phylum  Mollusca</span>
+                missing_name <span class='op'>=</span> <span class='st'>"uncategorized"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $df_out
 #&gt;      TSN  category valid      rank              sciname
 #&gt; 1 172746   Finfish valid   species Scophthalmus aquosus

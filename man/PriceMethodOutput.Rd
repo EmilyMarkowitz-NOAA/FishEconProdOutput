@@ -4,7 +4,7 @@
 \alias{PriceMethodOutput}
 \title{Price Method}
 \usage{
-PriceMethodOutput(dat00 = NULL, baseyr, title0 = "", place = "", category0)
+PriceMethodOutput(dat00, baseyr, title0 = "", place = "", category0)
 }
 \arguments{
 \item{dat00}{Dataset.}

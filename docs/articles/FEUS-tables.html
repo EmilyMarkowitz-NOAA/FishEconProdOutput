@@ -116,7 +116,7 @@
       <h1 data-toc-skip>FEUS-tables</h1>
                         <h4 class="author">Emily Markowitz (Emily.Markowitz AT NOAA.gov / EmilyMarkowitz-NOAA)</h4>
             
-            <h4 class="date">January 12 2021</h4>
+            <h4 class="date">January 27 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput/blob/master/vignettes/FEUS-tables.Rmd"><code>vignettes/FEUS-tables.Rmd</code></a></small>
       <div class="hidden name"><code>FEUS-tables.Rmd</code></div>
@@ -185,7 +185,7 @@
 </div>
 <div id="set-your-directories-where-you-will-save-everything" class="section level2">
 <h2 class="hasAnchor">
-<a href="#set-your-directories-where-you-will-save-everything" class="anchor"></a>2. Set your Directories where you will save everything</h2>
+<a href="#set-your-directories-where-you-will-save-everything" class="anchor"></a>2. Set your directories where you will save everything</h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R">  
 <span class="co"># Folder name for output</span>
@@ -209,10 +209,11 @@
 </div>
 <div id="load-example-data" class="section level2">
 <h2 class="hasAnchor">
-<a href="#load-example-data" class="anchor"></a>2. Load example data</h2>
+<a href="#load-example-data" class="anchor"></a>3. Load example data</h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">counter</span><span class="op">&lt;-</span><span class="fl">0</span>
 <span class="va">landings_data</span><span class="op">&lt;-</span><span class="fu">FishEconProdOutput</span><span class="fu">::</span><span class="va"><a href="../reference/land.html">land</a></span>
+<span class="va">landings_data</span><span class="op">$</span><span class="va">category</span><span class="op">&lt;-</span><span class="cn">NULL</span> <span class="co"># for this example, let's pretend that this column doesn't already exist</span>
 <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">landings_data</span><span class="op">)</span>, booktabs <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">kable_styling</span><span class="op">(</span>latex_options <span class="op">=</span> <span class="st">"striped"</span><span class="op">)</span></code></pre></div>
 <table class="table table">
@@ -227,9 +228,6 @@ Pounds
 </th>
 <th style="text-align:right;">
 Dollars
-</th>
-<th style="text-align:left;">
-category
 </th>
 <th style="text-align:right;">
 Tsn
@@ -258,9 +256,6 @@ abbvreg
 <td style="text-align:right;">
 750
 </td>
-<td style="text-align:left;">
-Shellfish
-</td>
 <td style="text-align:right;">
 83677
 </td>
@@ -286,9 +281,6 @@ Pac
 </td>
 <td style="text-align:right;">
 119
-</td>
-<td style="text-align:left;">
-Shellfish
 </td>
 <td style="text-align:right;">
 83677
@@ -316,9 +308,6 @@ Pac
 <td style="text-align:right;">
 131
 </td>
-<td style="text-align:left;">
-Shellfish
-</td>
 <td style="text-align:right;">
 83677
 </td>
@@ -344,9 +333,6 @@ SA
 </td>
 <td style="text-align:right;">
 30
-</td>
-<td style="text-align:left;">
-Shellfish
 </td>
 <td style="text-align:right;">
 83677
@@ -374,9 +360,6 @@ MA
 <td style="text-align:right;">
 2
 </td>
-<td style="text-align:left;">
-Shellfish
-</td>
 <td style="text-align:right;">
 83677
 </td>
@@ -403,9 +386,6 @@ MA
 <td style="text-align:right;">
 28
 </td>
-<td style="text-align:left;">
-Shellfish
-</td>
 <td style="text-align:right;">
 83677
 </td>
@@ -422,10 +402,297 @@ MA
 </tbody>
 </table>
 </div>
+<div id="use-itis_reclassify-to-categorize-all-of-the-species" class="section level2">
+<h2 class="hasAnchor">
+<a href="#use-itis_reclassify-to-categorize-all-of-the-species" class="anchor"></a>4. Use <code>itis_reclassify()</code> to categorize all of the species</h2>
+<p>This can take a minute!</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/itis_reclassify.html">itis_reclassify</a></span><span class="op">(</span>tsn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">landings_data</span><span class="op">$</span><span class="va">Tsn</span><span class="op">)</span>, 
+                 categories <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">'Finfish'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">914179</span>, <span class="co">#  Infraphylum Gnathostomata</span>
+                                                <span class="op">-</span><span class="fl">914181</span><span class="op">)</span>, <span class="co"># Tetrapoda; - = do NOT include</span>
+                                   <span class="st">"Shellfish"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">82696</span>, <span class="co"># Phylum  Arthropoda</span>
+                                                   <span class="fl">69458</span><span class="op">)</span><span class="op">)</span>, <span class="co"># Phylum    Mollusca</span>
+                 uncategorized_name <span class="op">=</span> <span class="st">"uncategorized"</span><span class="op">)</span>
+
+<span class="va">tsn_id</span><span class="op">&lt;-</span><span class="va">temp</span><span class="op">$</span><span class="va">df_out</span>
+
+<span class="co"># Remove anything that wasn't classified (we don't them for what we are doing here)</span>
+<span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">tsn_id</span><span class="op">$</span><span class="va">category</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Other"</span>, <span class="st">"Uncategorized"</span><span class="op">)</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">tsn_id</span><span class="op">&lt;-</span><span class="va">tsn_id</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="va">tsn_id</span><span class="op">$</span><span class="va">category</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Other"</span>, <span class="st">"Uncategorized"</span><span class="op">)</span><span class="op">)</span>, 
+                 <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"TSN"</span>, <span class="st">"category"</span><span class="op">)</span><span class="op">]</span>
+<span class="op">}</span>
+
+<span class="co"># renaming columns for joining other datasets to this dataset</span>
+<span class="va">landings_data</span><span class="op">&lt;-</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span><span class="va">landings_data</span>, 
+                 TSN <span class="op">=</span> <span class="va">Tsn</span><span class="op">)</span>
+
+<span class="va">tsn_id</span><span class="op">$</span><span class="va">TSN</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">tsn_id</span><span class="op">$</span><span class="va">TSN</span><span class="op">)</span>
+
+<span class="co"># Join the FOSS landings data to their respctive categories</span>
+<span class="va">landings_data</span><span class="op">&lt;-</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">landings_data</span>, 
+                    y <span class="op">=</span> <span class="va">tsn_id</span>, 
+                    by <span class="op">=</span> <span class="st">"TSN"</span><span class="op">)</span>
+
+<span class="co"># Rename columns so they match what the funciton uses</span>
+<span class="va">landings_data</span><span class="op">&lt;-</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span><span class="va">landings_data</span>, 
+                 Tsn <span class="op">=</span> <span class="va">TSN</span><span class="op">)</span>
+
+<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">landings_data</span><span class="op">)</span>, booktabs <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">kable_styling</span><span class="op">(</span>latex_options <span class="op">=</span> <span class="st">"striped"</span><span class="op">)</span></code></pre></div>
+<table class="table table">
+<thead><tr>
+<th style="text-align:right;">
+Year
+</th>
+<th style="text-align:right;">
+Pounds
+</th>
+<th style="text-align:right;">
+Dollars
+</th>
+<th style="text-align:right;">
+Tsn
+</th>
+<th style="text-align:left;">
+State
+</th>
+<th style="text-align:left;">
+Region
+</th>
+<th style="text-align:left;">
+abbvreg
+</th>
+<th style="text-align:left;">
+category
+</th>
+<th style="text-align:left;">
+valid
+</th>
+<th style="text-align:left;">
+rank
+</th>
+<th style="text-align:left;">
+sciname
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+2001
+</td>
+<td style="text-align:right;">
+613
+</td>
+<td style="text-align:right;">
+750
+</td>
+<td style="text-align:right;">
+83677
+</td>
+<td style="text-align:left;">
+Oregon
+</td>
+<td style="text-align:left;">
+Pacific
+</td>
+<td style="text-align:left;">
+Pac
+</td>
+<td style="text-align:left;">
+Shellfish
+</td>
+<td style="text-align:left;">
+valid
+</td>
+<td style="text-align:left;">
+subphylum
+</td>
+<td style="text-align:left;">
+Crustacea
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2003
+</td>
+<td style="text-align:right;">
+172
+</td>
+<td style="text-align:right;">
+119
+</td>
+<td style="text-align:right;">
+83677
+</td>
+<td style="text-align:left;">
+Oregon
+</td>
+<td style="text-align:left;">
+Pacific
+</td>
+<td style="text-align:left;">
+Pac
+</td>
+<td style="text-align:left;">
+Shellfish
+</td>
+<td style="text-align:left;">
+valid
+</td>
+<td style="text-align:left;">
+subphylum
+</td>
+<td style="text-align:left;">
+Crustacea
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2006
+</td>
+<td style="text-align:right;">
+131
+</td>
+<td style="text-align:right;">
+131
+</td>
+<td style="text-align:right;">
+83677
+</td>
+<td style="text-align:left;">
+North Carolina
+</td>
+<td style="text-align:left;">
+South Atlantic
+</td>
+<td style="text-align:left;">
+SA
+</td>
+<td style="text-align:left;">
+Shellfish
+</td>
+<td style="text-align:left;">
+valid
+</td>
+<td style="text-align:left;">
+subphylum
+</td>
+<td style="text-align:left;">
+Crustacea
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2005
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+83677
+</td>
+<td style="text-align:left;">
+Maryland
+</td>
+<td style="text-align:left;">
+Mid-Atlantic
+</td>
+<td style="text-align:left;">
+MA
+</td>
+<td style="text-align:left;">
+Shellfish
+</td>
+<td style="text-align:left;">
+valid
+</td>
+<td style="text-align:left;">
+subphylum
+</td>
+<td style="text-align:left;">
+Crustacea
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2004
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+83677
+</td>
+<td style="text-align:left;">
+New Jersey
+</td>
+<td style="text-align:left;">
+Mid-Atlantic
+</td>
+<td style="text-align:left;">
+MA
+</td>
+<td style="text-align:left;">
+Shellfish
+</td>
+<td style="text-align:left;">
+valid
+</td>
+<td style="text-align:left;">
+subphylum
+</td>
+<td style="text-align:left;">
+Crustacea
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2006
+</td>
+<td style="text-align:right;">
+37
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+83677
+</td>
+<td style="text-align:left;">
+New Jersey
+</td>
+<td style="text-align:left;">
+Mid-Atlantic
+</td>
+<td style="text-align:left;">
+MA
+</td>
+<td style="text-align:left;">
+Shellfish
+</td>
+<td style="text-align:left;">
+valid
+</td>
+<td style="text-align:left;">
+subphylum
+</td>
+<td style="text-align:left;">
+Crustacea
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <div id="run-analysis" class="section level2">
 <h2 class="hasAnchor">
-<a href="#run-analysis" class="anchor"></a>4. Run Analysis</h2>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<a href="#run-analysis" class="anchor"></a>5. Run Analysis</h2>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/OutputAnalysis.html">OutputAnalysis</a></span><span class="op">(</span>landings_data <span class="op">=</span> <span class="va">landings_data</span>, 
                category0 <span class="op">=</span> <span class="va">category0</span>, <span class="co"># the name of the column you are categorizing by</span>
                baseyr <span class="op">=</span> <span class="va">baseyr</span>, 
@@ -456,11 +723,11 @@ MA
 </div>
 <div id="create-feus-tables" class="section level2">
 <h2 class="hasAnchor">
-<a href="#create-feus-tables" class="anchor"></a>5. Create FEUS Tables</h2>
+<a href="#create-feus-tables" class="anchor"></a>6. Create FEUS Tables</h2>
 <div id="table-5--regional-törnqvist-price-index-1996-2018-2015-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#table-5--regional-t%C3%B6rnqvist-price-index-1996-2018-2015-1" class="anchor"></a><strong><em>Table 5.</em></strong> Regional Törnqvist Price Index, 1996-2018 (2015 = 1)</h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">index_list</span>, <span class="st">"["</span>, , <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Year"</span>, <span class="st">"cat"</span>, <span class="st">"PI_CB"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="va">a</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">result</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">Year</span>, 
@@ -529,7 +796,7 @@ Gulf of Mexico
 <tbody>
 <tr>
 <td style="text-align:left;">
-50
+73
 </td>
 <td style="text-align:right;">
 1999
@@ -541,7 +808,7 @@ Gulf of Mexico
 0.60
 </td>
 <td style="text-align:right;">
-0.47
+0.48
 </td>
 <td style="text-align:right;">
 0.78
@@ -553,7 +820,7 @@ Gulf of Mexico
 0.52
 </td>
 <td style="text-align:right;">
-0.59
+0.60
 </td>
 <td style="text-align:right;">
 0.80
@@ -561,7 +828,7 @@ Gulf of Mexico
 </tr>
 <tr>
 <td style="text-align:left;">
-51
+74
 </td>
 <td style="text-align:right;">
 2000
@@ -585,7 +852,7 @@ Gulf of Mexico
 0.54
 </td>
 <td style="text-align:right;">
-0.66
+0.68
 </td>
 <td style="text-align:right;">
 0.93
@@ -593,7 +860,7 @@ Gulf of Mexico
 </tr>
 <tr>
 <td style="text-align:left;">
-52
+75
 </td>
 <td style="text-align:right;">
 2001
@@ -605,7 +872,7 @@ Gulf of Mexico
 0.58
 </td>
 <td style="text-align:right;">
-0.45
+0.46
 </td>
 <td style="text-align:right;">
 0.84
@@ -617,7 +884,7 @@ Gulf of Mexico
 0.49
 </td>
 <td style="text-align:right;">
-0.64
+0.65
 </td>
 <td style="text-align:right;">
 0.84
@@ -625,7 +892,7 @@ Gulf of Mexico
 </tr>
 <tr>
 <td style="text-align:left;">
-53
+76
 </td>
 <td style="text-align:right;">
 2002
@@ -637,7 +904,7 @@ Gulf of Mexico
 0.53
 </td>
 <td style="text-align:right;">
-0.43
+0.44
 </td>
 <td style="text-align:right;">
 0.75
@@ -649,7 +916,7 @@ Gulf of Mexico
 0.50
 </td>
 <td style="text-align:right;">
-0.58
+0.60
 </td>
 <td style="text-align:right;">
 0.70
@@ -657,7 +924,7 @@ Gulf of Mexico
 </tr>
 <tr>
 <td style="text-align:left;">
-54
+77
 </td>
 <td style="text-align:right;">
 2003
@@ -681,7 +948,7 @@ Gulf of Mexico
 0.51
 </td>
 <td style="text-align:right;">
-0.57
+0.59
 </td>
 <td style="text-align:right;">
 0.65
@@ -689,7 +956,7 @@ Gulf of Mexico
 </tr>
 <tr>
 <td style="text-align:left;">
-55
+78
 </td>
 <td style="text-align:right;">
 2004
@@ -713,7 +980,7 @@ Gulf of Mexico
 0.52
 </td>
 <td style="text-align:right;">
-0.59
+0.60
 </td>
 <td style="text-align:right;">
 0.66
@@ -721,7 +988,7 @@ Gulf of Mexico
 </tr>
 <tr>
 <td style="text-align:left;">
-56
+79
 </td>
 <td style="text-align:right;">
 2005
@@ -745,7 +1012,7 @@ Gulf of Mexico
 0.67
 </td>
 <td style="text-align:right;">
-0.63
+0.64
 </td>
 <td style="text-align:right;">
 0.73
@@ -753,7 +1020,7 @@ Gulf of Mexico
 </tr>
 <tr>
 <td style="text-align:left;">
-57
+80
 </td>
 <td style="text-align:right;">
 2006
@@ -771,13 +1038,13 @@ Gulf of Mexico
 0.90
 </td>
 <td style="text-align:right;">
-0.92
+0.90
 </td>
 <td style="text-align:right;">
 0.66
 </td>
 <td style="text-align:right;">
-0.64
+0.66
 </td>
 <td style="text-align:right;">
 0.65
@@ -785,7 +1052,7 @@ Gulf of Mexico
 </tr>
 <tr>
 <td style="text-align:left;">
-58
+81
 </td>
 <td style="text-align:right;">
 2007
@@ -812,12 +1079,12 @@ Gulf of Mexico
 0.73
 </td>
 <td style="text-align:right;">
-0.77
+0.76
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-59
+82
 </td>
 <td style="text-align:right;">
 2008
@@ -841,7 +1108,7 @@ Gulf of Mexico
 0.69
 </td>
 <td style="text-align:right;">
-0.73
+0.74
 </td>
 <td style="text-align:right;">
 0.86
@@ -849,7 +1116,7 @@ Gulf of Mexico
 </tr>
 <tr>
 <td style="text-align:left;">
-60
+83
 </td>
 <td style="text-align:right;">
 2009
@@ -870,18 +1137,18 @@ Gulf of Mexico
 0.65
 </td>
 <td style="text-align:right;">
-0.68
+0.67
 </td>
 <td style="text-align:right;">
 0.71
 </td>
 <td style="text-align:right;">
-0.68
+0.67
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-61
+84
 </td>
 <td style="text-align:right;">
 2010
@@ -905,7 +1172,7 @@ Gulf of Mexico
 0.73
 </td>
 <td style="text-align:right;">
-0.74
+0.75
 </td>
 <td style="text-align:right;">
 0.87
@@ -913,7 +1180,7 @@ Gulf of Mexico
 </tr>
 <tr>
 <td style="text-align:left;">
-62
+85
 </td>
 <td style="text-align:right;">
 2011
@@ -945,7 +1212,7 @@ Gulf of Mexico
 </tr>
 <tr>
 <td style="text-align:left;">
-63
+86
 </td>
 <td style="text-align:right;">
 2012
@@ -963,13 +1230,13 @@ Gulf of Mexico
 1.23
 </td>
 <td style="text-align:right;">
-0.82
+0.81
 </td>
 <td style="text-align:right;">
 0.83
 </td>
 <td style="text-align:right;">
-0.86
+0.87
 </td>
 <td style="text-align:right;">
 0.89
@@ -977,7 +1244,7 @@ Gulf of Mexico
 </tr>
 <tr>
 <td style="text-align:left;">
-64
+87
 </td>
 <td style="text-align:right;">
 2013
@@ -1009,7 +1276,7 @@ Gulf of Mexico
 </tr>
 <tr>
 <td style="text-align:left;">
-65
+88
 </td>
 <td style="text-align:right;">
 2014
@@ -1027,7 +1294,7 @@ Gulf of Mexico
 1.02
 </td>
 <td style="text-align:right;">
-0.95
+0.94
 </td>
 <td style="text-align:right;">
 0.99
@@ -1041,7 +1308,7 @@ Gulf of Mexico
 </tr>
 <tr>
 <td style="text-align:left;">
-66
+89
 </td>
 <td style="text-align:right;">
 2015
@@ -1073,7 +1340,7 @@ Gulf of Mexico
 </tr>
 <tr>
 <td style="text-align:left;">
-67
+90
 </td>
 <td style="text-align:right;">
 2016
@@ -1105,7 +1372,7 @@ Gulf of Mexico
 </tr>
 <tr>
 <td style="text-align:left;">
-68
+91
 </td>
 <td style="text-align:right;">
 2017
@@ -1137,7 +1404,7 @@ Gulf of Mexico
 </tr>
 <tr>
 <td style="text-align:left;">
-69
+92
 </td>
 <td style="text-align:right;">
 2018
@@ -1173,7 +1440,7 @@ Gulf of Mexico
 <div id="table-6--regional-real-landing-törnqvist-values-1996-2018-2015-million" class="section level3">
 <h3 class="hasAnchor">
 <a href="#table-6--regional-real-landing-t%C3%B6rnqvist-values-1996-2018-2015-million" class="anchor"></a><strong><em>Table 6.</em></strong> Regional Real Landing Törnqvist Values, 1996-2018 (2015 $ Million)</h3>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">index_list</span>, <span class="st">"["</span>, , <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Year"</span>, <span class="st">"cat"</span>, <span class="st">"Q_CB"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="va">a</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">result</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">Year</span>, 
@@ -1244,368 +1511,368 @@ Gulf of Mexico
 <tbody>
 <tr>
 <td style="text-align:left;">
-50
+73
 </td>
 <td style="text-align:right;">
 1999
 </td>
 <td style="text-align:left;">
-7,925.9
+7,920.3
 </td>
 <td style="text-align:left;">
-3,237.45
+3,228.05
 </td>
 <td style="text-align:left;">
-994.97
+990.07
 </td>
 <td style="text-align:left;">
-163.73
+163.64
 </td>
 <td style="text-align:left;">
-1,372.7
+1,378.69
 </td>
 <td style="text-align:left;">
-874.31
+874.8
 </td>
 <td style="text-align:left;">
-330.25
+324.18
 </td>
 <td style="text-align:right;">
-975.53
+976.78
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-51
+74
 </td>
 <td style="text-align:right;">
 2000
 </td>
 <td style="text-align:left;">
-7,652.22
+7,646.33
 </td>
 <td style="text-align:left;">
-2,782.8
+2,782.45
 </td>
 <td style="text-align:left;">
-1,031.55
+1,026.45
 </td>
 <td style="text-align:left;">
-160.49
+160.52
 </td>
 <td style="text-align:left;">
-1,451.42
+1,457.82
 </td>
 <td style="text-align:left;">
-823.76
+824.14
 </td>
 <td style="text-align:left;">
-311.89
+306.28
 </td>
 <td style="text-align:right;">
-1042.56
+1043.73
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-52
+75
 </td>
 <td style="text-align:right;">
 2001
 </td>
 <td style="text-align:left;">
-7,436.92
+7,431.76
 </td>
 <td style="text-align:left;">
-2,773.35
+2,773.08
 </td>
 <td style="text-align:left;">
-1,000.27
+995.32
 </td>
 <td style="text-align:left;">
-128.59
+128.64
 </td>
 <td style="text-align:left;">
-1,494.97
+1,501.57
 </td>
 <td style="text-align:left;">
-894.44
+894.85
 </td>
 <td style="text-align:left;">
-266.45
+261.7
 </td>
 <td style="text-align:right;">
-916.56
+917.57
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-53
+76
 </td>
 <td style="text-align:right;">
 2002
 </td>
 <td style="text-align:left;">
-7,582.89
+7,577.2
 </td>
 <td style="text-align:left;">
-2,803.48
+2,802.56
 </td>
 <td style="text-align:left;">
-1,022.18
+1,017.12
 </td>
 <td style="text-align:left;">
 138.47
 </td>
 <td style="text-align:left;">
-1,576.58
+1,583.35
 </td>
 <td style="text-align:left;">
-846.17
+846.6
 </td>
 <td style="text-align:left;">
-296.7
+291.4
 </td>
 <td style="text-align:right;">
-900.79
+901.86
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-54
+77
 </td>
 <td style="text-align:right;">
 2003
 </td>
 <td style="text-align:left;">
-7,860.64
+7,855.5
 </td>
 <td style="text-align:left;">
-3,037.26
+3,036.34
 </td>
 <td style="text-align:left;">
-1,157.27
+1,151.43
 </td>
 <td style="text-align:left;">
-128.95
+128.96
 </td>
 <td style="text-align:left;">
-1,489.53
+1,495.69
 </td>
 <td style="text-align:left;">
-867.2
+867.64
 </td>
 <td style="text-align:left;">
-273.39
+268.44
 </td>
 <td style="text-align:right;">
-943.28
+944.38
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-55
+78
 </td>
 <td style="text-align:right;">
 2004
 </td>
 <td style="text-align:left;">
-8,008.5
+8,010.2
 </td>
 <td style="text-align:left;">
-3,211.12
+3,211.39
 </td>
 <td style="text-align:left;">
-963.48
+963
 </td>
 <td style="text-align:left;">
 140.02
 </td>
 <td style="text-align:left;">
-1,631.46
+1,637.54
 </td>
 <td style="text-align:left;">
-952.34
+952.68
 </td>
 <td style="text-align:left;">
-275.55
+270.54
 </td>
 <td style="text-align:right;">
-851.74
+852.76
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-56
+79
 </td>
 <td style="text-align:right;">
 2005
 </td>
 <td style="text-align:left;">
-7,609.16
+7,610.39
 </td>
 <td style="text-align:left;">
-3,247.18
+3,247.5
 </td>
 <td style="text-align:left;">
-854.34
+853.99
 </td>
 <td style="text-align:left;">
 160.41
 </td>
 <td style="text-align:left;">
-1,548.18
+1,553.48
 </td>
 <td style="text-align:left;">
-832.39
+832.96
 </td>
 <td style="text-align:left;">
-217.24
+213.3
 </td>
 <td style="text-align:right;">
-730.11
+730.95
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-57
+80
 </td>
 <td style="text-align:right;">
 2006
 </td>
 <td style="text-align:left;">
-7,539.67
+7,546.23
 </td>
 <td style="text-align:left;">
-3,098.07
+3,098.61
 </td>
 <td style="text-align:left;">
-888.87
+888.8
 </td>
 <td style="text-align:left;">
 147.48
 </td>
 <td style="text-align:left;">
-1,581.67
+1,609.26
 </td>
 <td style="text-align:left;">
-722.96
+723.91
 </td>
 <td style="text-align:left;">
-221.57
+217.29
 </td>
 <td style="text-align:right;">
-907.76
+908.79
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-58
+81
 </td>
 <td style="text-align:right;">
 2007
 </td>
 <td style="text-align:left;">
-7,173.43
+7,179.73
 </td>
 <td style="text-align:left;">
-3,095.49
+3,096.09
 </td>
 <td style="text-align:left;">
-757.34
+757.33
 </td>
 <td style="text-align:left;">
 170.47
 </td>
 <td style="text-align:left;">
-1,377.65
+1,378.79
 </td>
 <td style="text-align:left;">
-765.26
+765.41
 </td>
 <td style="text-align:left;">
-209.9
+208.06
 </td>
 <td style="text-align:right;">
-800.26
+801.31
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-59
+82
 </td>
 <td style="text-align:right;">
 2008
 </td>
 <td style="text-align:left;">
-6,712.99
+6,719.2
 </td>
 <td style="text-align:left;">
-2,849.74
+2,850.35
 </td>
 <td style="text-align:left;">
-698.05
+698.06
 </td>
 <td style="text-align:left;">
 177.98
 </td>
 <td style="text-align:left;">
-1,334.42
+1,335.29
 </td>
 <td style="text-align:left;">
-741.04
+741.02
 </td>
 <td style="text-align:left;">
-215.43
+213.52
 </td>
 <td style="text-align:right;">
-700.56
+701.50
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-60
+83
 </td>
 <td style="text-align:right;">
 2009
 </td>
 <td style="text-align:left;">
-6,885.98
+6,888.27
 </td>
 <td style="text-align:left;">
-2,702.71
+2,702.96
 </td>
 <td style="text-align:left;">
-821.72
+821.71
 </td>
 <td style="text-align:left;">
 152.68
 </td>
 <td style="text-align:left;">
-1,437.56
+1,438.39
 </td>
 <td style="text-align:left;">
-771.19
+771.44
 </td>
 <td style="text-align:left;">
-207.59
+205.69
 </td>
 <td style="text-align:right;">
-859.91
+860.95
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-61
+84
 </td>
 <td style="text-align:right;">
 2010
 </td>
 <td style="text-align:left;">
-6,879.35
+6,882.24
 </td>
 <td style="text-align:left;">
-2,771.42
+2,771.47
 </td>
 <td style="text-align:left;">
 863.92
@@ -1614,149 +1881,149 @@ Gulf of Mexico
 166.43
 </td>
 <td style="text-align:left;">
-1,515.16
+1,516.27
 </td>
 <td style="text-align:left;">
-825.17
+825.3
 </td>
 <td style="text-align:left;">
-209.8
+207.88
 </td>
 <td style="text-align:right;">
-616.16
+616.86
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-62
+85
 </td>
 <td style="text-align:right;">
 2011
 </td>
 <td style="text-align:left;">
-7,310.27
+7,313.31
 </td>
 <td style="text-align:left;">
-2,912.82
+2,913.12
 </td>
 <td style="text-align:left;">
-899.48
+899.51
 </td>
 <td style="text-align:left;">
-168.79
+168.78
 </td>
 <td style="text-align:left;">
-1,569.24
+1,570.42
 </td>
 <td style="text-align:left;">
-855.63
+855.83
 </td>
 <td style="text-align:left;">
-192.34
+190.6
 </td>
 <td style="text-align:right;">
-781.50
+782.44
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-63
+86
 </td>
 <td style="text-align:right;">
 2012
 </td>
 <td style="text-align:left;">
-7,153.22
+7,155.96
 </td>
 <td style="text-align:left;">
-2,831.29
+2,831.56
 </td>
 <td style="text-align:left;">
-829.95
+829.97
 </td>
 <td style="text-align:left;">
-182.03
+182.04
 </td>
 <td style="text-align:left;">
-1,718.81
+1,720.25
 </td>
 <td style="text-align:left;">
-765.23
+765.51
 </td>
 <td style="text-align:left;">
-178.49
+176.87
 </td>
 <td style="text-align:right;">
-801.28
+802.10
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-64
+87
 </td>
 <td style="text-align:right;">
 2013
 </td>
 <td style="text-align:left;">
-7,067.88
+7,070.72
 </td>
 <td style="text-align:left;">
-2,998.89
+2,999.37
 </td>
 <td style="text-align:left;">
-1,013.3
+1,013.22
 </td>
 <td style="text-align:left;">
 192.13
 </td>
 <td style="text-align:left;">
-1,523.36
+1,524.38
 </td>
 <td style="text-align:left;">
-586.26
+586.55
 </td>
 <td style="text-align:left;">
-155.58
+155.4
 </td>
 <td style="text-align:right;">
-728.14
+728.83
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-65
+88
 </td>
 <td style="text-align:right;">
 2014
 </td>
 <td style="text-align:left;">
-6,930.34
+6,930.8
 </td>
 <td style="text-align:left;">
-2,944.72
+2,945.11
 </td>
 <td style="text-align:left;">
-872.83
+872.86
 </td>
 <td style="text-align:left;">
 198.09
 </td>
 <td style="text-align:left;">
-1,446.35
+1,446.72
 </td>
 <td style="text-align:left;">
-583.51
+583.56
 </td>
 <td style="text-align:left;">
-175.17
+174.97
 </td>
 <td style="text-align:right;">
-737.21
+737.94
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-66
+89
 </td>
 <td style="text-align:right;">
 2015
@@ -1788,98 +2055,98 @@ Gulf of Mexico
 </tr>
 <tr>
 <td style="text-align:left;">
-67
+90
 </td>
 <td style="text-align:right;">
 2016
 </td>
 <td style="text-align:left;">
-6,935.66
+6,935.02
 </td>
 <td style="text-align:left;">
-2,898.55
+2,898.53
 </td>
 <td style="text-align:left;">
-741.13
+740.66
 </td>
 <td style="text-align:left;">
-211.8
+211.79
 </td>
 <td style="text-align:left;">
-1,483.34
+1,481.67
 </td>
 <td style="text-align:left;">
-646.39
+646.36
 </td>
 <td style="text-align:left;">
-187.4
+187.27
 </td>
 <td style="text-align:right;">
-837.22
+837.31
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-68
+91
 </td>
 <td style="text-align:right;">
 2017
 </td>
 <td style="text-align:left;">
-7,188.51
+7,188.36
 </td>
 <td style="text-align:left;">
-3,146.48
+3,147.49
 </td>
 <td style="text-align:left;">
-743.87
+743.27
 </td>
 <td style="text-align:left;">
-221.27
+221.26
 </td>
 <td style="text-align:left;">
-1,533.05
+1,531.25
 </td>
 <td style="text-align:left;">
-613.04
+612.91
 </td>
 <td style="text-align:left;">
-180.98
+180.86
 </td>
 <td style="text-align:right;">
-808.79
+807.50
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-69
+92
 </td>
 <td style="text-align:right;">
 2018
 </td>
 <td style="text-align:left;">
-6,667.61
+6,667.59
 </td>
 <td style="text-align:left;">
-2,686.15
+2,686.96
 </td>
 <td style="text-align:left;">
-722.23
+721.82
 </td>
 <td style="text-align:left;">
 210.33
 </td>
 <td style="text-align:left;">
-1,631.74
+1,629.73
 </td>
 <td style="text-align:left;">
-588.02
+587.89
 </td>
 <td style="text-align:left;">
-146.43
+146.33
 </td>
 <td style="text-align:right;">
-805.92
+805.27
 </td>
 </tr>
 </tbody>
@@ -1888,7 +2155,7 @@ Gulf of Mexico
 <div id="table-7--national-nominal-landing-values-million-törnqvist-price-index-2015-1-and-real-landing-törnqvist-values-2015-million-1996-2018" class="section level3">
 <h3 class="hasAnchor">
 <a href="#table-7--national-nominal-landing-values-million-t%C3%B6rnqvist-price-index-2015-1-and-real-landing-t%C3%B6rnqvist-values-2015-million-1996-2018" class="anchor"></a><strong><em>Table 7.</em></strong> National Nominal Landing Values ($ Million), Törnqvist Price Index, (2015 = 1), and Real Landing Törnqvist Values (2015 $ Million), 1996-2018</h3>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">index_list</span>, <span class="st">"["</span>, , <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Year"</span>, <span class="st">"cat"</span>, <span class="st">"PI_CB"</span>, <span class="st">"Q_CB"</span>, <span class="st">"v"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">a</span><span class="op">&lt;-</span><span class="va">result</span><span class="op">$</span><span class="va">National</span>
@@ -2012,22 +2279,22 @@ Total_Q
 1999
 </td>
 <td style="text-align:left;">
-1,478
+2,955
 </td>
 <td style="text-align:right;">
 0.61
 </td>
 <td style="text-align:left;">
-2,429
+4,857
 </td>
 <td style="text-align:left;">
-3,334
+1,813
 </td>
 <td style="text-align:right;">
 0.61
 </td>
 <td style="text-align:left;">
-5,486
+2,956
 </td>
 <td style="text-align:left;">
 4,812
@@ -2036,7 +2303,7 @@ Total_Q
 0.61
 </td>
 <td style="text-align:left;">
-7,926
+7,920
 </td>
 </tr>
 <tr>
@@ -2044,22 +2311,22 @@ Total_Q
 2000
 </td>
 <td style="text-align:left;">
-1,502
+3,004
 </td>
 <td style="text-align:right;">
 0.64
 </td>
 <td style="text-align:left;">
-2,349
+4,697
 </td>
 <td style="text-align:left;">
-3,420
+1,876
 </td>
 <td style="text-align:right;">
-0.65
+0.66
 </td>
 <td style="text-align:left;">
-5,293
+2,848
 </td>
 <td style="text-align:left;">
 4,922
@@ -2068,7 +2335,7 @@ Total_Q
 0.64
 </td>
 <td style="text-align:left;">
-7,652
+7,646
 </td>
 </tr>
 <tr>
@@ -2076,22 +2343,22 @@ Total_Q
 2001
 </td>
 <td style="text-align:left;">
-1,378
+2,755
 </td>
 <td style="text-align:right;">
 0.59
 </td>
 <td style="text-align:left;">
-2,346
+4,692
 </td>
 <td style="text-align:left;">
-3,020
+1,607
 </td>
 <td style="text-align:right;">
-0.59
+0.61
 </td>
 <td style="text-align:left;">
-5,081
+2,648
 </td>
 <td style="text-align:left;">
 4,398
@@ -2100,7 +2367,7 @@ Total_Q
 0.59
 </td>
 <td style="text-align:left;">
-7,437
+7,432
 </td>
 </tr>
 <tr>
@@ -2108,22 +2375,22 @@ Total_Q
 2002
 </td>
 <td style="text-align:left;">
-1,247
+2,494
 </td>
 <td style="text-align:right;">
 0.54
 </td>
 <td style="text-align:left;">
-2,324
+4,648
 </td>
 <td style="text-align:left;">
-2,894
+1,616
 </td>
 <td style="text-align:right;">
-0.55
+0.57
 </td>
 <td style="text-align:left;">
-5,247
+2,835
 </td>
 <td style="text-align:left;">
 4,141
@@ -2132,7 +2399,7 @@ Total_Q
 0.55
 </td>
 <td style="text-align:left;">
-7,583
+7,577
 </td>
 </tr>
 <tr>
@@ -2140,22 +2407,22 @@ Total_Q
 2003
 </td>
 <td style="text-align:left;">
-1,399
+2,798
 </td>
 <td style="text-align:right;">
 0.58
 </td>
 <td style="text-align:left;">
-2,421
+4,843
 </td>
 <td style="text-align:left;">
-3,128
+1,702
 </td>
 <td style="text-align:right;">
 0.58
 </td>
 <td style="text-align:left;">
-5,428
+2,927
 </td>
 <td style="text-align:left;">
 4,527
@@ -2164,7 +2431,7 @@ Total_Q
 0.58
 </td>
 <td style="text-align:left;">
-7,861
+7,855
 </td>
 </tr>
 <tr>
@@ -2172,22 +2439,22 @@ Total_Q
 2004
 </td>
 <td style="text-align:left;">
-1,631
+3,262
 </td>
 <td style="text-align:right;">
 0.66
 </td>
 <td style="text-align:left;">
-2,466
+4,931
 </td>
 <td style="text-align:left;">
-3,436
+1,773
 </td>
 <td style="text-align:right;">
-0.62
+0.59
 </td>
 <td style="text-align:left;">
-5,531
+2,980
 </td>
 <td style="text-align:left;">
 5,067
@@ -2196,7 +2463,7 @@ Total_Q
 0.63
 </td>
 <td style="text-align:left;">
-8,009
+8,010
 </td>
 </tr>
 <tr>
@@ -2204,22 +2471,22 @@ Total_Q
 2005
 </td>
 <td style="text-align:left;">
-1,739
+3,477
 </td>
 <td style="text-align:right;">
 0.73
 </td>
 <td style="text-align:left;">
-2,381
+4,763
 </td>
 <td style="text-align:left;">
-3,675
+1,912
 </td>
 <td style="text-align:right;">
-0.70
+0.69
 </td>
 <td style="text-align:left;">
-5,215
+2,754
 </td>
 <td style="text-align:left;">
 5,414
@@ -2228,7 +2495,7 @@ Total_Q
 0.71
 </td>
 <td style="text-align:left;">
-7,609
+7,610
 </td>
 </tr>
 <tr>
@@ -2236,22 +2503,22 @@ Total_Q
 2006
 </td>
 <td style="text-align:left;">
-1,958
+3,915
 </td>
 <td style="text-align:right;">
 0.89
 </td>
 <td style="text-align:left;">
-2,209
+4,418
 </td>
 <td style="text-align:left;">
-3,898
+1,919
 </td>
 <td style="text-align:right;">
-0.73
+0.62
 </td>
 <td style="text-align:left;">
-5,336
+3,117
 </td>
 <td style="text-align:left;">
 5,855
@@ -2260,7 +2527,7 @@ Total_Q
 0.78
 </td>
 <td style="text-align:left;">
-7,540
+7,546
 </td>
 </tr>
 <tr>
@@ -2268,22 +2535,22 @@ Total_Q
 2007
 </td>
 <td style="text-align:left;">
-1,917
+3,834
 </td>
 <td style="text-align:right;">
 0.87
 </td>
 <td style="text-align:left;">
-2,194
+4,388
 </td>
 <td style="text-align:left;">
-3,854
+1,915
 </td>
 <td style="text-align:right;">
-0.78
+0.71
 </td>
 <td style="text-align:left;">
-4,969
+2,712
 </td>
 <td style="text-align:left;">
 5,771
@@ -2292,7 +2559,7 @@ Total_Q
 0.80
 </td>
 <td style="text-align:left;">
-7,173
+7,180
 </td>
 </tr>
 <tr>
@@ -2300,22 +2567,22 @@ Total_Q
 2008
 </td>
 <td style="text-align:left;">
-2,109
+4,218
 </td>
 <td style="text-align:right;">
 1.05
 </td>
 <td style="text-align:left;">
-2,014
+4,027
 </td>
 <td style="text-align:left;">
-4,063
+1,932
 </td>
 <td style="text-align:right;">
-0.87
+0.73
 </td>
 <td style="text-align:left;">
-4,696
+2,645
 </td>
 <td style="text-align:left;">
 6,172
@@ -2324,7 +2591,7 @@ Total_Q
 0.92
 </td>
 <td style="text-align:left;">
-6,713
+6,719
 </td>
 </tr>
 <tr>
@@ -2332,22 +2599,22 @@ Total_Q
 2009
 </td>
 <td style="text-align:left;">
-1,699
+3,397
 </td>
 <td style="text-align:right;">
 0.86
 </td>
 <td style="text-align:left;">
-1,982
+3,964
 </td>
 <td style="text-align:left;">
-3,574
+1,850
 </td>
 <td style="text-align:right;">
-0.73
+0.63
 </td>
 <td style="text-align:left;">
-4,917
+2,938
 </td>
 <td style="text-align:left;">
 5,273
@@ -2356,7 +2623,7 @@ Total_Q
 0.77
 </td>
 <td style="text-align:left;">
-6,886
+6,888
 </td>
 </tr>
 <tr>
@@ -2364,22 +2631,22 @@ Total_Q
 2010
 </td>
 <td style="text-align:left;">
-2,058
+4,116
 </td>
 <td style="text-align:right;">
 1.03
 </td>
 <td style="text-align:left;">
-2,007
+4,014
 </td>
 <td style="text-align:left;">
-4,199
+2,110
 </td>
 <td style="text-align:right;">
-0.86
+0.74
 </td>
 <td style="text-align:left;">
-4,880
+2,855
 </td>
 <td style="text-align:left;">
 6,257
@@ -2388,7 +2655,7 @@ Total_Q
 0.91
 </td>
 <td style="text-align:left;">
-6,879
+6,882
 </td>
 </tr>
 <tr>
@@ -2396,22 +2663,22 @@ Total_Q
 2011
 </td>
 <td style="text-align:left;">
-2,497
+4,994
 </td>
 <td style="text-align:right;">
 1.17
 </td>
 <td style="text-align:left;">
-2,135
+4,270
 </td>
 <td style="text-align:left;">
-5,079
+2,543
 </td>
 <td style="text-align:right;">
-0.98
+0.84
 </td>
 <td style="text-align:left;">
-5,183
+3,030
 </td>
 <td style="text-align:left;">
 7,576
@@ -2420,7 +2687,7 @@ Total_Q
 1.04
 </td>
 <td style="text-align:left;">
-7,310
+7,313
 </td>
 </tr>
 <tr>
@@ -2428,22 +2695,22 @@ Total_Q
 2012
 </td>
 <td style="text-align:left;">
-2,456
+4,911
 </td>
 <td style="text-align:right;">
 1.20
 </td>
 <td style="text-align:left;">
-2,040
+4,079
 </td>
 <td style="text-align:left;">
-5,052
+2,554
 </td>
 <td style="text-align:right;">
-0.98
+0.82
 </td>
 <td style="text-align:left;">
-5,131
+3,104
 </td>
 <td style="text-align:left;">
 7,508
@@ -2452,7 +2719,7 @@ Total_Q
 1.05
 </td>
 <td style="text-align:left;">
-7,153
+7,156
 </td>
 </tr>
 <tr>
@@ -2460,22 +2727,22 @@ Total_Q
 2013
 </td>
 <td style="text-align:left;">
-2,524
+5,047
 </td>
 <td style="text-align:right;">
 1.21
 </td>
 <td style="text-align:left;">
-2,078
+4,157
 </td>
 <td style="text-align:left;">
-5,212
+2,646
 </td>
 <td style="text-align:right;">
-1.04
+0.92
 </td>
 <td style="text-align:left;">
-4,995
+2,885
 </td>
 <td style="text-align:left;">
 7,735
@@ -2484,7 +2751,7 @@ Total_Q
 1.09
 </td>
 <td style="text-align:left;">
-7,068
+7,071
 </td>
 </tr>
 <tr>
@@ -2492,22 +2759,22 @@ Total_Q
 2014
 </td>
 <td style="text-align:left;">
-2,283
+4,565
 </td>
 <td style="text-align:right;">
 1.10
 </td>
 <td style="text-align:left;">
-2,080
+4,159
 </td>
 <td style="text-align:left;">
-5,153
+2,832
 </td>
 <td style="text-align:right;">
-1.06
+1.04
 </td>
 <td style="text-align:left;">
-4,852
+2,733
 </td>
 <td style="text-align:left;">
 7,436
@@ -2516,7 +2783,7 @@ Total_Q
 1.07
 </td>
 <td style="text-align:left;">
-6,930
+6,931
 </td>
 </tr>
 <tr>
@@ -2524,22 +2791,22 @@ Total_Q
 2015
 </td>
 <td style="text-align:left;">
-2,177
+4,354
 </td>
 <td style="text-align:right;">
 1.00
 </td>
 <td style="text-align:left;">
-2,177
+4,354
 </td>
 <td style="text-align:left;">
-4,792
+2,581
 </td>
 <td style="text-align:right;">
 1.00
 </td>
 <td style="text-align:left;">
-4,792
+2,581
 </td>
 <td style="text-align:left;">
 6,969
@@ -2556,22 +2823,22 @@ Total_Q
 2016
 </td>
 <td style="text-align:left;">
-2,262
+4,525
 </td>
 <td style="text-align:right;">
 1.10
 </td>
 <td style="text-align:left;">
-2,062
+4,124
 </td>
 <td style="text-align:left;">
-5,119
+2,819
 </td>
 <td style="text-align:right;">
-1.05
+1.01
 </td>
 <td style="text-align:left;">
-4,876
+2,785
 </td>
 <td style="text-align:left;">
 7,382
@@ -2580,7 +2847,7 @@ Total_Q
 1.06
 </td>
 <td style="text-align:left;">
-6,936
+6,935
 </td>
 </tr>
 <tr>
@@ -2588,22 +2855,22 @@ Total_Q
 2017
 </td>
 <td style="text-align:left;">
-2,334
+4,668
 </td>
 <td style="text-align:right;">
 1.05
 </td>
 <td style="text-align:left;">
-2,220
+4,439
 </td>
 <td style="text-align:left;">
-5,047
+2,676
 </td>
 <td style="text-align:right;">
-1.02
+0.99
 </td>
 <td style="text-align:left;">
-4,968
+2,715
 </td>
 <td style="text-align:left;">
 7,381
@@ -2612,7 +2879,7 @@ Total_Q
 1.03
 </td>
 <td style="text-align:left;">
-7,189
+7,188
 </td>
 </tr>
 <tr>
@@ -2620,22 +2887,22 @@ Total_Q
 2018
 </td>
 <td style="text-align:left;">
-2,390
+4,779
 </td>
 <td style="text-align:right;">
 1.23
 </td>
 <td style="text-align:left;">
-1,944
+3,887
 </td>
 <td style="text-align:left;">
-5,181
+2,751
 </td>
 <td style="text-align:right;">
-1.09
+0.99
 </td>
 <td style="text-align:left;">
-4,732
+2,779
 </td>
 <td style="text-align:left;">
 7,570
@@ -2653,24 +2920,24 @@ Total_Q
 </div>
 <div id="figures" class="section level2">
 <h2 class="hasAnchor">
-<a href="#figures" class="anchor"></a>6. Figures</h2>
+<a href="#figures" class="anchor"></a>7. Figures</h2>
 <p>Here are a few figures that come out of this analysis!</p>
 <p>Some come already in convient grids…</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">gridfigures_list</span><span class="op">$</span><span class="va">`000_All_byr2015_categoryPI_Total`</span></code></pre></div>
-<p><img src="FEUS-tables_files/figure-html/unnamed-chunk-9-1.png" width="768"></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gridfigures_list</span><span class="op">$</span><span class="va">`000_All_byr2015_categoryPI_Total`</span></code></pre></div>
+<p><img src="FEUS-tables_files/figure-html/unnamed-chunk-10-1.png" width="768"></p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">gridfigures_list</span><span class="op">$</span><span class="va">`000_All_byr2015_categoryQ_CB_Q`</span></code></pre></div>
-<p><img src="FEUS-tables_files/figure-html/unnamed-chunk-9-2.png" width="768"></p>
+<p><img src="FEUS-tables_files/figure-html/unnamed-chunk-10-2.png" width="768"></p>
 <p>And in single plots!</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">figures_list</span><span class="op">$</span><span class="va">National__PI_Finfish</span></code></pre></div>
-<p><img src="FEUS-tables_files/figure-html/unnamed-chunk-10-1.png" width="768"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">figures_list</span><span class="op">$</span><span class="va">National__PI_Finfish</span></code></pre></div>
+<p><img src="FEUS-tables_files/figure-html/unnamed-chunk-11-1.png" width="768"></p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">figures_list</span><span class="op">$</span><span class="va">National__Q_CB_CatTot_QCatTot</span></code></pre></div>
-<p><img src="FEUS-tables_files/figure-html/unnamed-chunk-10-2.png" width="768"></p>
+<p><img src="FEUS-tables_files/figure-html/unnamed-chunk-11-2.png" width="768"></p>
 </div>
 </div>
   </div>

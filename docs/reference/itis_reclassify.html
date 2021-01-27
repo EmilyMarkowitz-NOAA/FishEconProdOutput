@@ -163,7 +163,7 @@
     <p>Reclassify ITIS species based off a list of higher taxonomic groupings</p>
     </div>
 
-    <pre class="usage"><span class='fu'>itis_reclassify</span><span class='op'>(</span><span class='va'>tsn</span>, <span class='va'>categories</span>, <span class='va'>missing_name</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>itis_reclassify</span><span class='op'>(</span><span class='va'>tsn</span>, <span class='va'>categories</span>, uncategorized_name <span class='op'>=</span> <span class='st'>"Uncategorized"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -174,10 +174,10 @@
     </tr>
     <tr>
       <th>categories</th>
-      <td><p>A list of the categories and associated TSN values.</p></td>
+      <td><p>A list of the categories and associated TSN values. within a list of a category, a minus (-) in front of a number is short hand to remove organisms within that tsn's taxonomy from being listed in a category. See the example for an instance where that makes sense.</p></td>
     </tr>
     <tr>
-      <th>missing_name</th>
+      <th>uncategorized_name</th>
       <td><p>A string of what to call the missing value.</p></td>
     </tr>
     </table>
@@ -187,44 +187,38 @@
     <p>df_out, tsn_indata</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>itis_reclassify</span><span class='op'>(</span>tsn <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>83677</span>, <span class='fl'>172746</span><span class='op'>)</span>,
-                categories <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"Finfish"</span> <span class='op'>=</span> <span class='fl'>914179</span>, <span class='co'># Infraphylum  Gnathostomata</span>
+    <pre class="examples"><div class='input'><span class='fu'>itis_reclassify</span><span class='op'>(</span>tsn <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>83677</span>, <span class='co'># subphylum Crustacea; shellfish</span>
+                        <span class='fl'>172746</span>, <span class='co'># Scophthalmus aquosus; finfish</span>
+                        <span class='fl'>173747</span>, <span class='co'># class Reptilia; uncategorized as part of tetrapoda</span>
+                        <span class='fl'>98678</span><span class='op'>)</span>, <span class='co'># Cancer borealis; shellfish</span>
+                categories <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>'Finfish'</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>914179</span>, <span class='co'>#  Infraphylum  Gnathostomata</span>
+                                               <span class='op'>-</span><span class='fl'>914181</span><span class='op'>)</span>, <span class='co'># Tetrapoda; - = do NOT include</span>
                                   <span class='st'>"Shellfish"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>82696</span>, <span class='co'># Phylum  Arthropoda</span>
                                                   <span class='fl'>69458</span><span class='op'>)</span><span class='op'>)</span>, <span class='co'># Phylum  Mollusca</span>
-                missing_name <span class='op'>=</span> <span class='st'>"uncategorized"</span><span class='op'>)</span>
+                uncategorized_name <span class='op'>=</span> <span class='st'>"uncategorized"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $df_out
-#&gt;      TSN  category valid      rank              sciname
-#&gt; 1 172746   Finfish valid   species Scophthalmus aquosus
-#&gt; 2  83677 Shellfish valid subphylum            Crustacea
-#&gt; 3 172746 Shellfish valid   species Scophthalmus aquosus
+#&gt;      TSN      category valid      rank              sciname
+#&gt; 1 172746       Finfish valid   species Scophthalmus aquosus
+#&gt; 2  83677     Shellfish valid subphylum            Crustacea
+#&gt; 3  98678     Shellfish valid   species      Cancer borealis
+#&gt; 4 173747 uncategorized valid     class             Reptilia
 #&gt; 
 #&gt; $tsn_indata
-#&gt; $tsn_indata$`83677`
-#&gt;          name         rank     id
-#&gt; 1    Animalia      kingdom 202423
-#&gt; 2   Bilateria   subkingdom 914154
-#&gt; 3 Protostomia infrakingdom 914155
-#&gt; 4   Ecdysozoa  superphylum 914158
-#&gt; 5  Arthropoda       phylum  82696
-#&gt; 6   Crustacea    subphylum  83677
+#&gt; $`173747`
+#&gt;            name         rank     id
+#&gt; 1      Animalia      kingdom 202423
+#&gt; 2     Bilateria   subkingdom 914154
+#&gt; 3 Deuterostomia infrakingdom 914156
+#&gt; 4      Chordata       phylum 158852
+#&gt; 5    Vertebrata    subphylum 331030
+#&gt; 6 Gnathostomata  infraphylum 914179
+#&gt; 7     Tetrapoda   superclass 914181
+#&gt; 8      Reptilia        class 173747
 #&gt; 
-#&gt; $tsn_indata$`172746`
-#&gt;                    name         rank     id
-#&gt; 1              Animalia      kingdom 202423
-#&gt; 2             Bilateria   subkingdom 914154
-#&gt; 3         Deuterostomia infrakingdom 914156
-#&gt; 4              Chordata       phylum 158852
-#&gt; 5            Vertebrata    subphylum 331030
-#&gt; 6         Gnathostomata  infraphylum 914179
-#&gt; 7        Actinopterygii   superclass 161061
-#&gt; 8             Teleostei        class 161105
-#&gt; 9       Acanthopterygii   superorder 166082
-#&gt; 10    Pleuronectiformes        order 172702
-#&gt; 11      Pleuronectoidei     suborder 172707
-#&gt; 12       Scophthalmidae       family 172713
-#&gt; 13         Scophthalmus        genus 172745
-#&gt; 14 Scophthalmus aquosus      species 172746
-#&gt; 
+#&gt; attr(,"class")
+#&gt; [1] "classification"
+#&gt; attr(,"db")
+#&gt; [1] "itis"
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

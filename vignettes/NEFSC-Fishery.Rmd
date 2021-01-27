@@ -125,6 +125,7 @@ knitr::kable(head(landings_data), booktabs = T) %>%
   kable_styling(latex_options = "striped")
 ```
 
+
 ### Northeast Fisheries Codes
 
 ```{r, results='asis', echo=FALSE}
@@ -189,7 +190,7 @@ knitr::kable((ne_spp), booktabs = T) %>%
   kable_styling(latex_options = "striped")
 ```
 
-#### Find TSN numbers and categorize
+## 4. Use `itis_reclassify()` to categorize all of the species
 
 Find TSN values for species of interest with itis.gov
 
@@ -244,7 +245,7 @@ spcat.list<-list('Bluefish' = 168559, # Species	Pomatomus saltatrix (Linnaeus, 1
 )
 ```
 
-#### Use `itis_reclassify()` to categorize all of the species. This can take a minute!
+Match/merge the codes in your above list to the species listed in the fisheries list
 
 ```{r}
 
@@ -267,17 +268,22 @@ for (i in 1:length(unique(ne_spp$plan))) {
   names(categories)[i]<-unique(ne_spp$plan)[i]
 }
 
+```
+
+`itis_reclassify()` can take a minute!
+
+```{r}
+
 # Use the itis_reclassify function to sort each species listed in the FOSS data into each classification group
 
 temp<-itis_reclassify(tsn = unique(landings_data$Tsn), 
                          categories = categories, 
-                         missing_name="Uncategorized")
+                         uncategorized_name="Uncategorized")
 
 
-tsn_id<-temp[1][[1]]
+tsn_id<-temp$df_out
 
-# Remove anything that wasn't classified
-
+# Remove anything that wasn't classified (we don't them for what we are doing here)
 if (sum(tsn_id$category %in% c("Other", "Uncategorized"))>0) {
   tsn_id<-tsn_id[!(tsn_id$category %in% c("Other", "Uncategorized")), 
                  c("TSN", "category")]
@@ -318,7 +324,7 @@ knitr::kable(head(landings_data), booktabs = T) %>%
 
 ```
 
-## 4. Run Analysis
+## 5. Run Analysis
 
 ```{r}
 
@@ -339,7 +345,7 @@ for (jjj in 1:length(out)) {
 }
 ```
 
-## 5. Create Tables 
+## 6. Create Tables 
 
 ```{r, results='asis'}
 result <- lapply(index_list, "[", , c("Year", "cat", "PI_CB", "Q_CB", "v"))
@@ -432,7 +438,7 @@ knitr::kable(ProdOutputUS_Print, booktabs = T) %>%
   kable_styling(latex_options = "striped")
 ```
 
-## 6. Figures
+## 7. Figures
 
 Here are a few figures that come out of this analysis!
 

@@ -95,7 +95,7 @@ baseyr<-as.numeric(paste0(floor(maxyr/10),
 
 ```
 
-## 2. Set your Directories where you will save everything 
+## 2. Set your directories where you will save everything 
 
 ```{r}
   
@@ -119,16 +119,56 @@ if (TF) {
 }
 ```
 
-## 2. Load example data
+## 3. Load example data
 
 ```{r, results='asis'}
 counter<-0
 landings_data<-FishEconProdOutput::land
+landings_data$category<-NULL # for this example, let's pretend that this column doesn't already exist
 knitr::kable(head(landings_data), booktabs = T) %>%
   kable_styling(latex_options = "striped")
 ```
 
-## 4. Run Analysis
+## 4. Use `itis_reclassify()` to categorize all of the species
+
+This can take a minute!
+
+```{r, results='asis'}
+temp <- itis_reclassify(tsn = unique(landings_data$Tsn), 
+                 categories = list('Finfish' = c(914179, #  Infraphylum	Gnathostomata
+                                                -914181), # Tetrapoda; - = do NOT include
+                                   "Shellfish" = c(82696, # Phylum	Arthropoda
+                                                   69458)), # Phylum	Mollusca
+                 uncategorized_name = "uncategorized")
+
+tsn_id<-temp$df_out
+
+# Remove anything that wasn't classified (we don't them for what we are doing here)
+if (sum(tsn_id$category %in% c("Other", "Uncategorized"))>0) {
+  tsn_id<-tsn_id[!(tsn_id$category %in% c("Other", "Uncategorized")), 
+                 c("TSN", "category")]
+}
+
+# renaming columns for joining other datasets to this dataset
+landings_data<-dplyr::rename(landings_data, 
+                 TSN = Tsn)
+
+tsn_id$TSN<-as.numeric(tsn_id$TSN)
+
+# Join the FOSS landings data to their respctive categories
+landings_data<-dplyr::left_join(x = landings_data, 
+                    y = tsn_id, 
+                    by = "TSN")
+
+# Rename columns so they match what the funciton uses
+landings_data<-dplyr::rename(landings_data, 
+                 Tsn = TSN)
+
+knitr::kable(head(landings_data), booktabs = T) %>%
+  kable_styling(latex_options = "striped")
+```
+
+## 5. Run Analysis
 
 ```{r}
 out <- OutputAnalysis(landings_data = landings_data, 
@@ -148,7 +188,7 @@ for (jjj in 1:length(out)) {
 }
 ```
 
-## 5. Create FEUS Tables 
+## 6. Create FEUS Tables 
 
 ### ***Table 5.*** Regional Törnqvist Price Index, `r minyr.data`-`r maxyr` (`r baseyr` = 1) 
 
@@ -319,7 +359,7 @@ knitr::kable(ProdOutputUS_Print, booktabs = T) %>%
 
 ```
 
-## 6. Figures
+## 7. Figures
 
 Here are a few figures that come out of this analysis!
 

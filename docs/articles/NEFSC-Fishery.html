@@ -116,7 +116,7 @@
       <h1 data-toc-skip>NEFSC-Fishery</h1>
                         <h4 class="author">Emily Markowitz (Emily.Markowitz AT NOAA.gov / EmilyMarkowitz-NOAA)</h4>
             
-            <h4 class="date">January 12 2021</h4>
+            <h4 class="date">January 27 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput/blob/master/vignettes/NEFSC-Fishery.Rmd"><code>vignettes/NEFSC-Fishery.Rmd</code></a></small>
       <div class="hidden name"><code>NEFSC-Fishery.Rmd</code></div>
@@ -889,9 +889,11 @@ Golden Tilefish
 </tr>
 </tbody>
 </table>
-<div id="find-tsn-numbers-and-categorize" class="section level4">
-<h4 class="hasAnchor">
-<a href="#find-tsn-numbers-and-categorize" class="anchor"></a>Find TSN numbers and categorize</h4>
+</div>
+</div>
+<div id="use-itis_reclassify-to-categorize-all-of-the-species" class="section level2">
+<h2 class="hasAnchor">
+<a href="#use-itis_reclassify-to-categorize-all-of-the-species" class="anchor"></a>4. Use <code>itis_reclassify()</code> to categorize all of the species</h2>
 <p>Find TSN values for species of interest with itis.gov</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -942,10 +944,7 @@ Golden Tilefish
                  <span class="st">'Sea scallop'</span> <span class="op">=</span> <span class="fl">79718</span>, <span class="co">#Species    Placopecten magellanicus (Gmelin, 1791) – sea scallop</span>
                  <span class="st">'Atlantic halibut'</span> <span class="op">=</span> <span class="fl">172933</span> <span class="co"># Species  Hippoglossus hippoglossus (Linnaeus, 1758) – Atlantic halibut, flétan atlantique, Atlantic Halibut</span>
 <span class="op">)</span></code></pre></div>
-</div>
-<div id="use-itis_reclassify-to-categorize-all-of-the-species--this-can-take-a-minute" class="section level4">
-<h4 class="hasAnchor">
-<a href="#use-itis_reclassify-to-categorize-all-of-the-species--this-can-take-a-minute" class="anchor"></a>Use <code>itis_reclassify()</code> to categorize all of the species. This can take a minute!</h4>
+<p>Match/merge the codes in your above list to the species listed in the fisheries list</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="co"># a bit hacky, but I am linking all of the TSN numbers to their respective species here in the northeast fisheries list</span>
@@ -965,19 +964,20 @@ Golden Tilefish
 <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">ne_spp</span><span class="op">$</span><span class="va">plan</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
   <span class="va">categories</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">ne_spp</span><span class="op">$</span><span class="va">TSN</span><span class="op">[</span><span class="va">ne_spp</span><span class="op">$</span><span class="va">plan</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">ne_spp</span><span class="op">$</span><span class="va">plan</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
   <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">categories</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">ne_spp</span><span class="op">$</span><span class="va">plan</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>
-<span class="op">}</span>
-
+<span class="op">}</span></code></pre></div>
+<p><code><a href="../reference/itis_reclassify.html">itis_reclassify()</a></code> can take a minute!</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
 <span class="co"># Use the itis_reclassify function to sort each species listed in the FOSS data into each classification group</span>
 
 <span class="va">temp</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/itis_reclassify.html">itis_reclassify</a></span><span class="op">(</span>tsn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">landings_data</span><span class="op">$</span><span class="va">Tsn</span><span class="op">)</span>, 
                          categories <span class="op">=</span> <span class="va">categories</span>, 
-                         missing_name<span class="op">=</span><span class="st">"Uncategorized"</span><span class="op">)</span>
+                         uncategorized_name<span class="op">=</span><span class="st">"Uncategorized"</span><span class="op">)</span>
 
 
-<span class="va">tsn_id</span><span class="op">&lt;-</span><span class="va">temp</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+<span class="va">tsn_id</span><span class="op">&lt;-</span><span class="va">temp</span><span class="op">$</span><span class="va">df_out</span>
 
-<span class="co"># Remove anything that wasn't classified</span>
-
+<span class="co"># Remove anything that wasn't classified (we don't them for what we are doing here)</span>
 <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">tsn_id</span><span class="op">$</span><span class="va">category</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Other"</span>, <span class="st">"Uncategorized"</span><span class="op">)</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0</span><span class="op">)</span> <span class="op">{</span>
   <span class="va">tsn_id</span><span class="op">&lt;-</span><span class="va">tsn_id</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="va">tsn_id</span><span class="op">$</span><span class="va">category</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Other"</span>, <span class="st">"Uncategorized"</span><span class="op">)</span><span class="op">)</span>, 
                  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"TSN"</span>, <span class="st">"category"</span><span class="op">)</span><span class="op">]</span>
@@ -1047,7 +1047,7 @@ abbvreg
 <tbody>
 <tr>
 <td style="text-align:left;">
-7056
+932
 </td>
 <td style="text-align:right;">
 2018
@@ -1056,10 +1056,10 @@ abbvreg
 18898
 </td>
 <td style="text-align:right;">
-17008
+17008.0
 </td>
 <td style="text-align:left;">
-GFISH
+NA
 </td>
 <td style="text-align:right;">
 11272
@@ -1076,25 +1076,25 @@ NE
 </tr>
 <tr>
 <td style="text-align:left;">
-7057
+941
 </td>
 <td style="text-align:right;">
-2018
+2014
 </td>
 <td style="text-align:right;">
-18898
+10741108
 </td>
 <td style="text-align:right;">
-17008
+1289946.7
 </td>
 <td style="text-align:left;">
-SCOQ
+NA
 </td>
 <td style="text-align:right;">
-11272
+11329
 </td>
 <td style="text-align:left;">
-Rhode Island
+Maine
 </td>
 <td style="text-align:left;">
 Northeast
@@ -1105,25 +1105,25 @@ NE
 </tr>
 <tr>
 <td style="text-align:left;">
-7058
+942
 </td>
 <td style="text-align:right;">
-2018
+2015
 </td>
 <td style="text-align:right;">
-18898
+6804703
 </td>
 <td style="text-align:right;">
-17008
+816495.7
 </td>
 <td style="text-align:left;">
-SF
+NA
 </td>
 <td style="text-align:right;">
-11272
+11329
 </td>
 <td style="text-align:left;">
-Rhode Island
+Maine
 </td>
 <td style="text-align:left;">
 Northeast
@@ -1134,54 +1134,25 @@ NE
 </tr>
 <tr>
 <td style="text-align:left;">
-7059
+943
 </td>
 <td style="text-align:right;">
-2018
+2016
 </td>
 <td style="text-align:right;">
-18898
+5549633
 </td>
 <td style="text-align:right;">
-17008
+610546.0
 </td>
 <td style="text-align:left;">
-SKATE
+NA
 </td>
 <td style="text-align:right;">
-11272
+11329
 </td>
 <td style="text-align:left;">
-Rhode Island
-</td>
-<td style="text-align:left;">
-Northeast
-</td>
-<td style="text-align:left;">
-NE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-7060
-</td>
-<td style="text-align:right;">
-2018
-</td>
-<td style="text-align:right;">
-18898
-</td>
-<td style="text-align:right;">
-17008
-</td>
-<td style="text-align:left;">
-SMB
-</td>
-<td style="text-align:right;">
-11272
-</td>
-<td style="text-align:left;">
-Rhode Island
+Maine
 </td>
 <td style="text-align:left;">
 Northeast
@@ -1192,25 +1163,54 @@ NE
 </tr>
 <tr>
 <td style="text-align:left;">
-7061
+944
+</td>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:right;">
+6166155
+</td>
+<td style="text-align:right;">
+701283.5
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+11329
+</td>
+<td style="text-align:left;">
+Maine
+</td>
+<td style="text-align:left;">
+Northeast
+</td>
+<td style="text-align:left;">
+NE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+945
 </td>
 <td style="text-align:right;">
 2018
 </td>
 <td style="text-align:right;">
-18898
+9228619
 </td>
 <td style="text-align:right;">
-17008
+600326.6
 </td>
 <td style="text-align:left;">
-SMESH
+NA
 </td>
 <td style="text-align:right;">
-11272
+11329
 </td>
 <td style="text-align:left;">
-Rhode Island
+Maine
 </td>
 <td style="text-align:left;">
 Northeast
@@ -1222,12 +1222,10 @@ NE
 </tbody>
 </table>
 </div>
-</div>
-</div>
 <div id="run-analysis" class="section level2">
 <h2 class="hasAnchor">
-<a href="#run-analysis" class="anchor"></a>4. Run Analysis</h2>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<a href="#run-analysis" class="anchor"></a>5. Run Analysis</h2>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/OutputAnalysis.html">OutputAnalysis</a></span><span class="op">(</span>landings_data <span class="op">=</span> <span class="va">landings_data</span>, 
                category0 <span class="op">=</span> <span class="st">"category"</span>, <span class="co"># the name of the column you are categorizing by</span>
@@ -1252,8 +1250,8 @@ NE
 </div>
 <div id="create-tables" class="section level2">
 <h2 class="hasAnchor">
-<a href="#create-tables" class="anchor"></a>5. Create Tables</h2>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<a href="#create-tables" class="anchor"></a>6. Create Tables</h2>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">index_list</span>, <span class="st">"["</span>, , <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Year"</span>, <span class="st">"cat"</span>, <span class="st">"PI_CB"</span>, <span class="st">"Q_CB"</span>, <span class="st">"v"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">a</span><span class="op">&lt;-</span><span class="va">result</span><span class="op">$</span><span class="va">Northeast</span>
 <span class="va">a</span><span class="op">&lt;-</span><span class="va">a</span><span class="op">[</span><span class="va">a</span><span class="op">$</span><span class="va">Year</span> <span class="op">%in%</span> <span class="va">minyr</span><span class="op">:</span><span class="va">maxyr</span>, <span class="op">]</span>
@@ -1363,13 +1361,13 @@ Total_Q
 2007
 </td>
 <td style="text-align:left;">
-11,372
+847
 </td>
 <td style="text-align:right;">
 1.00
 </td>
 <td style="text-align:left;">
-11,372
+847
 </td>
 </tr>
 <tr>
@@ -1377,13 +1375,13 @@ Total_Q
 2008
 </td>
 <td style="text-align:left;">
-10,839
+838
 </td>
 <td style="text-align:right;">
-0.99
+1.03
 </td>
 <td style="text-align:left;">
-10,976
+817
 </td>
 </tr>
 <tr>
@@ -1391,13 +1389,13 @@ Total_Q
 2009
 </td>
 <td style="text-align:left;">
-10,678
+810
 </td>
 <td style="text-align:right;">
-0.91
+0.95
 </td>
 <td style="text-align:left;">
-11,710
+851
 </td>
 </tr>
 <tr>
@@ -1405,13 +1403,13 @@ Total_Q
 2010
 </td>
 <td style="text-align:left;">
-12,639
+909
 </td>
 <td style="text-align:right;">
-1.03
+1.11
 </td>
 <td style="text-align:left;">
-12,318
+819
 </td>
 </tr>
 <tr>
@@ -1419,13 +1417,13 @@ Total_Q
 2011
 </td>
 <td style="text-align:left;">
-14,398
+1,097
 </td>
 <td style="text-align:right;">
-1.12
+1.28
 </td>
 <td style="text-align:left;">
-12,903
+854
 </td>
 </tr>
 <tr>
@@ -1433,13 +1431,13 @@ Total_Q
 2012
 </td>
 <td style="text-align:left;">
-14,946
+1,076
 </td>
 <td style="text-align:right;">
-1.16
+1.32
 </td>
 <td style="text-align:left;">
-12,833
+815
 </td>
 </tr>
 <tr>
@@ -1447,13 +1445,13 @@ Total_Q
 2013
 </td>
 <td style="text-align:left;">
-13,720
+911
 </td>
 <td style="text-align:right;">
-1.31
+1.40
 </td>
 <td style="text-align:left;">
-10,508
+651
 </td>
 </tr>
 <tr>
@@ -1461,13 +1459,13 @@ Total_Q
 2014
 </td>
 <td style="text-align:left;">
-14,128
+874
 </td>
 <td style="text-align:right;">
-1.36
+1.49
 </td>
 <td style="text-align:left;">
-10,366
+588
 </td>
 </tr>
 <tr>
@@ -1475,13 +1473,13 @@ Total_Q
 2015
 </td>
 <td style="text-align:left;">
-14,524
+872
 </td>
 <td style="text-align:right;">
-1.42
+1.49
 </td>
 <td style="text-align:left;">
-10,257
+583
 </td>
 </tr>
 <tr>
@@ -1489,13 +1487,13 @@ Total_Q
 2016
 </td>
 <td style="text-align:left;">
-15,294
+934
 </td>
 <td style="text-align:right;">
-1.43
+1.57
 </td>
 <td style="text-align:left;">
-10,718
+593
 </td>
 </tr>
 <tr>
@@ -1503,13 +1501,13 @@ Total_Q
 2017
 </td>
 <td style="text-align:left;">
-14,700
+936
 </td>
 <td style="text-align:right;">
-1.36
+1.39
 </td>
 <td style="text-align:left;">
-10,832
+673
 </td>
 </tr>
 <tr>
@@ -1517,13 +1515,13 @@ Total_Q
 2018
 </td>
 <td style="text-align:left;">
-15,014
+942
 </td>
 <td style="text-align:right;">
-1.34
+1.35
 </td>
 <td style="text-align:left;">
-11,189
+700
 </td>
 </tr>
 </tbody>
@@ -1531,15 +1529,15 @@ Total_Q
 </div>
 <div id="figures" class="section level2">
 <h2 class="hasAnchor">
-<a href="#figures" class="anchor"></a>6. Figures</h2>
+<a href="#figures" class="anchor"></a>7. Figures</h2>
 <p>Here are a few figures that come out of this analysis!</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">figures_list</span><span class="op">$</span><span class="va">Northeast__PI_CB_PI</span></code></pre></div>
-<p><img src="NEFSC-Fishery_files/figure-html/unnamed-chunk-10-1.png" width="768"></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">figures_list</span><span class="op">$</span><span class="va">Northeast__PI_CB_PI</span></code></pre></div>
+<p><img src="NEFSC-Fishery_files/figure-html/unnamed-chunk-11-1.png" width="768"></p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">figures_list</span><span class="op">$</span><span class="va">Northeast__Q_CB_CatTot_QCatTot</span></code></pre></div>
-<p><img src="NEFSC-Fishery_files/figure-html/unnamed-chunk-10-2.png" width="768"></p>
+<p><img src="NEFSC-Fishery_files/figure-html/unnamed-chunk-11-2.png" width="768"></p>
 </div>
 </div>
   </div>

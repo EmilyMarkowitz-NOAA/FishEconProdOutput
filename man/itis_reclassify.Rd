@@ -4,14 +4,14 @@
 \alias{itis_reclassify}
 \title{Reclassify ITIS species based off a list of higher taxonomic groupings}
 \usage{
-itis_reclassify(tsn, categories, missing_name)
+itis_reclassify(tsn, categories, uncategorized_name = "Uncategorized")
 }
 \arguments{
 \item{tsn}{A vector of Taxonomic Serial Numbers to be evaluated.}
 
-\item{categories}{A list of the categories and associated TSN values.}
+\item{categories}{A list of the categories and associated TSN values. within a list of a category, a minus (-) in front of a number is short hand to remove organisms within that tsn's taxonomy from being listed in a category. See the example for an instance where that makes sense.}
 
-\item{missing_name}{A string of what to call the missing value.}
+\item{uncategorized_name}{A string of what to call the missing value.}
 }
 \value{
 df_out, tsn_indata
@@ -20,9 +20,13 @@ df_out, tsn_indata
 Reclassify ITIS species based off a list of higher taxonomic groupings
 }
 \examples{
-itis_reclassify(tsn = c(83677, 172746),
-                categories = list("Finfish" = 914179, # Infraphylum	Gnathostomata
+itis_reclassify(tsn = c(83677, # subphylum Crustacea; shellfish
+                        172746, # Scophthalmus aquosus; finfish
+                        173747, # class Reptilia; uncategorized as part of tetrapoda
+                        98678), # Cancer borealis; shellfish
+                categories = list('Finfish' = c(914179, #  Infraphylum	Gnathostomata
+                                               -914181), # Tetrapoda; - = do NOT include
                                   "Shellfish" = c(82696, # Phylum	Arthropoda
                                                   69458)), # Phylum	Mollusca
-                missing_name = "uncategorized")
+                uncategorized_name = "uncategorized")
 }

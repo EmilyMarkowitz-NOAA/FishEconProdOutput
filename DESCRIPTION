@@ -10,19 +10,23 @@ Authors@R:
            email = "Emily.Markowitz@noaa.gov"),
     person(given = "John",
            family = "Walden",
-           email = "John.Walden AT noaa.gov", 
+           email = "John.Walden@noaa.gov", 
            role = "aut",
            comment = c(ORCID = "0000-0001-6290-0360")), 
     person(given = "Sun Ling",
            family = "Wang",
            role = "aut",
-           email = "sunling.wang@usda.gov"))
+           email = "SunLing.Wang@usda.gov"), 
+    person(given = "Alexander",
+           family = "Richardson",
+           role = "ctb",
+           email = "Alex.Richardson@noaa.gov"))
 URL: https://EmilyMarkowitz-NOAA.github.io/FishEconProdOutput/, https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput
 BugReports: https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput/issues/
-License: GPL-3 + file LICENSE
+License: GPL-3
 Depends:
     R (>= 3.6.0)
-Description: This package provides guidelines on fishery productivity measurement at the individual fishery and aggregate sector levels. Attention is given to the constructions of output and total factor productivity based on available data and a bottom-up approach. Given that there is no nation-wide standard cost survey, we recommend starting with measuring TFP at the fishery level based on a translog gross output production possibility frontier using index number techniques. Special attention is given to measuring quality-adjusted physical capital inputs in the bottom-up approach. 
+Description: Here we provide methodology guidelines on how to calculate fishery productivity measurement at the individual fishery and aggregate sector levels. Attention is given to the constructions of output and total factor productivity based on available data and a bottom-up approach. Given that there is no nation-wide standard cost survey, we recommend starting with measuring TFP at the fishery level based on a translog gross output production possibility frontier using index number techniques. Special attention is given to measuring quality-adjusted physical capital inputs in the bottom-up approach. 
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1

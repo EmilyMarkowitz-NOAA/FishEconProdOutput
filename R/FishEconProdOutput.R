@@ -1,30 +1,4 @@
 
-
-
-#' Takes a string of words and combines them into a sentance that lists them.
-#'
-#' This function alows you to take a string of words and combine them into a sentance list. For example, 'apples', 'oranges', 'pears' would become 'apples, oranges, and pears'. This function uses oxford commas.
-#' @param x Character strings you want in your string.
-#' @keywords list, strings
-#' @export
-#' @examples listABandC(c(1,2,"hello",4,"world",6))
-listABandC <- function(x) {
-  x <- x[which(x != "")]
-  # x<-x[which(!is.null(x))]
-  x <- x[which(!is.na(x))]
-  # x<-x[order(x)]
-  if (length(x) == 2) {
-    str1 <- paste(x, collapse = " and ")
-  } else if (length(x) > 2) {
-    str1 <- paste(x[1:(length(x) - 1)], collapse = ", ")
-    str1 <- paste0(str1, ", and ", x[length(x)])
-  } else {
-    str1 <- x
-  }
-  return(str1)
-}
-
-
 #' Tornqvist Price Index Base Year Function
 #'
 #' Tornqvist Price Index Base Year Function
@@ -966,17 +940,23 @@ OutputAnalysis<-function(landings_data,
 #' Reclassify ITIS species based off a list of higher taxonomic groupings
 #'
 #' @param tsn A vector of Taxonomic Serial Numbers to be evaluated.
-#' @param categories A list of the categories and associated TSN values.
-#' @param missing_name A string of what to call the missing value.
+#' @param categories A list of the categories and associated TSN values. within a list of a category, a minus (-) in front of a number is short hand to remove organisms within that tsn's taxonomy from being listed in a category. See the example for an instance where that makes sense.
+#' @param uncategorized_name A string of what to call the missing value.
 #' @return df_out, tsn_indata
 #' @export
 #' @examples
-#' itis_reclassify(tsn = c(83677, 172746),
-#'                 categories = list("Finfish" = 914179, # Infraphylum	Gnathostomata
+#' itis_reclassify(tsn = c(83677, # subphylum Crustacea; shellfish
+#'                         172746, # Scophthalmus aquosus; finfish
+#'                         173747, # class Reptilia; uncategorized as part of tetrapoda
+#'                         98678), # Cancer borealis; shellfish
+#'                 categories = list('Finfish' = c(914179, #  Infraphylum	Gnathostomata
+#'                                                -914181), # Tetrapoda; - = do NOT include
 #'                                   "Shellfish" = c(82696, # Phylum	Arthropoda
 #'                                                   69458)), # Phylum	Mollusca
-#'                 missing_name = "uncategorized")
-itis_reclassify<-function(tsn, categories, missing_name){
+#'                 uncategorized_name = "uncategorized")
+itis_reclassify<-function(tsn,
+                          categories,
+                          uncategorized_name = "Uncategorized"){
 
   # Find which codes are in which categories
   tsn0<-as.numeric(tsn)[!(is.na(tsn))]
@@ -984,24 +964,32 @@ itis_reclassify<-function(tsn, categories, missing_name){
   tsn_indata<-tsn_indata[!(names(tsn_indata) %in% 0)]
   valid0<- sciname<-category0<-bottomrank<-sppname<- TSN<-c()
 
-  TSN<-c()
-  bottomrank<-c()
-  category0<-c()
-  sciname<-c()
-  valid0<-c()
-
   for (i in 1:length(categories)) {
-
-    a<-rlist::list.search(lapply(X = tsn_indata, '[', 3), categories[i][[1]] %in% . )
+    keep <- c()
+    remove <- c()
+    for (iii in 1:length(categories[i][[1]])){
+      if (categories[i][[1]][iii]>0) { # is positive
+        keep<-c(keep,
+                rlist::list.search(lapply(X = tsn_indata, '[', 3),
+                                   categories[i][[1]][iii] %in% . ) )
+      } else { # is negative
+        remove<-c(remove,
+                  rlist::list.search(lapply(X = tsn_indata, '[', 3),
+                                     abs(categories[i][[1]][iii]) %in% . ) )
+      }
+    }
+    a<-keep[setdiff(names(keep), names(remove))] # remaining combined tsn in category
 
     if (length(a)!=0) {
 
+      #remove ".id" from list name. It used to be something else before, so I did all this work to make sure I never had to change it again.
       sppcode<-names(a)
       sppcode<-gsub(pattern = "[a-zA-Z]+", replacement = "", x = sppcode)
       sppcode<-gsub(pattern = "\\.", replacement = "", x = sppcode)
 
+      # collect info about tsn
       for (ii in 1:length(sppcode)) {
-        TSN<-c(TSN, sppcode[ii])
+        TSN<-c(TSN, as.numeric(sppcode[ii]))
 
         bottomrank<-c(bottomrank, tsn_indata[names(tsn_indata) %in% sppcode[ii]][[1]]$rank[
           nrow(tsn_indata[names(tsn_indata) %in% sppcode[ii]][[1]])])
@@ -1018,6 +1006,27 @@ itis_reclassify<-function(tsn, categories, missing_name){
     }
   }
 
+  # collect uncategoriezed TSN
+  sppcode<-setdiff(tsn, TSN)
+  tsn_indata<-taxize::classification(sci_id = sppcode, db = 'itis')
+  TSN<-c(TSN, sppcode)
+
+  for (ii in 1:length(sppcode)) {
+    bottomrank<-c(bottomrank,
+                  tsn_indata[names(tsn_indata) %in% sppcode[ii]][[1]]$rank[
+                    nrow(tsn_indata[names(tsn_indata) %in% sppcode[ii]][[1]])])
+
+    category0<-c(category0, uncategorized_name)
+
+    sciname<-c(sciname,
+               tsn_indata[names(tsn_indata) %in% sppcode[ii]][[1]]$name[
+                 nrow(tsn_indata[names(tsn_indata) %in% sppcode[ii]][[1]])])
+
+    valid0<-c(valid0,
+              ifelse(nrow(tsn_indata[names(tsn_indata) %in% sppcode[ii]][[1]])>1,
+                     "valid", "invalid"))
+  }
+
   df_out<-data.frame(TSN = TSN,
                      category = category0,
                      valid = valid0,
@@ -1027,7 +1036,6 @@ itis_reclassify<-function(tsn, categories, missing_name){
   return(list("df_out" = df_out,
               "tsn_indata" = tsn_indata))
 }
-
 
 
 #' Modified Landings Data

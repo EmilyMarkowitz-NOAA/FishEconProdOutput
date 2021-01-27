@@ -958,83 +958,69 @@ itis_reclassify<-function(tsn,
                           categories,
                           uncategorized_name = "Uncategorized"){
 
-  # Find which codes are in which categories
-  tsn0<-as.numeric(tsn)[!(is.na(tsn))]
-  tsn_indata<-taxize::classification(sci_id = tsn0, db = 'itis')
-  tsn_indata<-tsn_indata[!(names(tsn_indata) %in% 0)]
-  valid0<- sciname<-category0<-bottomrank<-sppname<- TSN<-c()
-
+  tsn0 <- as.numeric(tsn)
+  tsn0<-tsn0[!(is.na(tsn0))]
+  tsn0<-tsn0[!(tsn0 %in% 0)]
+  tsn_indata <- taxize::classification(sci_id = tsn0, db = "itis")
+  tsn_indata <- tsn_indata[!(names(tsn_indata) %in% 0)]
+  tsn_indata <- tsn_indata[!(is.na(names(tsn_indata)))]
+  valid0 <- sciname <- category0 <- bottomrank <- sppname <- TSN <- c()
   for (i in 1:length(categories)) {
     keep <- c()
     remove <- c()
-    for (iii in 1:length(categories[i][[1]])){
-      if (categories[i][[1]][iii]>0) { # is positive
-        keep<-c(keep,
-                rlist::list.search(lapply(X = tsn_indata, '[', 3),
-                                   categories[i][[1]][iii] %in% . ) )
-      } else { # is negative
-        remove<-c(remove,
-                  rlist::list.search(lapply(X = tsn_indata, '[', 3),
-                                     abs(categories[i][[1]][iii]) %in% . ) )
+    for (iii in 1:length(categories[i][[1]])) {
+      if (categories[i][[1]][iii] > 0) {
+        keep <- c(keep, rlist::list.search(lapply(X = tsn_indata,
+                                                  "[", 3), categories[i][[1]][iii] %in%
+                                             .))
+      }
+      else {
+        remove <- c(remove, rlist::list.search(lapply(X = tsn_indata,
+                                                      "[", 3), abs(categories[i][[1]][iii]) %in%
+                                                 .))
       }
     }
-    a<-keep[setdiff(names(keep), names(remove))] # remaining combined tsn in category
-
-    if (length(a)!=0) {
-
-      #remove ".id" from list name. It used to be something else before, so I did all this work to make sure I never had to change it again.
-      sppcode<-names(a)
-      sppcode<-gsub(pattern = "[a-zA-Z]+", replacement = "", x = sppcode)
-      sppcode<-gsub(pattern = "\\.", replacement = "", x = sppcode)
-
-      # collect info about tsn
+    a <- keep[setdiff(names(keep), names(remove))]
+    if (length(a) != 0) {
+      sppcode <- names(a)
+      sppcode <- gsub(pattern = "[a-zA-Z]+", replacement = "",
+                      x = sppcode)
+      sppcode <- gsub(pattern = "\\.", replacement = "",
+                      x = sppcode)
       for (ii in 1:length(sppcode)) {
-        TSN<-c(TSN, as.numeric(sppcode[ii]))
-
-        bottomrank<-c(bottomrank, tsn_indata[names(tsn_indata) %in% sppcode[ii]][[1]]$rank[
-          nrow(tsn_indata[names(tsn_indata) %in% sppcode[ii]][[1]])])
-
-        category0<-c(category0, names(categories[i]))
-
-        sciname<-c(sciname, tsn_indata[names(tsn_indata) %in% sppcode[ii]][[1]]$name[
-          nrow(tsn_indata[names(tsn_indata) %in% sppcode[ii]][[1]])])
-
-        valid0<-c(valid0,
-                  ifelse(nrow(tsn_indata[names(tsn_indata) %in% sppcode[ii]][[1]])>1,
-                         "valid", "invalid"))
+        TSN <- c(TSN, as.numeric(sppcode[ii]))
+        bottomrank <- c(bottomrank, tsn_indata[names(tsn_indata) %in%
+                                                 sppcode[ii]][[1]]$rank[nrow(tsn_indata[names(tsn_indata) %in%
+                                                                                          sppcode[ii]][[1]])])
+        category0 <- c(category0, names(categories[i]))
+        sciname <- c(sciname, tsn_indata[names(tsn_indata) %in%
+                                           sppcode[ii]][[1]]$name[nrow(tsn_indata[names(tsn_indata) %in%
+                                                                                    sppcode[ii]][[1]])])
+        valid0 <- c(valid0, ifelse(nrow(tsn_indata[names(tsn_indata) %in%
+                                                     sppcode[ii]][[1]]) > 1, "valid", "invalid"))
       }
     }
   }
-
-  # collect uncategoriezed TSN
-  sppcode<-setdiff(tsn, TSN)
-  tsn_indata<-taxize::classification(sci_id = sppcode, db = 'itis')
-  TSN<-c(TSN, sppcode)
-
-  for (ii in 1:length(sppcode)) {
-    bottomrank<-c(bottomrank,
-                  tsn_indata[names(tsn_indata) %in% sppcode[ii]][[1]]$rank[
-                    nrow(tsn_indata[names(tsn_indata) %in% sppcode[ii]][[1]])])
-
-    category0<-c(category0, uncategorized_name)
-
-    sciname<-c(sciname,
-               tsn_indata[names(tsn_indata) %in% sppcode[ii]][[1]]$name[
-                 nrow(tsn_indata[names(tsn_indata) %in% sppcode[ii]][[1]])])
-
-    valid0<-c(valid0,
-              ifelse(nrow(tsn_indata[names(tsn_indata) %in% sppcode[ii]][[1]])>1,
-                     "valid", "invalid"))
+  sppcode <- setdiff(tsn0, TSN)
+  if (!(length(sppcode) %in% 0)) { # if there are things that would be uncategorized... do the below
+    tsn_indata <- taxize::classification(sci_id = sppcode, db = "itis")
+    TSN <- c(TSN, sppcode)
+    for (ii in 1:length(sppcode)) {
+      bottomrank <- c(bottomrank, tsn_indata[names(tsn_indata) %in%
+                                               sppcode[ii]][[1]]$rank[nrow(tsn_indata[names(tsn_indata) %in%
+                                                                                        sppcode[ii]][[1]])])
+      category0 <- c(category0, uncategorized_name)
+      sciname <- c(sciname, tsn_indata[names(tsn_indata) %in%
+                                         sppcode[ii]][[1]]$name[nrow(tsn_indata[names(tsn_indata) %in%
+                                                                                  sppcode[ii]][[1]])])
+      valid0 <- c(valid0, ifelse(nrow(tsn_indata[names(tsn_indata) %in%
+                                                   sppcode[ii]][[1]]) > 1, "valid", "invalid"))
+    }
   }
-
-  df_out<-data.frame(TSN = TSN,
-                     category = category0,
-                     valid = valid0,
-                     rank = bottomrank,
-                     sciname = sciname )
-
-  return(list("df_out" = df_out,
-              "tsn_indata" = tsn_indata))
+  df_out <- data.frame(TSN = TSN, category = category0, valid = valid0,
+                       rank = bottomrank, sciname = sciname)
+  return(list(df_out = df_out,
+              tsn_indata = tsn_indata))
 }
 
 

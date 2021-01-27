@@ -20,7 +20,8 @@ Authors@R:
     person(given = "Alexander",
            family = "Richardson",
            role = "ctb",
-           email = "Alex.Richardson@noaa.gov"))
+           email = "Alex.Richardson@noaa.gov", 
+           comment = c(ORCID = "0000-0002-5492-7560")))
 URL: https://EmilyMarkowitz-NOAA.github.io/FishEconProdOutput/, https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput
 BugReports: https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput/issues/
 License: GPL-3

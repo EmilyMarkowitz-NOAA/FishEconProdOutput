@@ -1,11 +1,13 @@
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
 Measuring Output for U.S. Commercial Fisheries From Theory to Practice
 ======================================================================
 
 **Emily Markowitz**<sup>1</sup> (Emily.Markowitz AT noaa.gov)
 
-**Sun Ling Wang**<sup>2</sup> (SunLing.Wang AT usda.gov)
+**John Walden**<sup>2</sup> (John.Walden AT noaa.gov)
 
-**John Walden**<sup>3</sup> (John.Walden AT noaa.gov)
+**Sun Ling Wang**<sup>3</sup> (SunLing.Wang AT usda.gov)
 
 <sup>1</sup>Alaska Fisheries Science Center, National Marine Fisheries
 Service, National Oceanic and Atmospheric Administration, Seattle, WA
@@ -15,18 +17,29 @@ Service, National Oceanic and Atmospheric Administration, Seattle, WA
     Office of Science and Technology Economics & Social Analysis
     Division.*
 
-<sup>2</sup> United States Department of Agriculture, Economic Research
+<sup>2</sup>Northeast Fisheries Science Center, National Marine
+Fisheries Service, National Oceanic and Atmospheric Administration,
+Woods Hole, MA
+
+<sup>3</sup> United States Department of Agriculture, Economic Research
 Service
 
 -   *Work completed while on detail with the NOAA Fisheries Office of
     Science and Technology Economics & Social Analysis Division.*
 
-<sup>3</sup>Northeast Fisheries Science Center, National Marine
-Fisheries Service, National Oceanic and Atmospheric Administration,
-Woods Hole, MA
+------------------------------------------------------------------------
+
+Since many of the original collaborators have changed positions, future
+maintenance may be provided by:
+
+**Alex Richardson**<sup>4</sup> (Alex.Richardson AT noaa.gov)
+
+<sup>4</sup> Contractor with ECS Tech in the NOAA Fisheries Office of
+Science and Technology Economics & Social Analysis Division, Silver
+Spring, MD 20910
 
 *The views expressed are those of the author and should not be
-attributed to the NOAA, ECS or ERS*
+attributed to the NOAA, ECS, or ERS*
 
 Study Purpose
 =============

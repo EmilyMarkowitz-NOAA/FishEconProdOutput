@@ -15,23 +15,30 @@ library(here)
 
 **Emily Markowitz**^1^ (Emily.Markowitz AT noaa.gov)
 
-**Sun Ling Wang**^2^ (SunLing.Wang AT usda.gov)
+**John Walden**^2^ (John.Walden AT noaa.gov)
 
-**John Walden**^3^ (John.Walden AT noaa.gov)
+**Sun Ling Wang**^3^ (SunLing.Wang AT usda.gov)
 
 ^1^Alaska Fisheries Science Center, National Marine Fisheries Service, National Oceanic and Atmospheric Administration, Seattle, WA 98195
 
  - *Work completed as a contractor with ECS in the NOAA Fisheries Office of Science and Technology Economics & Social Analysis Division.* 
+ 
+ 
+^2^Northeast Fisheries Science Center,  National Marine Fisheries Service, National Oceanic and Atmospheric Administration, Woods Hole, MA
 
-^2^ United States Department of Agriculture, Economic Research Service 
+^3^ United States Department of Agriculture, Economic Research Service 
 
  - *Work completed while on detail with the NOAA Fisheries Office of Science and Technology Economics & Social Analysis Division.* 
 
-^3^Northeast Fisheries Science Center, 
-National Marine Fisheries Service, National Oceanic and Atmospheric Administration,
-Woods Hole, MA
+------------
 
-*The views expressed are those of the author and should not be attributed to the NOAA, ECS or ERS*
+Since many of the original collaborators have changed positions, future maintenance may be provided by: 
+
+**Alex Richardson**^4^ (Alex.Richardson AT noaa.gov)
+
+^4^ Contractor with ECS Tech in the NOAA Fisheries Office of Science and Technology Economics & Social Analysis Division, Silver Spring, MD 20910 
+
+*The views expressed are those of the author and should not be attributed to the NOAA, ECS, or ERS*
 
 # Study Purpose
 

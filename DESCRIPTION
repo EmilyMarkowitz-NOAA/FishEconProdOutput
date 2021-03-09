@@ -1,7 +1,7 @@
 Package: FishEconProdOutput
 Type: Package
 Title: Price Method Fisheries Economics Total Factor Productivity Outputs
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
   c(person(given = "Emily",
            family = "Markowitz", 

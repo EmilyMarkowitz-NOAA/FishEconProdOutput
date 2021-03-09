@@ -1,0 +1,21 @@
+citHeader("To cite FishEconProdOutput in publications use:")
+
+citEntry(entry = "Article",
+  title        = "Measuring Output, Inputs, and Total Factor Productivity for the U.S. Fishery: A Proposal",
+  author       = personList(
+                   as.person("Sun Ling Wang"), 
+                   as.person("John Walden"),
+                   as.person("Emily Markowitz")),
+  journal      = "DOC NOAA NMFS Technical Memorandum",
+  year         = "2021",
+  volume       = "",
+  number       = "",
+  pages        = "",
+  url          = "https://spo.nmfs.noaa.gov/",
+
+  textVersion  =
+  paste("Wang, Sun Ling, John B. Walden, Emily H. Markowitz. 2021. 
+        Measuring Output, Inputs, and Total Factor Productivity for the U.S. Fishery: A Proposal. 
+        NOAA Tech. Memo. NMFS.",
+        "URL https://spo.nmfs.noaa.gov/.")
+)

@@ -21,7 +21,7 @@ Service, National Oceanic and Atmospheric Administration, Seattle, WA
 Fisheries Service, National Oceanic and Atmospheric Administration,
 Woods Hole, MA
 
-<sup>3</sup> United States Department of Agriculture, Economic Research
+<sup>3</sup>United States Department of Agriculture, Economic Research
 Service
 
 -   *Work completed while on detail with the NOAA Fisheries Office of
@@ -34,7 +34,7 @@ maintenance may be provided by:
 
 **Alex Richardson**<sup>4</sup> (Alex.Richardson AT noaa.gov)
 
-<sup>4</sup> Contractor with ECS Tech in the NOAA Fisheries Office of
+<sup>4</sup>Contractor with ECS Tech in the NOAA Fisheries Office of
 Science and Technology Economics & Social Analysis Division, Silver
 Spring, MD 20910
 

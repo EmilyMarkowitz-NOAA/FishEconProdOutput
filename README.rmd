@@ -26,7 +26,7 @@ library(here)
  
 ^2^Northeast Fisheries Science Center,  National Marine Fisheries Service, National Oceanic and Atmospheric Administration, Woods Hole, MA
 
-^3^ United States Department of Agriculture, Economic Research Service 
+^3^United States Department of Agriculture, Economic Research Service 
 
  - *Work completed while on detail with the NOAA Fisheries Office of Science and Technology Economics & Social Analysis Division.* 
 
@@ -36,7 +36,7 @@ Since many of the original collaborators have changed positions, future maintena
 
 **Alex Richardson**^4^ (Alex.Richardson AT noaa.gov)
 
-^4^ Contractor with ECS Tech in the NOAA Fisheries Office of Science and Technology Economics & Social Analysis Division, Silver Spring, MD 20910 
+^4^Contractor with ECS Tech in the NOAA Fisheries Office of Science and Technology Economics & Social Analysis Division, Silver Spring, MD 20910 
 
 *The views expressed are those of the author and should not be attributed to the NOAA, ECS, or ERS*
 

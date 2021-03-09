@@ -3,6 +3,8 @@
 Measuring Output for U.S. Commercial Fisheries From Theory to Practice
 ======================================================================
 
+[![DOI](https://zenodo.org/badge/291852337.svg)](https://zenodo.org/badge/latestdoi/291852337)
+
 **Emily Markowitz**<sup>1</sup> (Emily.Markowitz AT noaa.gov)
 
 **John Walden**<sup>2</sup> (John.Walden AT noaa.gov)

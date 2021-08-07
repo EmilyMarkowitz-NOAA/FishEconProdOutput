@@ -39,7 +39,9 @@ navbar:
 articles:
   - title: "NOAA Fisheries Economic Productivity Output"
     desc: >
-      These vignettes provide an introduction to how to calculate fisheries economic productivity for fisheries (as in the Fisheries Economics of the US report post 2018). <br/>
+      These vignettes provide an introduction to how to calculate fisheries
+      economic productivity for fisheries (as in the Fisheries Economics of the
+      US report post 2018). <br/>
       <br/>
     contents:
       - FEUS-tables

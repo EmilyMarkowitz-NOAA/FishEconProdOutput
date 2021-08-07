@@ -1,5 +1,27 @@
 url: https://emilymarkowitz-noaa.github.io/FishEconProdOutput/
+
+news:
+  one_page: true
+
 navbar:
+  left:
+    - text: "Vignettes"
+      icon: fas fa-book fa-lg
+      menu:
+      -  text: "Overview"
+         href: articles/index.html
+      -  text: "Create Tables from the Fisheries Economics of the US (FEUS) Report"
+         href: articles/FEUS-tables.html
+      -  text: "Tables using exampled data from the NEFSC of NE fisheries data"
+         href: articles/NEFSC-Fishery.html
+
+
+    - text: "Functions"
+      icon: far fa-file-code fa-lg
+      href: reference/index.html
+    - text: "News"
+      icon: fas fa-bullhorn fa-lg
+      href: news/index.html
   right:
     - icon: fa-file
       href: https://spo.nmfs.noaa.gov/
@@ -11,3 +33,40 @@ navbar:
       href: https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput
     - icon: fa-fish
       href: https://nmfs-human-dimensions-tools.github.io/
+
+
+
+articles:
+  - title: "NOAA Fisheries Economic Productivity Output"
+    desc: >
+      These vignettes provide an introduction to how to calculate fisheries economic productivity for fisheries (as in the Fisheries Economics of the US report post 2018). <br/>
+      <br/>
+    contents:
+      - FEUS-tables
+      - NEFSC-Fishery
+
+reference:
+  - title: Calculate Tornqvist Indicies for Multiple Places or Categories
+    contents:
+      - '`OutputAnalysis`'
+      - '`PriceMethodOutput`'
+      - '`PriceMethodOutput_Category`'
+  - title: Calculate Tornqvist Indicies Individually
+    contents:
+      - '`tornb`'
+      - '`tornc`'
+  - title: Plotting
+    contents:
+      - '`plotnlines`'
+  - title: Extracting ITIS data
+    contents:
+      - '`itis_reclassify`'
+  - title: Example Data
+    contents:
+      - '`land`'
+  - title: Organizing Files
+    contents:
+      - '`counter00X`'
+      - '`numbers0`'
+      - '`xunits`'
+

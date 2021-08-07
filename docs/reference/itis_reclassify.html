@@ -45,9 +45,14 @@
 
 
 
+  <link href="../extra.css" rel="stylesheet">
+  
 
 <meta property="og:title" content="Reclassify ITIS species based off a list of higher taxonomic groupings — itis_reclassify" />
 <meta property="og:description" content="Reclassify ITIS species based off a list of higher taxonomic groupings" />
+<meta property="og:image" content="https://emilymarkowitz-noaa.github.io/FishEconProdOutput/logo.png" />
+
+
 
 
 
@@ -63,9 +68,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -85,35 +96,45 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
+        <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+    <span class="fas fa-book fa-lg"></span>
+     
+    Vignettes
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/FEUS-tables.html">FEUS-tables</a>
+      <a href="../articles/index.html">Overview</a>
     </li>
     <li>
-      <a href="../articles/NEFSC-Fishery.html">NEFSC-Fishery</a>
+      <a href="../articles/FEUS-tables.html">Create Tables from the Fisheries Economics of the US (FEUS) Report</a>
+    </li>
+    <li>
+      <a href="../articles/NEFSC-Fishery.html">Tables using exampled data from the NEFSC of NE fisheries data</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../reference/index.html">
+    <span class="far fa-file-code fa-lg"></span>
+     
+    Functions
+  </a>
+</li>
+<li>
+  <a href="../news/index.html">
+    <span class="fas fa-bullhorn fa-lg"></span>
+     
+    News
+  </a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://spo.nmfs.noaa.gov/">
-    <span class="fas fa-file"></span>
+    <span class="fa fa-file"></span>
      
   </a>
 </li>
@@ -137,7 +158,7 @@
 </li>
 <li>
   <a href="https://nmfs-human-dimensions-tools.github.io/">
-    <span class="fas fa-fish"></span>
+    <span class="fa fa-fish"></span>
      
   </a>
 </li>
@@ -163,7 +184,7 @@
     <p>Reclassify ITIS species based off a list of higher taxonomic groupings</p>
     </div>
 
-    <pre class="usage"><span class='fu'>itis_reclassify</span><span class='op'>(</span><span class='va'>tsn</span>, <span class='va'>categories</span>, uncategorized_name <span class='op'>=</span> <span class='st'>"Uncategorized"</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>itis_reclassify</span><span class='op'>(</span><span class='va'>tsn</span>, <span class='va'>categories</span>, uncategorized_name <span class='op'>=</span> <span class='st'>"Uncategorized"</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -187,39 +208,40 @@
     <p>df_out, tsn_indata</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>itis_reclassify</span><span class='op'>(</span>tsn <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>83677</span>, <span class='co'># subphylum Crustacea; shellfish</span>
-                        <span class='fl'>172746</span>, <span class='co'># Scophthalmus aquosus; finfish</span>
-                        <span class='fl'>173747</span>, <span class='co'># class Reptilia; uncategorized as part of tetrapoda</span>
-                        <span class='fl'>98678</span><span class='op'>)</span>, <span class='co'># Cancer borealis; shellfish</span>
-                categories <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>'Finfish'</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>914179</span>, <span class='co'>#  Infraphylum  Gnathostomata</span>
-                                               <span class='op'>-</span><span class='fl'>914181</span><span class='op'>)</span>, <span class='co'># Tetrapoda; - = do NOT include</span>
-                                  <span class='st'>"Shellfish"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>82696</span>, <span class='co'># Phylum  Arthropoda</span>
-                                                  <span class='fl'>69458</span><span class='op'>)</span><span class='op'>)</span>, <span class='co'># Phylum  Mollusca</span>
-                uncategorized_name <span class='op'>=</span> <span class='st'>"uncategorized"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $df_out
-#&gt;      TSN      category valid      rank              sciname
-#&gt; 1 172746       Finfish valid   species Scophthalmus aquosus
-#&gt; 2  83677     Shellfish valid subphylum            Crustacea
-#&gt; 3  98678     Shellfish valid   species      Cancer borealis
-#&gt; 4 173747 uncategorized valid     class             Reptilia
-#&gt; 
-#&gt; $tsn_indata
-#&gt; $`173747`
-#&gt;            name         rank     id
-#&gt; 1      Animalia      kingdom 202423
-#&gt; 2     Bilateria   subkingdom 914154
-#&gt; 3 Deuterostomia infrakingdom 914156
-#&gt; 4      Chordata       phylum 158852
-#&gt; 5    Vertebrata    subphylum 331030
-#&gt; 6 Gnathostomata  infraphylum 914179
-#&gt; 7     Tetrapoda   superclass 914181
-#&gt; 8      Reptilia        class 173747
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "classification"
-#&gt; attr(,"db")
-#&gt; [1] "itis"
-#&gt; </div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>itis_reclassify</span><span class='op'>(</span>tsn <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>83677</span>, <span class='co'># subphylum Crustacea; shellfish</span></span>
+<span class='r-in'>                        <span class='fl'>172746</span>, <span class='co'># Scophthalmus aquosus; finfish</span></span>
+<span class='r-in'>                        <span class='fl'>173747</span>, <span class='co'># class Reptilia; uncategorized as part of tetrapoda</span></span>
+<span class='r-in'>                        <span class='fl'>98678</span><span class='op'>)</span>, <span class='co'># Cancer borealis; shellfish</span></span>
+<span class='r-in'>                categories <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>'Finfish'</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>914179</span>, <span class='co'>#  Infraphylum  Gnathostomata</span></span>
+<span class='r-in'>                                               <span class='op'>-</span><span class='fl'>914181</span><span class='op'>)</span>, <span class='co'># Tetrapoda; - = do NOT include</span></span>
+<span class='r-in'>                                  <span class='st'>"Shellfish"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>82696</span>, <span class='co'># Phylum  Arthropoda</span></span>
+<span class='r-in'>                                                  <span class='fl'>69458</span><span class='op'>)</span><span class='op'>)</span>, <span class='co'># Phylum  Mollusca</span></span>
+<span class='r-in'>                uncategorized_name <span class='op'>=</span> <span class='st'>"uncategorized"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $df_out</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      TSN      category valid      rank              sciname</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 172746       Finfish valid   species Scophthalmus aquosus</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2  83677     Shellfish valid subphylum            Crustacea</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3  98678     Shellfish valid   species      Cancer borealis</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 173747 uncategorized valid     class             Reptilia</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $tsn_indata</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`173747`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            name         rank     id</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1      Animalia      kingdom 202423</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2     Bilateria   subkingdom 914154</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 Deuterostomia infrakingdom 914156</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4      Chordata       phylum 158852</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5    Vertebrata    subphylum 331030</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6 Gnathostomata  infraphylum 914179</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7     Tetrapoda   superclass 914181</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8      Reptilia        class 173747</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "classification"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"db")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "itis"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -231,11 +253,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Emily Markowitz, John Walden, Sun Ling Wang.</p>
+  <p><p>Developed by Emily Markowitz, John Walden, Sun Ling Wang.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -243,6 +265,8 @@
 
   
 
+
+  
 
   </body>
 </html>

@@ -1,9 +1,14 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-Measuring Output for U.S. Commercial Fisheries From Theory to Practice
-======================================================================
+# FishEconProdOutput <a href={https://emilymarkowitz-noaa.github.io/FishEconProdOutput}><img src="man/figures/logo.png" align="right" width=139 height=139 alt="logo with a plot of economic productivity for fish and inverts." />
+
+### *Measuring Output for U.S. Commercial Fisheries From Theory to Practice*
 
 [![DOI](https://zenodo.org/badge/291852337.svg)](https://zenodo.org/badge/latestdoi/291852337)
+
+[![](https://img.shields.io/badge/devel%20version-0.1.1-blue.svg)](https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput)
+[![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html#maturing)
+[![](https://img.shields.io/github/last-commit/EmilyMarkowitz-NOAA/FishEconProdOutput.svg)](https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput/commits/master)
 
 **Emily Markowitz**<sup>1</sup> (Emily.Markowitz AT noaa.gov)
 
@@ -43,8 +48,7 @@ Spring, MD 20910
 *The views expressed are those of the author and should not be
 attributed to the NOAA, ECS, or ERS*
 
-Study Purpose
-=============
+# Study Purpose
 
 This package provides guidelines on fishery productivity measurement at
 the individual fishery and aggregate sector levels. Attention is given
@@ -56,15 +60,13 @@ possibility frontier using index number techniques. Special attention is
 given to measuring quality-adjusted physical capital inputs in the
 bottom-up approach.
 
-Download this package
-=====================
+# Download this package
 
     library(devtools)
     devtools::install_github("EmilyMarkowitz-NOAA/FishEconProdOutput", dependencies = TRUE, build_vignettes = T)
     library(FishEconProdOutput)
 
-Documentation
-=============
+# Documentation
 
 **GitHub Repository:**
 [https://github.com/emilyhmarkowitz/FishEconProdOutput](https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput)
@@ -84,13 +86,11 @@ Or directly view the vignettes here:
     How to use this analysis for a collection of sub fisheries, such as
     in the Northeast US
 
-Publications
-============
+# Publications
 
 *A publication on this work in forthcoming.*
 
-NOAA README
-===========
+# NOAA README
 
 > This repository is a scientific product and is not official
 > communication of the National Oceanic and Atmospheric Administration,
@@ -107,8 +107,7 @@ NOAA README
 > to imply endorsement of any commercial product or activity by DOC or
 > the United States Government.
 
-License
-=======
+# License
 
 > Software code created by U.S. Government employees is not subject to
 > copyright in the United States (17 U.S.C. §105). The United
@@ -118,3 +117,9 @@ License
 > this end, the Department of Commerce hereby grants to Recipient a
 > royalty-free, nonexclusive license to use, copy, and create derivative
 > works of the Software outside of the United States.
+
+<img src="https://raw.githubusercontent.com/nmfs-general-modeling-tools/nmfspalette/main/man/figures/noaa-fisheries-rgb-2line-horizontal-small.png" height="75" alt="NOAA Fisheries">
+
+[U.S. Department of Commerce](https://www.commerce.gov/) | [National
+Oceanographic and Atmospheric Administration](https://www.noaa.gov) |
+[NOAA Fisheries](https://www.fisheries.noaa.gov/)

@@ -1,19 +1,40 @@
 ---
-title: "Measuring Output for U.S. Commercial Fisheries — From Theory to Practice"
-author: 'Emily Markowitz, Sun Ling Wang, and John Walden'
 output: md_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, error = FALSE, message = FALSE, warning = FALSE)
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/",
+  fig.height = 1
+)
+require(ggplot2)
+```
+
+```{r echo=FALSE, results="hide", message=FALSE, include=FALSE}
+library("badger", quietly = TRUE)
 library(here)
 ```
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+# FishEconProdOutput <a href={https://emilymarkowitz-noaa.github.io/FishEconProdOutput}><img src="man/figures/logo.png" align="right" width=139 height=139 alt="logo with a plot of economic productivity for fish and inverts." />
 
-# Measuring Output for U.S. Commercial Fisheries From Theory to Practice
+
+### *Measuring Output for U.S. Commercial Fisheries From Theory to Practice*
 
 [![DOI](https://zenodo.org/badge/291852337.svg)](https://zenodo.org/badge/latestdoi/291852337)
+
+
+```{r, echo = FALSE, results='asis', message=FALSE}
+cat(
+  badge_devel("EmilyMarkowitz-NOAA/FishEconProdOutput", "blue"),
+  badge_lifecycle("maturing", "blue"),
+  badge_last_commit("EmilyMarkowitz-NOAA/FishEconProdOutput")
+)
+```
+
 
 **Emily Markowitz**^1^ (Emily.Markowitz AT noaa.gov)
 
@@ -87,4 +108,6 @@ Or directly view the vignettes here:
 
 >Software code created by U.S. Government employees is not subject to copyright in the United States (17 U.S.C. §105). The United States/Department of Commerce reserve all rights to seek and obtain copyright protection in countries other than the United States for Software authored in its entirety by the Department of Commerce. To this end, the Department of Commerce hereby grants to Recipient a royalty-free, nonexclusive license to use, copy, and create derivative works of the Software outside of the United States.
 
+<img src="https://raw.githubusercontent.com/nmfs-general-modeling-tools/nmfspalette/main/man/figures/noaa-fisheries-rgb-2line-horizontal-small.png" height="75" alt="NOAA Fisheries">
 
+[U.S. Department of Commerce](https://www.commerce.gov/) | [National Oceanographic and Atmospheric Administration](https://www.noaa.gov) | [NOAA Fisheries](https://www.fisheries.noaa.gov/)

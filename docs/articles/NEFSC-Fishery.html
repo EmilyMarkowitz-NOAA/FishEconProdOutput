@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NEFSC-Fishery • FishEconProdOutput</title>
+<title>Tables using exampled data from the NEFSC of NE fisheries data • FishEconProdOutput</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -17,14 +17,18 @@
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="NEFSC-Fishery">
+<script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<meta property="og:title" content="Tables using exampled data from the NEFSC of NE fisheries data">
 <meta property="og:description" content="FishEconProdOutput">
+<meta property="og:image" content="https://emilymarkowitz-noaa.github.io/FishEconProdOutput/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -43,35 +47,45 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+    <span class="fas fa-book fa-lg"></span>
+     
+    Vignettes
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/FEUS-tables.html">FEUS-tables</a>
+      <a href="../articles/index.html">Overview</a>
     </li>
     <li>
-      <a href="../articles/NEFSC-Fishery.html">NEFSC-Fishery</a>
+      <a href="../articles/FEUS-tables.html">Create Tables from the Fisheries Economics of the US (FEUS) Report</a>
+    </li>
+    <li>
+      <a href="../articles/NEFSC-Fishery.html">Tables using exampled data from the NEFSC of NE fisheries data</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../reference/index.html">
+    <span class="far fa-file-code fa-lg"></span>
+     
+    Functions
+  </a>
+</li>
+<li>
+  <a href="../news/index.html">
+    <span class="fas fa-bullhorn fa-lg"></span>
+     
+    News
+  </a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://spo.nmfs.noaa.gov/">
-    <span class="fas fa-file"></span>
+  <a href="https://spo.nmfs.noaa.gov/" class="external-link">
+    <span class="fa fa-file"></span>
      
   </a>
 </li>
@@ -82,20 +96,20 @@
   </a>
 </li>
 <li>
-  <a href="https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput/issues/">
+  <a href="https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput/issues/" class="external-link">
     <span class="fas fa-question-circle fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput">
+  <a href="https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://nmfs-human-dimensions-tools.github.io/">
-    <span class="fas fa-fish"></span>
+  <a href="https://nmfs-human-dimensions-tools.github.io/" class="external-link">
+    <span class="fa fa-fish"></span>
      
   </a>
 </li>
@@ -109,16 +123,16 @@
 
       
 
-      </header><script src="NEFSC-Fishery_files/kePrint-0.0.1/kePrint.js"></script><link href="NEFSC-Fishery_files/lightable-0.0.1/lightable.css" rel="stylesheet">
+      </header><script src="NEFSC-Fishery_files/header-attrs-2.10/header-attrs.js"></script><script src="NEFSC-Fishery_files/kePrint-0.0.1/kePrint.js"></script><link href="NEFSC-Fishery_files/lightable-0.0.1/lightable.css" rel="stylesheet">
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>NEFSC-Fishery</h1>
-                        <h4 class="author">Emily Markowitz (Emily.Markowitz AT NOAA.gov / EmilyMarkowitz-NOAA)</h4>
+      <h1 data-toc-skip>Tables using exampled data from the NEFSC of NE fisheries data</h1>
+                        <h4 data-toc-skip class="author">Emily Markowitz (Emily.Markowitz AT NOAA.gov / EmilyMarkowitz-NOAA)</h4>
             
-            <h4 class="date">March 09 2021</h4>
+            <h4 data-toc-skip class="date">August 07 2021</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput/blob/master/vignettes/NEFSC-Fishery.Rmd"><code>vignettes/NEFSC-Fishery.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/EmilyMarkowitz-NOAA/FishEconProdOutput/blob/master/vignettes/NEFSC-Fishery.Rmd" class="external-link"><code>vignettes/NEFSC-Fishery.Rmd</code></a></small>
       <div class="hidden name"><code>NEFSC-Fishery.Rmd</code></div>
 
     </div>
@@ -126,7 +140,7 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">PKG</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="co"># devtools::install_github("emilymarkowitz-NOAA/FishEconProdOutput", force = TRUE)</span>
+<code class="sourceCode R"><span class="va">PKG</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="co"># devtools::install_github("emilymarkowitz-NOAA/FishEconProdOutput", force = TRUE)</span>
          <span class="st">"FishEconProdOutput"</span>,
          
          <span class="co">#Seperating species by taxonomic group</span>
@@ -151,20 +165,20 @@
 <span class="op">)</span>
 
 <span class="kw">for</span> <span class="op">(</span><span class="va">p</span> <span class="kw">in</span> <span class="va">PKG</span><span class="op">)</span> <span class="op">{</span>
-  <span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">p</span>,character.only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>  
-    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="va">p</span>, repos <span class="op">=</span> <span class="st">"http://cran.us.r-project.org"</span><span class="op">)</span>
-    <span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">p</span>,character.only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">}</span>
+  <span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va">p</span>,character.only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>  
+    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="va">p</span>, repos <span class="op">=</span> <span class="st">"http://cran.us.r-project.org"</span><span class="op">)</span>
+    <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va">p</span>,character.only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">}</span>
 <span class="op">}</span></code></pre></div>
 <div id="northeast-commerical-fisheries-productivity-output-tables" class="section level1">
 <h1 class="hasAnchor">
-<a href="#northeast-commerical-fisheries-productivity-output-tables" class="anchor"></a>Northeast Commerical Fisheries Productivity Output Tables</h1>
+<a href="#northeast-commerical-fisheries-productivity-output-tables" class="anchor" aria-hidden="true"></a>Northeast Commerical Fisheries Productivity Output Tables</h1>
 <div id="set-knowns" class="section level2">
 <h2 class="hasAnchor">
-<a href="#set-knowns" class="anchor"></a>1. Set knowns</h2>
+<a href="#set-knowns" class="anchor" aria-hidden="true"></a>1. Set knowns</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Define what regions we are interested in</span>
-<span class="va">reg_order</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Northeast"</span><span class="op">)</span>
-<span class="va">reg_order_abbrv</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"NorE"</span><span class="op">)</span>
+<span class="va">reg_order</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Northeast"</span><span class="op">)</span>
+<span class="va">reg_order_abbrv</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NorE"</span><span class="op">)</span>
 
 <span class="co"># Define Category</span>
 <span class="va">category0</span> <span class="op">=</span> <span class="st">"category"</span>
@@ -176,44 +190,44 @@
 </div>
 <div id="set-your-directories-where-you-will-save-everything" class="section level2">
 <h2 class="hasAnchor">
-<a href="#set-your-directories-where-you-will-save-everything" class="anchor"></a>2. Set your Directories where you will save everything</h2>
+<a href="#set-your-directories-where-you-will-save-everything" class="anchor" aria-hidden="true"></a>2. Set your Directories where you will save everything</h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="co"># Folder name for output</span>
 <span class="va">folder</span><span class="op">&lt;-</span><span class="st">"Northeast"</span>
-<span class="va">titleadd</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">minyr</span>, <span class="st">"To"</span>, <span class="va">maxyr</span>, <span class="st">"_NorE"</span><span class="op">)</span>
+<span class="va">titleadd</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">minyr</span>, <span class="st">"To"</span>, <span class="va">maxyr</span>, <span class="st">"_NorE"</span><span class="op">)</span>
 <span class="va">counter</span><span class="op">&lt;-</span><span class="fl">0</span>
   
-<span class="va">dir_in</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">dir_in</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="kw">if</span> <span class="op">(</span><span class="va">TF</span><span class="op">)</span> <span class="op">{</span>
   <span class="co">#Local Directories</span>
-  <span class="va">dir_outputtables</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">dir_in</span>, <span class="st">"/output/"</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="va">dir_outputtables</span><span class="op">)</span>
+  <span class="va">dir_outputtables</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">dir_in</span>, <span class="st">"/output/"</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">dir_outputtables</span><span class="op">)</span>
 
   <span class="co"># Define Directories</span>
-  <span class="va">dir_analyses</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">dir_outputtables</span>, <span class="va">folder</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="va">dir_analyses</span><span class="op">)</span>
+  <span class="va">dir_analyses</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">dir_outputtables</span>, <span class="va">folder</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">dir_analyses</span><span class="op">)</span>
 <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span>
   <span class="va">dir_analyses</span><span class="op">&lt;-</span><span class="va">dir_outputtables</span><span class="op">&lt;-</span><span class="va">dir_in</span>
 <span class="op">}</span></code></pre></div>
 </div>
 <div id="load-example-data" class="section level2">
 <h2 class="hasAnchor">
-<a href="#load-example-data" class="anchor"></a>3. Load example data</h2>
+<a href="#load-example-data" class="anchor" aria-hidden="true"></a>3. Load example data</h2>
 <div id="commercial-data" class="section level3">
 <h3 class="hasAnchor">
-<a href="#commercial-data" class="anchor"></a>Commercial Data</h3>
+<a href="#commercial-data" class="anchor" aria-hidden="true"></a>Commercial Data</h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">counter</span><span class="op">&lt;-</span><span class="fl">0</span>
 <span class="va">landings_data</span><span class="op">&lt;-</span><span class="fu">FishEconProdOutput</span><span class="fu">::</span><span class="va"><a href="../reference/land.html">land</a></span>
-<span class="va">landings_data</span><span class="op">&lt;-</span><span class="va">landings_data</span><span class="op">[</span><span class="va">landings_data</span><span class="op">$</span><span class="va">Region</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"New England"</span>, <span class="st">"Mid-Atlantic"</span><span class="op">)</span>,<span class="op">]</span>
+<span class="va">landings_data</span><span class="op">&lt;-</span><span class="va">landings_data</span><span class="op">[</span><span class="va">landings_data</span><span class="op">$</span><span class="va">Region</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"New England"</span>, <span class="st">"Mid-Atlantic"</span><span class="op">)</span>,<span class="op">]</span>
 <span class="va">landings_data</span><span class="op">$</span><span class="va">Region</span><span class="op">&lt;-</span><span class="st">"Northeast"</span>
 
 <span class="co"># so you can see what this data looks like</span>
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">landings_data</span><span class="op">)</span>, booktabs <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">landings_data</span><span class="op">)</span>, booktabs <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">kable_styling</span><span class="op">(</span>latex_options <span class="op">=</span> <span class="st">"striped"</span><span class="op">)</span></code></pre></div>
-<table class="table table">
+<table class="table table" style="margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:left;">
 </th>
@@ -422,8 +436,8 @@ NE
 </div>
 <div id="northeast-fisheries-codes" class="section level3">
 <h3 class="hasAnchor">
-<a href="#northeast-fisheries-codes" class="anchor"></a>Northeast Fisheries Codes</h3>
-<table class="table table">
+<a href="#northeast-fisheries-codes" class="anchor" aria-hidden="true"></a>Northeast Fisheries Codes</h3>
+<table class="table table" style="margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:left;">
 code
@@ -893,13 +907,13 @@ Golden Tilefish
 </div>
 <div id="use-itis_reclassify-to-categorize-all-of-the-species" class="section level2">
 <h2 class="hasAnchor">
-<a href="#use-itis_reclassify-to-categorize-all-of-the-species" class="anchor"></a>4. Use <code>itis_reclassify()</code> to categorize all of the species</h2>
+<a href="#use-itis_reclassify-to-categorize-all-of-the-species" class="anchor" aria-hidden="true"></a>4. Use <code>itis_reclassify()</code> to categorize all of the species</h2>
 <p>Find TSN values for species of interest with itis.gov</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="co"># Find TSN values for species of interest</span>
 
-<span class="va">spcat.list</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">'Bluefish'</span> <span class="op">=</span> <span class="fl">168559</span>, <span class="co"># Species Pomatomus saltatrix (Linnaeus, 1766) – bluefish, anjova</span>
+<span class="va">spcat.list</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'Bluefish'</span> <span class="op">=</span> <span class="fl">168559</span>, <span class="co"># Species Pomatomus saltatrix (Linnaeus, 1766) – bluefish, anjova</span>
                  <span class="st">'Spiny dogfish'</span> <span class="op">=</span> <span class="fl">160617</span>, <span class="co">#Species Squalus acanthias Linnaeus, 1758 – cazón espinoso común, piked dogfish, spiny dogfish, galludo espinoso, aiguillat commun, dogfish, grayfish, spurdog</span>
                  <span class="st">'Atlantic Cod'</span> <span class="op">=</span> <span class="fl">164712</span>, <span class="co"># Species Gadus morhua Linnaeus, 1758 – morue de l'Atlantique, bacalao del Atlántico, cod, rock cod, morue franche, Atlantic cod </span>
                  <span class="st">'Summer flounder'</span> <span class="op">=</span> <span class="fl">172735</span>, <span class="co">#Species   Paralichthys dentatus (Linnaeus, 1766) – summer flounder, fluke, cardeau d'été, Summer Flounder</span>
@@ -910,9 +924,9 @@ Golden Tilefish
                  <span class="st">'Sand Dab Flounder'</span> <span class="op">=</span> <span class="fl">172746</span>, <span class="co">#Species Scophthalmus aquosus (Mitchill, 1815) – windowpane, brill, sand dab, spotted flounder, turbot de sable, Windowpane</span>
                  <span class="st">'Atlantic haddock'</span> <span class="op">=</span> <span class="fl">164744</span>, <span class="co"># Species Melanogrammus aeglefinus (Linnaeus, 1758) – haddock, aiglefin</span>
                  <span class="st">'White hake'</span> <span class="op">=</span> <span class="fl">164732</span>, <span class="co"># Species   Urophycis tenuis (Mitchill, 1814) – white hake, mud hake, merluche blanche</span>
-                 <span class="st">'Red hake'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">164730</span> <span class="co">#  Species   Urophycis chuss (Walbaum, 1792) – red hake, squirrel hake, merluche-écureuil</span>
+                 <span class="st">'Red hake'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">164730</span> <span class="co">#  Species   Urophycis chuss (Walbaum, 1792) – red hake, squirrel hake, merluche-écureuil</span>
                  <span class="op">)</span>,<span class="co">#164729), # Genus    Urophycis Gill, 1863 – codlings # Toledo, includes other hake</span>
-                 <span class="st">'Silver hake'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">164791</span> <span class="co">#Species  Merluccius bilinearis (Mitchill, 1814) – silver hake, merlu argenté</span>
+                 <span class="st">'Silver hake'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">164791</span> <span class="co">#Species  Merluccius bilinearis (Mitchill, 1814) – silver hake, merlu argenté</span>
                  <span class="op">)</span>, <span class="co"># 164790), # Genus  Merluccius Rafinesque, 1810 – hakes # Toledo, includes other hake</span>
                  <span class="st">'Skates'</span> <span class="op">=</span> <span class="fl">160845</span>, <span class="co"># Family    Rajidae Blainville, 1816 – rayas, rays, skates, raies</span>
                  <span class="st">"Rosette skate"</span> <span class="op">=</span> <span class="fl">564136</span>,<span class="co"># Species Leucoraja garmani (Whitley, 1939) – rosette skate</span>
@@ -948,29 +962,29 @@ Golden Tilefish
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="co"># a bit hacky, but I am linking all of the TSN numbers to their respective species here in the northeast fisheries list</span>
-<span class="va">spcat</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">spcat</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">ne_spp</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">spcat</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">spcat</span>, 
-           <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">ne_spp</span><span class="op">$</span><span class="va">name</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">spcat.list</span><span class="op">)</span> , ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span>, 
-                  <span class="cn">NA</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">ne_spp</span><span class="op">$</span><span class="va">name</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">spcat.list</span><span class="op">)</span>, ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span>
+<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">ne_spp</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">spcat</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">spcat</span>, 
+           <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">ne_spp</span><span class="op">$</span><span class="va">name</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">spcat.list</span><span class="op">)</span> , ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span>, 
+                  <span class="cn">NA</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">ne_spp</span><span class="op">$</span><span class="va">name</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">spcat.list</span><span class="op">)</span>, ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span>
 <span class="op">}</span>
 
-<span class="va">ne_spp</span><span class="op">$</span><span class="va">TSN</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">spcat.list</span><span class="op">[</span><span class="va">spcat</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>
+<span class="va">ne_spp</span><span class="op">$</span><span class="va">TSN</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">spcat.list</span><span class="op">[</span><span class="va">spcat</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Now convert the Northeast Fisheires list into a list for the itis_reclassify function</span>
 
-<span class="va">categories</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>
-<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">ne_spp</span><span class="op">$</span><span class="va">plan</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">categories</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">ne_spp</span><span class="op">$</span><span class="va">TSN</span><span class="op">[</span><span class="va">ne_spp</span><span class="op">$</span><span class="va">plan</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">ne_spp</span><span class="op">$</span><span class="va">plan</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">categories</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">ne_spp</span><span class="op">$</span><span class="va">plan</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>
+<span class="va">categories</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
+<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">ne_spp</span><span class="op">$</span><span class="va">plan</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">categories</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">ne_spp</span><span class="op">$</span><span class="va">TSN</span><span class="op">[</span><span class="va">ne_spp</span><span class="op">$</span><span class="va">plan</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">ne_spp</span><span class="op">$</span><span class="va">plan</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">categories</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">ne_spp</span><span class="op">$</span><span class="va">plan</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>
 <span class="op">}</span></code></pre></div>
 <p><code><a href="../reference/itis_reclassify.html">itis_reclassify()</a></code> can take a minute!</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="co"># Use the itis_reclassify function to sort each species listed in the FOSS data into each classification group</span>
 
-<span class="va">temp</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/itis_reclassify.html">itis_reclassify</a></span><span class="op">(</span>tsn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">landings_data</span><span class="op">$</span><span class="va">Tsn</span><span class="op">)</span>, 
+<span class="va">temp</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/itis_reclassify.html">itis_reclassify</a></span><span class="op">(</span>tsn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">landings_data</span><span class="op">$</span><span class="va">Tsn</span><span class="op">)</span>, 
                          categories <span class="op">=</span> <span class="va">categories</span>, 
                          uncategorized_name<span class="op">=</span><span class="st">"Uncategorized"</span><span class="op">)</span>
 
@@ -978,33 +992,33 @@ Golden Tilefish
 <span class="va">tsn_id</span><span class="op">&lt;-</span><span class="va">temp</span><span class="op">$</span><span class="va">df_out</span>
 
 <span class="co"># Remove anything that wasn't classified (we don't them for what we are doing here)</span>
-<span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">tsn_id</span><span class="op">$</span><span class="va">category</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Other"</span>, <span class="st">"Uncategorized"</span><span class="op">)</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">tsn_id</span><span class="op">&lt;-</span><span class="va">tsn_id</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="va">tsn_id</span><span class="op">$</span><span class="va">category</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Other"</span>, <span class="st">"Uncategorized"</span><span class="op">)</span><span class="op">)</span>, 
-                 <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"TSN"</span>, <span class="st">"category"</span><span class="op">)</span><span class="op">]</span>
+<span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">tsn_id</span><span class="op">$</span><span class="va">category</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Other"</span>, <span class="st">"Uncategorized"</span><span class="op">)</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">tsn_id</span><span class="op">&lt;-</span><span class="va">tsn_id</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="va">tsn_id</span><span class="op">$</span><span class="va">category</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Other"</span>, <span class="st">"Uncategorized"</span><span class="op">)</span><span class="op">)</span>, 
+                 <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TSN"</span>, <span class="st">"category"</span><span class="op">)</span><span class="op">]</span>
 <span class="op">}</span>
 
 <span class="co"># renaming columns for joining other datasets to this dataset</span>
-<span class="va">landings_data</span><span class="op">&lt;-</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span><span class="va">landings_data</span>, 
+<span class="va">landings_data</span><span class="op">&lt;-</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span><span class="va">landings_data</span>, 
                  TSN <span class="op">=</span> <span class="va">Tsn</span><span class="op">)</span>
 
-<span class="va">tsn_id</span><span class="op">$</span><span class="va">TSN</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">tsn_id</span><span class="op">$</span><span class="va">TSN</span><span class="op">)</span>
+<span class="va">tsn_id</span><span class="op">$</span><span class="va">TSN</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">tsn_id</span><span class="op">$</span><span class="va">TSN</span><span class="op">)</span>
 
 <span class="co"># Join the FOSS landings data to their respctive categories</span>
 
-<span class="va">landings_data</span><span class="op">&lt;-</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">landings_data</span>, 
+<span class="va">landings_data</span><span class="op">&lt;-</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">landings_data</span>, 
                     y <span class="op">=</span> <span class="va">tsn_id</span>, 
                     by <span class="op">=</span> <span class="st">"TSN"</span><span class="op">)</span>
 
 <span class="co"># Rename columns so they match what the funciton uses</span>
 
-<span class="va">landings_data</span><span class="op">&lt;-</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span><span class="va">landings_data</span>, 
+<span class="va">landings_data</span><span class="op">&lt;-</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span><span class="va">landings_data</span>, 
                  Tsn <span class="op">=</span> <span class="va">TSN</span>, 
                  category <span class="op">=</span> <span class="va">category.y</span><span class="op">)</span>
 
 <span class="co"># Minor data editing. </span>
 
 <span class="va">landings_data</span><span class="op">&lt;-</span><span class="va">landings_data</span><span class="op">[</span><span class="va">landings_data</span><span class="op">$</span><span class="va">Year</span><span class="op">&gt;=</span><span class="va">minyr</span> <span class="op">&amp;</span> <span class="va">landings_data</span><span class="op">$</span><span class="va">Year</span><span class="op">&lt;=</span><span class="va">maxyr</span>, <span class="co"># Only include years that you intend to assess. </span>
-       <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Year"</span>,<span class="st">"Pounds"</span>,<span class="st">"Dollars"</span>,<span class="st">"category"</span>,<span class="st">"Tsn"</span>, <span class="st">"State"</span>, <span class="st">"Region"</span>, <span class="st">"abbvreg"</span><span class="op">)</span><span class="op">]</span> <span class="co"># These are all of the columns you need</span>
+       <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Year"</span>,<span class="st">"Pounds"</span>,<span class="st">"Dollars"</span>,<span class="st">"category"</span>,<span class="st">"Tsn"</span>, <span class="st">"State"</span>, <span class="st">"Region"</span>, <span class="st">"abbvreg"</span><span class="op">)</span><span class="op">]</span> <span class="co"># These are all of the columns you need</span>
 
 
 <span class="co"># Sometimes negative numbers can be in these columns. They're flags and not real values, so we'll want to remove those here</span>
@@ -1013,9 +1027,9 @@ Golden Tilefish
 <span class="va">landings_data</span><span class="op">&lt;-</span><span class="va">landings_data</span><span class="op">[</span><span class="op">(</span><span class="va">landings_data</span><span class="op">$</span><span class="va">Dollars</span><span class="op">&gt;=</span><span class="fl">0</span><span class="op">)</span>, <span class="op">]</span>
 
 <span class="co"># Print out the resultant table so we can see our hard work!</span>
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">landings_data</span><span class="op">)</span>, booktabs <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">landings_data</span><span class="op">)</span>, booktabs <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">kable_styling</span><span class="op">(</span>latex_options <span class="op">=</span> <span class="st">"striped"</span><span class="op">)</span></code></pre></div>
-<table class="table table">
+<table class="table table" style="margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:left;">
 </th>
@@ -1224,7 +1238,7 @@ NE
 </div>
 <div id="run-analysis" class="section level2">
 <h2 class="hasAnchor">
-<a href="#run-analysis" class="anchor"></a>5. Run Analysis</h2>
+<a href="#run-analysis" class="anchor" aria-hidden="true"></a>5. Run Analysis</h2>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/OutputAnalysis.html">OutputAnalysis</a></span><span class="op">(</span>landings_data <span class="op">=</span> <span class="va">landings_data</span>, 
@@ -1239,86 +1253,86 @@ NE
 <span class="co">#&gt; [1] "Northeast"</span>
 <span class="co">#&gt; [1] "Create spreadsheets"</span>
 <span class="co">#&gt; [1] "Create plots"</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span>
 <span class="co">#&gt; [1] "warnings_list"    "editeddata_list"  "index_list"       "spp_list"        </span>
 <span class="co">#&gt; [5] "figures_list"     "gridfigures_list"</span>
 
 <span class="co"># make an object of everything that comes out of this function </span>
-<span class="kw">for</span> <span class="op">(</span><span class="va">jjj</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/assign.html">assign</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span><span class="op">[</span><span class="va">jjj</span><span class="op">]</span>, <span class="va">out</span><span class="op">[[</span><span class="va">jjj</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
+<span class="kw">for</span> <span class="op">(</span><span class="va">jjj</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/assign.html" class="external-link">assign</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span><span class="op">[</span><span class="va">jjj</span><span class="op">]</span>, <span class="va">out</span><span class="op">[[</span><span class="va">jjj</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
 </div>
 <div id="create-tables" class="section level2">
 <h2 class="hasAnchor">
-<a href="#create-tables" class="anchor"></a>6. Create Tables</h2>
+<a href="#create-tables" class="anchor" aria-hidden="true"></a>6. Create Tables</h2>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">index_list</span>, <span class="st">"["</span>, , <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Year"</span>, <span class="st">"cat"</span>, <span class="st">"PI_CB"</span>, <span class="st">"Q_CB"</span>, <span class="st">"v"</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">index_list</span>, <span class="st">"["</span>, , <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Year"</span>, <span class="st">"cat"</span>, <span class="st">"PI_CB"</span>, <span class="st">"Q_CB"</span>, <span class="st">"v"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">a</span><span class="op">&lt;-</span><span class="va">result</span><span class="op">$</span><span class="va">Northeast</span>
-<span class="va">a</span><span class="op">&lt;-</span><span class="va">a</span><span class="op">[</span><span class="va">a</span><span class="op">$</span><span class="va">Year</span> <span class="op">%in%</span> <span class="va">minyr</span><span class="op">:</span><span class="va">maxyr</span>, <span class="op">]</span>
+<span class="va">a</span><span class="op">&lt;-</span><span class="va">a</span><span class="op">[</span><span class="va">a</span><span class="op">$</span><span class="va">Year</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">minyr</span><span class="op">:</span><span class="va">maxyr</span>, <span class="op">]</span>
 
-<span class="va">a</span><span class="op">&lt;-</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span><span class="va">a</span>, 
+<span class="va">a</span><span class="op">&lt;-</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span><span class="va">a</span>, 
                  PI <span class="op">=</span> <span class="va">PI_CB</span>, 
                  Q <span class="op">=</span> <span class="va">Q_CB</span>, 
                  V <span class="op">=</span> <span class="va">v</span><span class="op">)</span>
 
 <span class="co"># Create table of raw values</span>
-<span class="va">a.pi</span><span class="op">&lt;-</span><span class="fu">spread</span><span class="op">(</span><span class="va">a</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"V"</span>, <span class="st">"Q"</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>, <span class="va">cat</span>, <span class="va">PI</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">a.pi</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">a.pi</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="st">"_PI"</span><span class="op">)</span>
-<span class="va">a.q</span><span class="op">&lt;-</span><span class="fu">spread</span><span class="op">(</span><span class="va">a</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"PI"</span>, <span class="st">"V"</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>, <span class="va">cat</span>, <span class="va">Q</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">a.q</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">a.q</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="st">"_Q"</span><span class="op">)</span>
-<span class="va">a.v</span><span class="op">&lt;-</span><span class="fu">spread</span><span class="op">(</span><span class="va">a</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"PI"</span>, <span class="st">"Q"</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>, <span class="va">cat</span>, <span class="va">V</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">a.v</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">a.v</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="st">"_V"</span><span class="op">)</span>
+<span class="va">a.pi</span><span class="op">&lt;-</span><span class="fu">spread</span><span class="op">(</span><span class="va">a</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"V"</span>, <span class="st">"Q"</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>, <span class="va">cat</span>, <span class="va">PI</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">a.pi</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">a.pi</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="st">"_PI"</span><span class="op">)</span>
+<span class="va">a.q</span><span class="op">&lt;-</span><span class="fu">spread</span><span class="op">(</span><span class="va">a</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PI"</span>, <span class="st">"V"</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>, <span class="va">cat</span>, <span class="va">Q</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">a.q</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">a.q</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="st">"_Q"</span><span class="op">)</span>
+<span class="va">a.v</span><span class="op">&lt;-</span><span class="fu">spread</span><span class="op">(</span><span class="va">a</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PI"</span>, <span class="st">"Q"</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>, <span class="va">cat</span>, <span class="va">V</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">a.v</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">a.v</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="st">"_V"</span><span class="op">)</span>
 
-<span class="va">b</span><span class="op">&lt;-</span><span class="fu">left_join</span><span class="op">(</span><span class="va">a.pi</span>, <span class="va">a.q</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Year"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">b</span><span class="op">&lt;-</span><span class="fu">left_join</span><span class="op">(</span><span class="va">b</span>, <span class="va">a.v</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Year"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">b</span><span class="op">&lt;-</span><span class="fu">left_join</span><span class="op">(</span><span class="va">a.pi</span>, <span class="va">a.q</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Year"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">b</span><span class="op">&lt;-</span><span class="fu">left_join</span><span class="op">(</span><span class="va">b</span>, <span class="va">a.v</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Year"</span><span class="op">)</span><span class="op">)</span>
 
 
-<span class="va">b</span><span class="op">&lt;-</span><span class="va">b</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Year"</span>, 
-                  <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"_V"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span>, ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">]</span>, 
-                  <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"_PI"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span>, ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">]</span>, 
-                  <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"_Q"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span>, ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>, 
-            <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>
+<span class="va">b</span><span class="op">&lt;-</span><span class="va">b</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Year"</span>, 
+                  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"_V"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span>, ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">]</span>, 
+                  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"_PI"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span>, ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">]</span>, 
+                  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"_Q"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span>, ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>, 
+            <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>
 
-<span class="va">b</span><span class="op">&lt;-</span><span class="va">b</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Year"</span>, 
-                  <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"fin"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span>, ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">]</span>, 
-                  <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"Shell"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span>, ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">]</span>, 
-                  <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"Total"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>, 
-            <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>
+<span class="va">b</span><span class="op">&lt;-</span><span class="va">b</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Year"</span>, 
+                  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"fin"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span>, ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">]</span>, 
+                  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"Shell"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span>, ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">]</span>, 
+                  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"Total"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>, 
+            <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>
 
-<span class="va">b</span><span class="op">&lt;-</span><span class="va">b</span><span class="op">[</span><span class="va">b</span><span class="op">$</span><span class="va">Year</span> <span class="op">%in%</span> <span class="va">minyr</span><span class="op">:</span><span class="va">maxyr</span>, <span class="op">]</span>
+<span class="va">b</span><span class="op">&lt;-</span><span class="va">b</span><span class="op">[</span><span class="va">b</span><span class="op">$</span><span class="va">Year</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">minyr</span><span class="op">:</span><span class="va">maxyr</span>, <span class="op">]</span>
 <span class="va">temp_code</span><span class="op">&lt;-</span><span class="va">b</span>
 <span class="va">temp_code</span><span class="op">$</span><span class="va">Footnotes</span><span class="op">&lt;-</span><span class="cn">NA</span>
 
 
 <span class="co"># Create a nice-looking formatted table of values with PrettyNum</span>
 <span class="va">b</span><span class="op">&lt;-</span><span class="va">a</span>
-<span class="va">b</span><span class="op">$</span><span class="va">PI</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">b</span><span class="op">$</span><span class="va">PI</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
-<span class="va">b</span><span class="op">$</span><span class="va">Q</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/formatc.html">prettyNum</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">b</span><span class="op">$</span><span class="va">Q</span><span class="op">/</span><span class="fl">1e6</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">2</span>, big.mark <span class="op">=</span> <span class="st">","</span><span class="op">)</span>
-<span class="va">b</span><span class="op">$</span><span class="va">V</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/formatc.html">prettyNum</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">b</span><span class="op">$</span><span class="va">V</span><span class="op">/</span><span class="fl">1e6</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">2</span>, big.mark <span class="op">=</span> <span class="st">","</span><span class="op">)</span>
+<span class="va">b</span><span class="op">$</span><span class="va">PI</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">b</span><span class="op">$</span><span class="va">PI</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
+<span class="va">b</span><span class="op">$</span><span class="va">Q</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/formatc.html" class="external-link">prettyNum</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">b</span><span class="op">$</span><span class="va">Q</span><span class="op">/</span><span class="fl">1e6</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">2</span>, big.mark <span class="op">=</span> <span class="st">","</span><span class="op">)</span>
+<span class="va">b</span><span class="op">$</span><span class="va">V</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/formatc.html" class="external-link">prettyNum</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">b</span><span class="op">$</span><span class="va">V</span><span class="op">/</span><span class="fl">1e6</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">2</span>, big.mark <span class="op">=</span> <span class="st">","</span><span class="op">)</span>
 
-<span class="va">b.pi</span><span class="op">&lt;-</span><span class="fu">spread</span><span class="op">(</span><span class="va">b</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"V"</span>, <span class="st">"Q"</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>, <span class="va">cat</span>, <span class="va">PI</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b.pi</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b.pi</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="st">"_PI"</span><span class="op">)</span>
-<span class="va">b.q</span><span class="op">&lt;-</span><span class="fu">spread</span><span class="op">(</span><span class="va">b</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"PI"</span>, <span class="st">"V"</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>, <span class="va">cat</span>, <span class="va">Q</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b.q</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b.q</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="st">"_Q"</span><span class="op">)</span>
-<span class="va">b.v</span><span class="op">&lt;-</span><span class="fu">spread</span><span class="op">(</span><span class="va">b</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"PI"</span>, <span class="st">"Q"</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>, <span class="va">cat</span>, <span class="va">V</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b.v</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b.v</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="st">"_V"</span><span class="op">)</span>
+<span class="va">b.pi</span><span class="op">&lt;-</span><span class="fu">spread</span><span class="op">(</span><span class="va">b</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"V"</span>, <span class="st">"Q"</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>, <span class="va">cat</span>, <span class="va">PI</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b.pi</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b.pi</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="st">"_PI"</span><span class="op">)</span>
+<span class="va">b.q</span><span class="op">&lt;-</span><span class="fu">spread</span><span class="op">(</span><span class="va">b</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PI"</span>, <span class="st">"V"</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>, <span class="va">cat</span>, <span class="va">Q</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b.q</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b.q</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="st">"_Q"</span><span class="op">)</span>
+<span class="va">b.v</span><span class="op">&lt;-</span><span class="fu">spread</span><span class="op">(</span><span class="va">b</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PI"</span>, <span class="st">"Q"</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>, <span class="va">cat</span>, <span class="va">V</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b.v</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b.v</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="st">"_V"</span><span class="op">)</span>
 
-<span class="va">b</span><span class="op">&lt;-</span><span class="fu">left_join</span><span class="op">(</span><span class="va">b.pi</span>, <span class="va">b.q</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Year"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">b</span><span class="op">&lt;-</span><span class="fu">left_join</span><span class="op">(</span><span class="va">b</span>, <span class="va">b.v</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Year"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">b</span><span class="op">&lt;-</span><span class="fu">left_join</span><span class="op">(</span><span class="va">b.pi</span>, <span class="va">b.q</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Year"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">b</span><span class="op">&lt;-</span><span class="fu">left_join</span><span class="op">(</span><span class="va">b</span>, <span class="va">b.v</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Year"</span><span class="op">)</span><span class="op">)</span>
 
-<span class="va">b</span><span class="op">&lt;-</span><span class="va">b</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Year"</span>, 
-                  <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"_V"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span>, ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">]</span>, 
-                  <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"_PI"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span>, ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">]</span>, 
-                  <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"_Q"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span>, ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>, 
-            <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>
+<span class="va">b</span><span class="op">&lt;-</span><span class="va">b</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Year"</span>, 
+                  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"_V"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span>, ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">]</span>, 
+                  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"_PI"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span>, ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">]</span>, 
+                  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"_Q"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span>, ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>, 
+            <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>
 
-<span class="va">b</span><span class="op">&lt;-</span><span class="va">b</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Year"</span>, 
-                  <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"fin"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span>, ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">]</span>, 
-                  <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"Shell"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span>, ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">]</span>, 
-                  <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"Total"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>, 
-            <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>
+<span class="va">b</span><span class="op">&lt;-</span><span class="va">b</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Year"</span>, 
+                  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"fin"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span>, ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">]</span>, 
+                  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"Shell"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span>, ignore.case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">]</span>, 
+                  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"Total"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>, 
+            <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>
 
-<span class="va">b</span><span class="op">&lt;-</span><span class="va">b</span><span class="op">[</span><span class="va">b</span><span class="op">$</span><span class="va">Year</span> <span class="op">%in%</span> <span class="va">minyr</span><span class="op">:</span><span class="va">maxyr</span>, <span class="op">]</span>
+<span class="va">b</span><span class="op">&lt;-</span><span class="va">b</span><span class="op">[</span><span class="va">b</span><span class="op">$</span><span class="va">Year</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">minyr</span><span class="op">:</span><span class="va">maxyr</span>, <span class="op">]</span>
 <span class="va">temp_print</span><span class="op">&lt;-</span><span class="va">b</span>
 <span class="va">temp_print</span><span class="op">$</span><span class="va">Footnotes</span><span class="op">&lt;-</span><span class="cn">NA</span>
 
@@ -1327,20 +1341,20 @@ NE
 
 <span class="va">ProdOutputUS_Raw</span><span class="op">&lt;-</span><span class="va">temp_code</span>
 <span class="kw">if</span> <span class="op">(</span><span class="va">TF</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu">write_csv</span><span class="op">(</span>x <span class="op">=</span> <span class="va">ProdOutputUS_Raw</span>, file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">dir_analyses</span>, <span class="st">"/ProdOutputNorE_Raw.csv"</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu">write_csv</span><span class="op">(</span>x <span class="op">=</span> <span class="va">ProdOutputUS_Raw</span>, file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">dir_analyses</span>, <span class="st">"/ProdOutputNorE_Raw.csv"</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span>
 
 <span class="va">ProdOutputUS_Print</span><span class="op">&lt;-</span><span class="va">temp_print</span>
 <span class="kw">if</span> <span class="op">(</span><span class="va">TF</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu">write_csv</span><span class="op">(</span>x <span class="op">=</span> <span class="va">ProdOutputUS_Print</span>, file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">dir_analyses</span>, <span class="st">"/ProdOutputNorE_Print.csv"</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu">write_csv</span><span class="op">(</span>x <span class="op">=</span> <span class="va">ProdOutputUS_Print</span>, file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">dir_analyses</span>, <span class="st">"/ProdOutputNorE_Print.csv"</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span>
 
 <span class="co"># Print out the resultant table so we can see our hard work!</span>
 
 <span class="va">ProdOutputUS_Print</span><span class="op">$</span><span class="va">Footnotes</span><span class="op">&lt;-</span><span class="cn">NULL</span>
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">ProdOutputUS_Print</span>, booktabs <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">ProdOutputUS_Print</span>, booktabs <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">kable_styling</span><span class="op">(</span>latex_options <span class="op">=</span> <span class="st">"striped"</span><span class="op">)</span></code></pre></div>
-<table class="table table">
+<table class="table table" style="margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:right;">
 Year
@@ -1529,7 +1543,7 @@ Total_Q
 </div>
 <div id="figures" class="section level2">
 <h2 class="hasAnchor">
-<a href="#figures" class="anchor"></a>7. Figures</h2>
+<a href="#figures" class="anchor" aria-hidden="true"></a>7. Figures</h2>
 <p>Here are a few figures that come out of this analysis!</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">figures_list</span><span class="op">$</span><span class="va">Northeast__PI_CB_PI</span></code></pre></div>
@@ -1553,11 +1567,13 @@ Total_Q
 
 
       <footer><div class="copyright">
-  <p>Developed by Emily Markowitz, John Walden, Sun Ling Wang.</p>
+  <p></p>
+<p>Developed by Emily Markowitz, John Walden, Sun Ling Wang.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>
@@ -1565,6 +1581,8 @@ Total_Q
 
   
 
+
+  
 
   </body>
 </html>

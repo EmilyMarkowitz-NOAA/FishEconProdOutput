@@ -12,3 +12,6 @@
 ^\./pkgdown/_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^doc$
+^Meta$
+^\.github$
